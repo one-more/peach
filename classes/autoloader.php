@@ -5,14 +5,26 @@ class autoloader
 	{
 		$classname = strtolower($class).'.php';
 		
-		$file = 'classes/'.$classname;
+		$file = '../classes/'.$classname;
 		
 		if(!file_exists($file))
 		{
-			die("cannot load $classname");
+			file_put_contents('../error.log',date('j.m.Y H:i:s -')." cannot load $classname \r\n", FILE_APPEND);
 		}
 		
-		include($file); 
+		require_once($file);
 	}
+
+    public static function loadExtension($class) {
+        $className = strtolower($class).'.php';
+
+        $file = "../extensions/$class/$className";
+
+        if(!file_exists($file)) {
+            file_put_contents('../error.log',date('j.m.Y H:i:s -')." cannot load main class for extension $class", FILE_APPEND);
+        }
+
+        require_once($file);
+    }
 }
 ?> 
