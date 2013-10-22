@@ -7,10 +7,10 @@
     spl_autoload_register(['autoloader','load']);
     spl_autoload_register(['autoloader','loadExtension']);
 
+    $document = factory::getDocument();
+
     core::initialise();
 
     router::route();
-
-    $document = factory::getDocument();
 
     $document->display();

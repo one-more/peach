@@ -13,7 +13,9 @@ class superModel
 		}
 		catch(PDOException $e)
 		{
-			die($e->getMessage());
+			error::log($e->getMessage());
+
+            echo templator::getTemplate('error', ['error-msg'=>'an exception occurred'], '../html');
 		}
 	}
 	
@@ -26,7 +28,9 @@ class superModel
 		}
 		catch(PDOException $e)
 		{
-			die($e->getMessage());
+            error::log($e->getMessage());
+
+            echo templator::getTemplate('error', ['error-msg'=>'an exception occurred'], '../html');
 		}
 	}
 	
@@ -39,7 +43,9 @@ class superModel
 		}
 		catch(PDOException $e)
 		{
-			die($e->getMessage());
+            error::log($e->getMessage());
+
+            echo templator::getTemplate('error', ['error-msg'=>'an exception occurred'], '../html');
 		}
 	}
 	
@@ -50,7 +56,9 @@ class superModel
 		}
 		catch(PDOException $e)
 		{
-			die($e->getMessage());
+            error::log($e->getMessage());
+
+            echo templator::getTemplate('error', ['error-msg'=>'an exception occurred'], '../html');
 		}
 	}	
 }	

@@ -8,9 +8,9 @@ class installer {
      * @param $name - name of the controller
      * @return mixed
      */
-    public static function getController($name) {
+    public static function getAdminController($name) {
         if(!in_array($name, array_keys(self::$controllers))) {
-            require_once(self::$path."controllers/$name.php");
+            require_once(self::$path."admin/controllers/$name.php");
 
             $controller = $name.'controller';
 
@@ -27,9 +27,9 @@ class installer {
      * @param $name - name of the model
      * @return mixed
      */
-    public static function getModel($name) {
+    public static function getAdminModel($name) {
         if(!in_array($name, array_keys(self::$models))) {
-            require_once(self::$path."models/$name.php");
+            require_once(self::$path."admin/models/$name.php");
 
             $model = $name.'model';
 
