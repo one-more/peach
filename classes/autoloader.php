@@ -7,11 +7,14 @@ class autoloader
 		
 		$file = '../classes/'.$classname;
 		
-		if(!file_exists($file))
+		//file dont exists - try load by next func
+        if(!file_exists($file))
 		{
-			file_put_contents('../error.log',date('j.m.Y H:i:s -')." cannot load $classname \r\n", FILE_APPEND);
+			//file_put_contents('../error.log',date('j.m.Y H:i:s -')." cannot load $file \r\n", FILE_APPEND);
 
-            echo templator::getTemplate('error', ['error-msg'=>'an error occurred'], '../html');
+            //echo templator::getTemplate('error', ['error-msg'=>'an error occurred'], '../html');
+
+            return false;
 		}
 		
 		require_once($file);
@@ -23,9 +26,11 @@ class autoloader
         $file = "../extensions/$class/$className";
 
         if(!file_exists($file)) {
-            file_put_contents('../error.log',date('j.m.Y H:i:s -')." cannot load main class for extension $class", FILE_APPEND);
+            file_put_contents('../error.log',date('j.m.Y H:i:s -')." cannot load $file", FILE_APPEND);
 
             echo templator::getTemplate('error', ['error-msg'=>'an error occurred'], '../html');
+
+            return false;
         }
 
         require_once($file);

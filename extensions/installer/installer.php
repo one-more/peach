@@ -41,4 +41,13 @@ class installer {
             return  self::$models[$name];
         }
     }
+
+    /**
+     * install site
+     */
+    public static function installSite() {
+        $controller = static::getAdminController('site');
+
+        $controller->exec('display');
+    }
 }

@@ -31,12 +31,12 @@ class document {
         $this->_css_files[] = '<link rel="stylesheet" href="/css/bootstrap.min.css" />';
         $this->_css_files[] = '<link rel="stylesheet" href="/css/bootstrap-responsive.min.css" />';
 
-        $this->_js_files[] = '<script src="/js/ajaxupload.js"></script>';
+        $this->_js_files[] = '<script src="/js/ajaxupload.3.5.js"></script>';
         $this->_js_files[] = '<script src="/js/json2.js"></script>';
         $this->_js_files[] = '<script src="/js/jquery-2.0.3.min.js"></script>';
-        $this->_js_files[] = '<script src="/js/underscope.min.js"></script>';
-        $this->_js_files[] = '<script src="/js/backbone.js"></script>';
-        $this->_js_files[] = '<script src="/js/bootstrap.min..js"></script>';
+        $this->_js_files[] = '<script src="/js/underscore-min.js"></script>';
+        $this->_js_files[] = '<script src="/js/backbone-min.js"></script>';
+        $this->_js_files[] = '<script src="/js/bootstrap.min.js"></script>';
         $this->_js_files[] = '<script src="/js/App.js"></script>';
         $this->_js_files[] = '<script src="/js/UI.js"></script>';
 

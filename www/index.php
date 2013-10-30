@@ -7,9 +7,9 @@
     spl_autoload_register(['autoloader','load']);
     spl_autoload_register(['autoloader','loadExtension']);
 
-    $document = factory::getDocument();
-
     core::initialise();
+
+    $document = factory::getDocument();
 
     router::route();
 

@@ -1,11 +1,6 @@
 <?php
 class helper
 {
-	public static function getConfig()
-	{
-		return file_get_contents('config.txt');
-	}
-	
 	public static function remDir($path)
 	{
 		if(file_exists($path)&& is_dir($path))

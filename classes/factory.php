@@ -16,6 +16,11 @@ class factory {
     private static $_template = null;
 
     /**
+     * @var $_iniserver - class for work with ini files
+     */
+    private static $_iniserver = null;
+
+    /**
      * @return document
      */
     public static  function getDocument() {
@@ -51,5 +56,16 @@ class factory {
         }
 
         return self::$_template;
+    }
+
+    /**
+     * @return ini observer class
+     */
+    public static function getIniServer() {
+        if(static::$_iniserver == null) {
+            static::$_iniserver = new iniServer('../configuration.ini');
+        }
+
+        return static::$_iniserver;
     }
 }

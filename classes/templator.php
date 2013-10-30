@@ -3,9 +3,20 @@ class templator
 {
 	public static function prepare($buffer,$params)
 	{
-		foreach($params as $key=>$value)
+		$tmp = '';
+
+        foreach($params as $key=>$value)
 		{			
-			$buffer = preg_replace("/:$key/","$value",$buffer);
+			if(is_array($value)) {
+                foreach($value as $k1=>$v1) {
+                    $tmp .= $v1;
+                }
+
+                $buffer = preg_replace("/:$key/", "$tmp", $buffer);
+            }
+            else {
+                $buffer = preg_replace("/:$key/","$value",$buffer);
+            }
 		}
 		
 		return $buffer;		
