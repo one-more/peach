@@ -2,6 +2,8 @@
 class superModel
 {
 	protected $_db;
+
+	use trait_validator;
 	
 	public function __construct($dbname, $user, $pass, $dbtype = 'mysql')
 	{
