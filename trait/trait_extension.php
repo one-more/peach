@@ -13,6 +13,27 @@ trait trait_extension {
 	 * @param $name - name of the controller without suffix e.c. site - sitecontroller
 	 * @return mixed
 	 */
+
+	/**
+	 * @var array of admin controllers
+	 */
+	private static $controllers = [];
+
+	/**
+	 * @var array of admin models
+	 */
+	private static $models = [];
+
+	/**
+	 * @var array of site controllers
+	 */
+	private static $site_controllers = [];
+
+	/**
+	 * @var array of site models
+	 */
+	private static $site_models = [];
+
 	private static function getAdminController($name) {
 		if(!in_array($name, array_keys(static::$controllers))) {
 			require_once(static::$path."admin/controllers/$name.php");
@@ -113,7 +134,7 @@ trait trait_extension {
 
 				$data = array_merge($defaults, $_REQUEST);
 
-				$controller = static::getASiteController($data['controller']);
+				$controller = static::getSiteController($data['controller']);
 
 				$controller->exec($data['task'], $data['params']);
 				break;
