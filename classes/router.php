@@ -1,10 +1,36 @@
 <?php
 class router {
     public static function route() {
-        $addr = $_SERVER['REQUEST_URI'];
 
-        $addr = preg_split('/\//', $addr);
+        if(!empty($_REQUEST['ajax'])) {
+            $defaults = [
+                'type'          => 'extension',
+                'extension'     => '',
+            ];
 
-        print_r($addr);
+            $data = array_merge($defaults, $_REQUEST);
+
+            switch($data['type']) {
+                case 'extension':
+                    $extension = $data['extension'];
+
+                    $extension::start();
+                    break;
+            }
+
+            ob_end_flush();
+
+            exit;
+        }
+
+        $extension = preg_split('/\//', $_SERVER['REQUEST_URI'])[1];
+
+        if(in_array($extension, ['admin', 'develop'])) {
+            $extension::start();
+
+            ob_end_flush();
+
+            exit;
+        }
     }
 }

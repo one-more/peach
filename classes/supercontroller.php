@@ -3,7 +3,14 @@ class supercontroller
 {
 	public function exec($task, $params = null)
 	{
-		$this->$task($params);
+		$arr = $this->$task($params);
+
+        if(!empty($_REQUEST['ajax'])) {
+            echo json_encode($arr);
+        }
+        else {
+            echo $arr;
+        }
 	}
 }
 ?>

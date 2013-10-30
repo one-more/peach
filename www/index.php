@@ -1,6 +1,8 @@
 <?php
     session_start();
 
+    ob_start();
+
     require_once '../classes/autoloader.php';
     require_once '../classes/defines.php';
 
@@ -14,3 +16,5 @@
     router::route();
 
     $document->display();
+
+    ob_end_flush();
