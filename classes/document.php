@@ -8,12 +8,24 @@ class document {
     /**
      * @var array of css files to add
      */
-    private $_css_files;
+    public static  $css_files = [
+		'<link rel="stylesheet" href="/css/bootstrap.min.css" />',
+		'<link rel="stylesheet" href="/css/bootstrap-responsive.min.css" />'
+	];
 
     /**
      * @var array of js files to add
      */
-    private $_js_files;
+    public static  $js_files = [
+		'<script src="/js/ajaxupload.3.5.js"></script>',
+		'<script src="/js/json2.js"></script>',
+		'<script src="/js/jquery-2.0.3.min.js"></script>',
+		'<script src="/js/underscore-min.js"></script>',
+		'<script src="/js/backbone-min.js"></script>',
+		'<script src="/js/bootstrap.min.js"></script>',
+		'<script src="/js/App.js"></script>',
+		'<script src="/js/UI.js"></script>'
+	];
 
     /**
      * @var contains html code of currents template
@@ -28,18 +40,6 @@ class document {
 
         require_once 'classes/phpQuery/phpQuery.php';
 
-        $this->_css_files[] = '<link rel="stylesheet" href="/css/bootstrap.min.css" />';
-        $this->_css_files[] = '<link rel="stylesheet" href="/css/bootstrap-responsive.min.css" />';
-
-        $this->_js_files[] = '<script src="/js/ajaxupload.3.5.js"></script>';
-        $this->_js_files[] = '<script src="/js/json2.js"></script>';
-        $this->_js_files[] = '<script src="/js/jquery-2.0.3.min.js"></script>';
-        $this->_js_files[] = '<script src="/js/underscore-min.js"></script>';
-        $this->_js_files[] = '<script src="/js/backbone-min.js"></script>';
-        $this->_js_files[] = '<script src="/js/bootstrap.min.js"></script>';
-        $this->_js_files[] = '<script src="/js/App.js"></script>';
-        $this->_js_files[] = '<script src="/js/UI.js"></script>';
-
         $this->_document = phpQuery::newDocumentHTML($this->_template->getTemplate());
     }
 
@@ -47,25 +47,25 @@ class document {
      * @param $css path to css file
      */
     public function addCss($css) {
-        $this->_css_files[] = $css;
+        static::$css_files[] = $css;
     }
 
     /**
      * @param $js path to js file
      */
     public function addJs($js) {
-        $this->_js_files[] = $js;
+        static::$js_files[] = $js;
     }
 
     /**
      * displays html document
      */
     public function display() {
-        foreach($this->_css_files as $el) {
+        foreach(static::$css_files as $el) {
             pq('head')->append($el);
         }
 
-        foreach($this->_js_files as $el) {
+        foreach(static::$js_files as $el) {
             pq('head')->append($el);
         }
 
@@ -93,18 +93,18 @@ class document {
         }
 
         if($css != null) {
-            array_merge($this->_css_files, $css);
+            array_merge(static::$css_files, $css);
         }
 
         if($js != null) {
-            array_merge($this->_js_files, $js);
+            array_merge(static::$js_files, $js);
         }
 
-        foreach($this->_css_files as $el) {
+        foreach(static::$css_files as $el) {
             pq('head')->append($el);
         }
 
-        foreach($this->_js_files as $el) {
+        foreach(static::$js_files as $el) {
             pq('head')->append($el);
         }
 
