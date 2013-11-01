@@ -111,6 +111,9 @@ trait trait_extension {
 	}
 
 	public static function start() {
+
+		static::clear_cache();
+
 		switch(site::$_mode) {
 			case 'admin':
 				$defaults = [
@@ -138,6 +141,24 @@ trait trait_extension {
 
 				$controller->exec($data['task'], $data['params']);
 				break;
+		}
+	}
+
+	/**
+	 * clears cache every 8 hours
+	 */
+	private static function clear_cache() {
+		$ini = factory::getIniServer(static::$cahe_path.'/cache.ini');
+
+		$upd = $ini->read('cache_options', 'last_update');
+
+		if(time() > ($upd + 3600*60*8)) {
+			$dirhandle = opendir(static::$cache_path);
+
+			while(false != ($file = readdir($dirhandle)))
+			{
+				unlink($file);
+			}
 		}
 	}
 }
