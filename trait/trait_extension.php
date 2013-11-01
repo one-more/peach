@@ -148,6 +148,17 @@ trait trait_extension {
 	 * clears cache every 8 hours
 	 */
 	private static function clear_cache() {
+		if(!file_exists(static::$cahe_path.'/cache.ini')) {
+			$fp = fopen(static::$cahe_path.'/cache.ini', 'a+b');
+			fclose($fp);
+
+			$ini = factory::getIniServer(static::$cahe_path.'/cache.ini');
+			$ini->write('cache_options', 'last_update', time());
+			$ini->updateFile();
+
+			return;
+		}
+
 		$ini = factory::getIniServer(static::$cahe_path.'/cache.ini');
 
 		$upd = $ini->read('cache_options', 'last_update');
