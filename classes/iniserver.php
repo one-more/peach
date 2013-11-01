@@ -30,6 +30,13 @@ class iniServer {
         } else
             return $def;
     }
+	function readSection($section, $def = ''){
+		if (!empty($this->arr[$section])){
+			return $this->arr[$section];
+		}
+		else
+			return $def;
+	}
     function write($section, $key, $value){
         if (is_bool($value))
             $value = $value ? 1 : 0;

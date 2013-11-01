@@ -13,7 +13,17 @@ class sitecontroller extends supercontroller{
 
         $js = document::$js_files;
 
-        $html = templator::getTemplate('index', ['css'=>$css, 'js'=>$js], installer::$path.'admin/views/site');
+		$params = ['css'=>$css, 'js'=>$js];
+
+		if(!empty($_REQUEST['lang'])) {
+			$ini = factory::getIniServer('../lang/install/admin/'.$_REQUEST['lang'].'.ini');
+
+			$lang = $ini->readSection('install_site', '');
+
+			$params = array_merge($params, $lang);
+		}
+
+        $html = templator::getTemplate('index', $params , installer::$path.'admin/views/site');
 
         echo $html;
     }

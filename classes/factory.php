@@ -61,8 +61,12 @@ class factory {
     /**
      * @return ini observer class
      */
-    public static function getIniServer() {
-        if(static::$_iniserver == null) {
+    public static function getIniServer($path = null) {
+        if($path != null) {
+			return new iniServer($path);
+		}
+
+		if(static::$_iniserver == null) {
             static::$_iniserver = new iniServer('../configuration.ini');
         }
 
