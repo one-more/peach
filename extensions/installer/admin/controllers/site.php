@@ -18,7 +18,14 @@ class sitecontroller extends supercontroller{
 		if(!empty($_REQUEST['lang'])) {
 			$ini = factory::getIniServer('../lang/install/admin/'.$_REQUEST['lang'].'.ini');
 
-			$lang = $ini->readSection('install_site', '');
+			$lang = $ini->readSection('install_site');
+
+			$params = array_merge($params, $lang);
+		}
+		else {
+			$ini = factory::getIniServer('../lang/install/admin/en-EN.ini');
+
+			$lang = $ini->readSection('install_site');
 
 			$params = array_merge($params, $lang);
 		}
