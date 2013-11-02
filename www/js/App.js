@@ -1,7 +1,16 @@
-/**
- * Created with JetBrains PhpStorm.
- * User: 1
- * Date: 22.10.13
- * Time: 11:17
- * To change this template use File | Settings | File Templates.
- */
+var App = {};
+
+_.extend(App, Backbone.Events, {
+
+    //fires callback when element is loaded
+    elementLoad : function(el, callback) {
+        setTimeout(function timer1(){
+            if(!$('div').is(el)) {
+                timer1();
+            }
+            else {
+                callback();
+            }
+        }, 20);
+    }
+})

@@ -35,7 +35,23 @@ class site extends supermodel
 		}
 		catch(PDOException $e)
 		{
-			die($e->getMessage());
+			error::log($e->getMessage());
+
+			echo templator::getTemplate('error', ['msg'=>'an exception occured'] ,'../html/');
+		}
+	}
+
+	public function getLang() {
+		try{
+			$sth = $this->_db->query('select `lang` from `site_options`');
+
+			return $sth->fetch();
+		}
+		catch(PDOException $e)
+		{
+			error::log($e->getMessage());
+
+			echo templator::getTemplate('error', ['msg'=>'an exception occured'] ,'../html/');
 		}
 	}
 }

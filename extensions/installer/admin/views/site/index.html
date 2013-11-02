@@ -2,10 +2,34 @@
 <html>
 <head>
     <title></title>
-    :css
-    :js
 </head>
 <body>
-    installation of site!!!!
+    <div id="all">
+        <div id="header">
+            <span>:PEACH_INSTALLATION_HEADER</span>
+            <nav class="nav-panel">
+                <a href="#lang" data-target="#lang"> :LANG_MENU_ITEM </a>
+                <a href="#db" data-target="#db"> :DATABASE_MENU_ITEM </a>
+            </nav>
+        </div>
+        <div id="content">
+            <form action="" class="ajax-form form-horizontal" method="post">
+                <div id="lang">
+                    <fieldset>
+                        <h4> :LANG_SELECT_LABEL </h4>
+                        <select class="span3 lang-select" size="2">
+                            <option value="en-EN">english</option>
+                            <option value="ru-RU"> русский </option>
+                        </select>
+                    </fieldset>
+                </div>
+                <div id="db" hidden="hidden">
+                    db
+                </div>
+            </form>
+        </div>
+    </div>
+    :css
+    :js
 </body>
 </html>

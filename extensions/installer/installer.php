@@ -1,8 +1,19 @@
 <?php
 class installer {
-    public static $path = "../extensions/installer/";
-    public static $controllers = [];
-    public static $models = [];
+	/**
+	 * @var string - path to root of extension
+	 */
+	public static $path = "../extensions/installer/";
+
+	/**
+	 * @var array of controllers
+	 */
+	public static $controllers = [];
+
+	/**
+	 * @var array of models
+	 */
+	public static $models = [];
 
     /**
      * @param $name - name of the controller

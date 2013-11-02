@@ -30,7 +30,7 @@ class iniServer {
         } else
             return $def;
     }
-	function readSection($section, $def = ''){
+	function readSection($section, $def = []){
 		if (!empty($this->arr[$section])){
 			return $this->arr[$section];
 		}
@@ -70,7 +70,7 @@ class iniServer {
             }
             $result .= _BR_;
         }
-        file_p_contents($this->filename, $result);
+        file_put_contents($this->filename, $result);
         return true;
     }
     function __destruct(){

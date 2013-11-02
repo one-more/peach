@@ -7,7 +7,10 @@
     require_once '../classes/defines.php';
 
     spl_autoload_register(['autoloader','load']);
+	spl_autoload_register(['autoloader', 'loadTrait']);
     spl_autoload_register(['autoloader','loadExtension']);
+
+	factory::getRequest();
 
     core::initialise();
 

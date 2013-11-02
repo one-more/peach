@@ -20,6 +20,20 @@ class autoloader
 		require_once($file);
 	}
 
+	public static function loadTrait($class) {
+		$class_name = strtolower($class);
+
+		$file = "../trait/$class_name.php";
+
+		if(!file_exists($file)) {
+			//echo templator::getTemplate('error', ['error-msg'=>'an error occurred'], '../html');
+
+			return false;
+		}
+
+		require_once($file);
+	}
+
     public static function loadExtension($class) {
         $className = strtolower($class).'.php';
 

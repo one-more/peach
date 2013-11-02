@@ -42,4 +42,38 @@ trait trait_extension_controller {
 
 		return false;
 	}
+
+	/**
+	 * returns lang vars for requested page
+	 *
+	 * @param $page
+	 * @param string $default
+	 * @return null
+	 */
+	public function getLang($page, $default = 'en-EN') {
+		$site = factory::getSite();
+
+		$lang = $site->getLang();
+
+		$path = '../lang/'.$this->extension.site::$_mode.$lang.'.ini';
+		$path2 = '../lang/'.$this->extension.site::$_mode.$default.'.ini';
+
+		if(file_exists($path)) {
+			$ini = factory::getIniServer($path);
+
+			$return = $ini->readSection($page);
+
+			return $return;
+		}
+		elseif(file_exists($path2)) {
+			$ini = factory::getIniServer($path2);
+
+			$return = $ini->readSection($page);
+
+			return $return;
+		}
+		else {
+			return null;
+		}
+	}
 }

@@ -20,6 +20,16 @@ class factory {
      */
     private static $_iniserver = null;
 
+	private static $_request = null;
+
+	public static function getRequest() {
+		if(self::$_request == null) {
+			self::$_request = new request();
+		}
+
+		return self::$_request;
+	}
+
     /**
      * @return document
      */
