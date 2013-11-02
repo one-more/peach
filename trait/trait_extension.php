@@ -170,6 +170,9 @@ trait trait_extension {
 			{
 				unlink($file);
 			}
+
+			$ini->write('cache_options', 'last_update', time());
+			$ini->updateFile();
 		}
 	}
 }
