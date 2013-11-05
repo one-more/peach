@@ -58,8 +58,6 @@ class sitecontroller extends supercontroller{
 
 		$default = array_merge($default, $_REQUEST);
 
-		$request = factory::getRequest(); die(print_r($request->get_params()));
-
 		$ini = factory::getIniServer('../lang/installer/admin/'.$default['lang'].'.ini');
 
 		$lang = $ini->readSection('install_site');

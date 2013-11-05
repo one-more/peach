@@ -25,15 +25,11 @@ class router {
                     break;
             }
 
-            ob_end_flush();
-
             exit;
         }
 
         if(in_array($extension, ['admin', 'develop'])) {
             $extension::start();
-
-            ob_end_flush();
 
             exit;
         }

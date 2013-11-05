@@ -20,14 +20,20 @@ class factory {
      */
     private static $_iniserver = null;
 
-	private static $_request = null;
+    /**
+     * @var null class contains request params
+     */
+    private static $_request = null;
 
-	public static function getRequest() {
-		if(self::$_request == null) {
-			self::$_request = new request();
+    /**
+     * @return null
+     */
+    public static function getRequest() {
+		if(static::$_request == null) {
+			static::$_request = new request();
 		}
 
-		return self::$_request;
+		return static::$_request;
 	}
 
     /**
@@ -69,7 +75,8 @@ class factory {
     }
 
     /**
-     * @return ini observer class
+     * @param null $path
+     * @return iniServer|null
      */
     public static function getIniServer($path = null) {
         if($path != null) {

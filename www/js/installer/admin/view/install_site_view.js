@@ -21,9 +21,10 @@ window.InstallSiteView = Backbone.View.extend({
     changeLang : function(e) {
         this.current_lang = $('.lang-select').val();
 
+        $this = this;
+
         $.post('index.php', {lang : this.current_lang}, function(data) {
-           alert(data);
-           //$(this.el).html(data);
+           $this.render(data);
         });
     },
 
@@ -33,10 +34,14 @@ window.InstallSiteView = Backbone.View.extend({
         });
 
         $('select').val(this.current_lang);
+
+        if(location.pathname != '/install') {
+            location = '/install';
+        }
     },
 
-    render : function() {
-
+    render : function(html) {
+        alert(html);
     }
 });
 
