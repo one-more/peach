@@ -12,5 +12,28 @@ _.extend(App, Backbone.Events, {
                 callback();
             }
         }, 20);
+    },
+
+    start: function(){
+      this.registerEvents();
+    },
+
+    registerEvents: function() {
+        $(document).on('click', '.disabled', function(){
+            return;
+        })
+
+        $(document).ajaxError(function(){
+            //todo make ui popup
+            alert('request error');
+        })
+    },
+
+    module: function(name, definition){
+        var args = Array.prototype.slice.call(arguments);
+        args.unshift(this);
+
+        return Backbone.Module.create.call(Backbone.Module, this, name, definition);
     }
 })
+App.start();

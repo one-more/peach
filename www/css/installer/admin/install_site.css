@@ -55,6 +55,24 @@ html,body {
 
 .form-horizontal {
 	width: 50%;
-	margin-left: 10%;
+	margin-left: 5%;
 	margin-top: 5%;
+}
+
+.active {
+	background: #df8505;
+}
+
+.next-button {
+	position: absolute;
+	right: 10%;
+	bottom: 8%;
+}
+
+.fl {
+	float : left;
+}
+
+.mr5 {
+	margin-right: 5%;
 }

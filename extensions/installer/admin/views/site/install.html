@@ -1,0 +1,29 @@
+<div id="header">
+    <span>:PEACH_INSTALLATION_HEADER</span>
+    <nav class="nav-panel">
+        <a id="lang-tab" > :LANG_MENU_ITEM </a>
+        <a id="db-tab" > :DATABASE_MENU_ITEM </a>
+        <a id="admin-tab"> :ADMIN_MENU_ITEM </a>
+    </nav>
+</div>
+<div id="content">
+    <form action="" class="ajax-form form-horizontal" method="post">
+        <div id="lang" class="fl mr5">
+            <fieldset>
+                <h4> :LANG_SELECT_LABEL </h4>
+                <select class="span3 lang-select" size="2">
+                    <option value="en-EN">english</option>
+                    <option value="ru-RU"> русский </option>
+                </select>
+            </fieldset>
+        </div>
+        <div id="db" class="fl mr5" hidden="hidden">
+            db options
+        </div>
+        <div id="admin" class="fl mr5" hidden="hidden">
+            admin options
+        </div>
+
+        <button class="next-button btn btn-large btn-info"> :NEXT_BTN_LABEL </button>
+    </form>
+</div>

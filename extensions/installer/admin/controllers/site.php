@@ -64,8 +64,15 @@ class sitecontroller extends supercontroller{
 
 		$params = array_merge($params, $lang);
 
+		$params['all'] = templator::getTemplate('install', $params, installer::$path.'admin/views/site');
+
         $html = templator::getTemplate('index', $params , installer::$path.'admin/views/site');
 
-        return $html;
+        if(empty($_REQUEST['lang'])) {
+			return $html;
+		}
+		else {
+			return $params['all'];
+		}
     }
 }
