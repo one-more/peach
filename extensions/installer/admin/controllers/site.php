@@ -7,6 +7,7 @@
 class sitecontroller extends supercontroller{
 
 	use trait_extension_controller;
+    use trait_validator;
 
 	/**
 	 * @var string - need for getLAng function
@@ -74,5 +75,24 @@ class sitecontroller extends supercontroller{
 		else {
 			return $params['all'];
 		}
+    }
+
+    public static function complete()
+    {
+        if($_POST) {
+            $error = static::check($_POST, [
+                'dbname'        => 'not_empty',
+                'dbuser'        => 'not_empty',
+                'dbpass'        => 'not_empty',
+                'adminlogin'    => 'not_empty',
+                'adminpassword' => ['not_empty', 'password'],
+                'adminemail'    => ['not_empty', 'email']
+            ]);
+
+            return ['error' => $error];
+        }
+        else {
+            return ['error' => 'no data'];
+        }
     }
 }

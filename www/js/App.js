@@ -2,6 +2,8 @@ var App = {};
 
 _.extend(App, Backbone.Events, {
 
+    _initializers: [],
+
     //fires callback when element is loaded
     elementLoad : function(el, callback) {
         setTimeout(function timer1(){
@@ -15,6 +17,23 @@ _.extend(App, Backbone.Events, {
     },
 
     start: function(){
+        _.each(this._initializers, function(func){
+            if (typeof func == "function"){
+                func();
+            }
+        });
+
+        $.ajaxSetup({
+            dataFilter: function(data, type) {
+                try{
+                    return $.parseJSON(data);
+                }
+                catch(Exception){
+                    return data;
+                }
+            }
+        });
+
       this.registerEvents();
     },
 
@@ -29,6 +48,14 @@ _.extend(App, Backbone.Events, {
             //todo make ui popup
             alert('request error');
         })
+
+        $(document).on('keypress', 'input.error', function(e){
+            $(this).removeClass('error');
+        })
+    },
+
+    addInitializer:function(func){
+        this._initializers.push(func);
     },
 
     module: function(name, definition){
@@ -38,4 +65,7 @@ _.extend(App, Backbone.Events, {
         return Backbone.Module.create.call(Backbone.Module, this, name, definition);
     }
 })
-App.start();
+
+$(window).on('load', function(){
+    App.start();
+})

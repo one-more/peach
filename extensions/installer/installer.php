@@ -54,14 +54,8 @@ class installer {
     }
 
     /**
-     * install site
+     * entry point of extension
      */
-    public static function installSite() {
-        $controller = static::getAdminController('site');
-
-        $controller->exec('display');
-    }
-
     public static function start()
     {
         $defaults = [

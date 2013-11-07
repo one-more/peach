@@ -10,6 +10,7 @@ class document {
      */
     public static  $css_files = [
 		'<link rel="stylesheet" href="/css/bootstrap.min.css" />',
+        '<link rel="stylesheet" href="/css/peach.css" />',
 		'<link rel="stylesheet" href="/css/bootstrap-responsive.min.css" />'
 	];
 
@@ -22,9 +23,12 @@ class document {
 		'<script src="/js/jquery-2.0.3.min.js"></script>',
 		'<script src="/js/underscore-min.js"></script>',
 		'<script src="/js/backbone-min.js"></script>',
+        '<script src="/js/backbone.module.js"></script>',
+        '<script src="/js/backbone.router.js"></script>',
 		'<script src="/js/bootstrap.min.js"></script>',
 		'<script src="/js/App.js"></script>',
-		'<script src="/js/UI.js"></script>'
+		'<script src="/js/UI.js"></script>',
+        '<script src="/js/Form.js"></script>'
 	];
 
     /**

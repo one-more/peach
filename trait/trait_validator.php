@@ -4,28 +4,56 @@
  */
 trait trait_validator {
 
-	public static $refrence = [
+    /**
+     * @var array
+     */
+    public static $refrence = [
 		'email'			=> 'неверный формат email',
 		'not_empty'		=> 'поле не может быть пустым',
+        'password'      => 'пароль должен быть длиннее 5 символов'
 	];
 
-	public static function check(&$data, $validator = []) {
+    /**
+     * @param $data
+     * @param array $validator
+     * @return array
+     */
+    public static function check(&$data, $validator = []) {
 		$error = [];
 
 		foreach($validator as $k=>$v)
 		{
-			$func = 'valid_'.$v;
+			if(is_array($v)) {
+                $tmp_array = [];
 
-			if($str = static::$func($data[$k])) {
-				$error[$k] =	$str;
-			}
+                foreach($v as $el) {
+                    $cur_validator = 'valid_'.$el;
+
+                    if($str = static::$cur_validator($data[$k])) {
+                        $tmp_array[] = $str;
+                    }
+                }
+
+                $error[$k] = reset($tmp_array);
+            }
+            else{
+                $func = 'valid_'.$v;
+
+                if($str = static::$func($data[$k])) {
+                    $error[$k] =	$str;
+                }
+            }
 		}
 
 		return $error;
 	}
 
-	public static function valid_email($email) {
-		if (preg_match('/^[a-z0-9_.-]{1,100}@(([a-z0-9-]+\.)+(com|net|org|mil|edu|gov|arpa|info|biz|inc|name|[a-z]{2})|[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})$/is', $email))
+    /**
+     * @param $v
+     * @return bool
+     */
+    public static function valid_email($v) {
+		if (filter_var($v, FILTER_VALIDATE_EMAIL))
 		{
 			return false;
 		}
@@ -34,7 +62,11 @@ trait trait_validator {
 		}
 	}
 
-	public static function valid_not_empty($v) {
+    /**
+     * @param $v
+     * @return bool
+     */
+    public static function valid_not_empty($v) {
 		if(empty($v)) {
 			return static::$refrence['not_empty'];
 		}
@@ -42,4 +74,18 @@ trait trait_validator {
 			return false;
 		}
 	}
+
+    /**
+     * @param $v
+     * @return bool
+     */
+    public static function valid_password($v)
+    {
+        if(strlen($v) < 5) {
+            return static::$refrence['password'];
+        }
+        else {
+            return false;
+        }
+    }
 }
