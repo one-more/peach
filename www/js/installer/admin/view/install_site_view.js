@@ -2,7 +2,7 @@ window.InstallSiteView = Backbone.View.extend({
     el : $('#all'),
 
     events: {
-        "click .next-button": "showTab",
+        "click .next-button:not(.disabled)": "showTab",
         "change .lang-select" : "changeLang"
     },
 
@@ -17,25 +17,24 @@ window.InstallSiteView = Backbone.View.extend({
     showTab: function(e) {
         e.preventDefault();
 
-        if(!$('.next-button').hasClass('disabled')) {
-            $('#'+this.tabs[this.current_page]+'-tab').removeClass('active');
+        $('#'+this.tabs[this.current_page]+'-tab').removeClass('active');
 
-            $('#'+this.tabs[this.current_page+1]+'-tab').addClass('active');
+        $('#'+this.tabs[this.current_page+1]+'-tab').addClass('active');
 
-            this.current_page++;
+        this.current_page++;
 
-            if(this.current_page == 2) {
-                $('.next-button').addClass('disabled');
-            }
+        if(this.current_page == 2) {
+            $('.next-button').addClass('disabled');
+        }
 
-            switch(this.current_page) {
-                case 1:
-                    $('#db').show();
-                    break;
-                case 2:
-                    $('#admin').show();
-                    break;
-            }
+        switch(this.current_page) {
+            case 1:
+                $('#db').show();
+                break;
+            case 2:
+                $('#admin').show();
+                $('.complete-button').show();
+                break;
         }
     },
 
@@ -56,6 +55,7 @@ window.InstallSiteView = Backbone.View.extend({
                 case 2:
                     $('#db').show();
                     $('#admin').show();
+                    $('.complete-button').show();
                     break;
             }
         });

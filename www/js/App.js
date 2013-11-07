@@ -19,7 +19,9 @@ _.extend(App, Backbone.Events, {
     },
 
     registerEvents: function() {
-        $(document).on('click', '.disabled', function(){
+        $(document).on('click', '.disabled', function(e){
+            e.preventDefault();
+
             return;
         })
 

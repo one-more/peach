@@ -69,10 +69,24 @@ html,body {
 	bottom: 8%;
 }
 
+.complete-button {
+    position: absolute;
+    right: 20%;
+    bottom: 8%;
+}
+
 .fl {
 	float : left;
 }
 
 .mr5 {
 	margin-right: 5%;
+}
+
+.mr10 {
+    margin-right: 10%;
+}
+
+.ml5 {
+    margin-left: 5%;
 }

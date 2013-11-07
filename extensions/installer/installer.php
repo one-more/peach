@@ -61,4 +61,19 @@ class installer {
 
         $controller->exec('display');
     }
+
+    public static function start()
+    {
+        $defaults = [
+            'controller'    => 'site',
+            'task'          => 'display',
+            'params'        => ''
+        ];
+
+        $data = array_merge($defaults, $_REQUEST);
+
+        $controller = static::getAdminController($data['controller']);
+
+        $controller->exec($data['task'], $data['params']);
+    }
 }

@@ -7,23 +7,67 @@
     </nav>
 </div>
 <div id="content">
-    <form action="" class="ajax-form form-horizontal" method="post">
-        <div id="lang" class="fl mr5">
+    <form action="index.php?type=extension&extension=installer&task=complete&ajax=1" class="ajax-form form-inline ml5" method="post">
+        <div id="lang" class="fl mr10">
             <fieldset>
                 <h4> :LANG_SELECT_LABEL </h4>
-                <select class="span3 lang-select" size="2">
+                <select name="language" class="span3 lang-select" size="2">
                     <option value="en-EN">english</option>
                     <option value="ru-RU"> русский </option>
                 </select>
             </fieldset>
         </div>
-        <div id="db" class="fl mr5" hidden="hidden">
-            db options
+        <div id="db" class="fl mr10 hide">
+            <div class="control-group">
+                <h4 class="text-center"> :DB_TAB_LABEL </h4>
+
+                <label class="control-label" for="dbname">:DBNAME_FIELD_LABEL</label>
+
+                <div class="controls">
+                    <input name="dbname" id="dbname" placeholder=":DBNAME_FIELD_LABEL" type="text"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="dbuser">:DBUSER_FIELD_LABEL</label>
+
+                <div class="controls">
+                    <input name="dbuser" id="dbuser" placeholder=":DBUSER_FIELD_LABEL" type="text"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="dbpass">:DBPASS_FIELD_LABEL</label>
+
+                <div class="controls">
+                    <input name="dbpass" id="dbpass" placeholder=":DBPASS_FIELD_LABEL" type="text"/>
+                </div>
+            </div>
         </div>
-        <div id="admin" class="fl mr5" hidden="hidden">
-            admin options
+        <div id="admin" class="fl mr5 hide">
+            <div class="control-group">
+                <h4 class="text-center"> :ADMIN_TAB_LABEL </h4>
+                <label class="control-label" for="login"> :ADMIN_LOGIN_FIELD_LABEL </label>
+
+                <div class="controls">
+                    <input name="adminlogin" id="login" placeholder=":ADMIN_LOGIN_FIELD_LABEL" type=""/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="password">:ADMIN_PASSWORD_FIELD_LABEL</label>
+
+                <div class="controls">
+                    <input name="adminpassword" id="password" placeholder=":ADMIN_PASSWORD_FIELD_LABEL" type="text"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="email">:ADMIN_EMAIL_FIELD_LABEL</label>
+
+                <div class="controls">
+                    <input name="adminemail" id="email" placeholder=":ADMIN_EMAIL_FIELD_LABEL" type="text"/>
+                </div>
+            </div>
         </div>
 
         <button class="next-button btn btn-large btn-info"> :NEXT_BTN_LABEL </button>
+        <button class="complete-button text-center btn btn-success btn-large hide"> :DONE_BTN_LABEL </button>
     </form>
 </div>
