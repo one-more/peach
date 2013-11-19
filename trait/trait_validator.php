@@ -3,16 +3,6 @@
  * Class trait_validator - validates form fields
  */
 trait trait_validator {
-
-    /**
-     * @var array
-     */
-    public static $refrence = [
-		'email'			=> 'неверный формат email',
-		'not_empty'		=> 'поле не может быть пустым',
-        'password'      => 'пароль должен быть длиннее 5 символов'
-	];
-
     /**
      * @param $data
      * @param array $validator
@@ -34,7 +24,10 @@ trait trait_validator {
                     }
                 }
 
-                $error[$k] = reset($tmp_array);
+                if($str = reset($tmp_array))
+                {
+                    $error[$k] = $str;
+                }
             }
             else{
                 $func = 'valid_'.$v;
@@ -58,7 +51,7 @@ trait trait_validator {
 			return false;
 		}
 		else {
-			return static::$refrence['email'];
+			return static::$reference['email'];
 		}
 	}
 
@@ -68,7 +61,7 @@ trait trait_validator {
      */
     public static function valid_not_empty($v) {
 		if(empty($v)) {
-			return static::$refrence['not_empty'];
+			return static::$reference['not_empty'];
 		}
 		else {
 			return false;
@@ -82,7 +75,7 @@ trait trait_validator {
     public static function valid_password($v)
     {
         if(strlen($v) < 5) {
-            return static::$refrence['password'];
+            return static::$reference['password'];
         }
         else {
             return false;

@@ -5,6 +5,8 @@
  * contains base methods of extension
  *
  * Class trait_extension
+ *
+ * @author Nikolaev D
  */
 trait trait_extension {
 	/**
@@ -33,6 +35,21 @@ trait trait_extension {
 	 * @var array of site models
 	 */
 	private static $site_models = [];
+
+    /**
+     * @var null name of called class
+     */
+    private static $name = null;
+
+    /**
+     * @var null path to extension
+     */
+    private static $path = null;
+
+    /**
+     * @var null path to cache folder
+     */
+    private static $cache_path = null;
 
 	private static function getAdminController($name) {
 		if(!in_array($name, array_keys(static::$controllers))) {
@@ -112,12 +129,23 @@ trait trait_extension {
 
 	public static function start() {
 
-		static::clear_cache();
+        static::$name = get_called_class();
 
-		switch(site::$_mode) {
+        static::$path = '../extensions/'.static::$name.'/';
+
+        static::$cache_path = static::$path.'/cache/';
+
+        if(file_exists(static::$cache_path))
+        {
+            static::clear_cache();
+        }
+
+		switch(core::$_mode) {
 			case 'admin':
-				$defaults = [
-					'controller'	=>	static::$defaultAdminController,
+				$controller = static::$default_admin_controller;
+
+                $defaults = [
+					'controller'	=>	$controller ? $controller : 'default',
 					'task'			=>	'display',
 					'params'		=> null
 				];
@@ -126,11 +154,13 @@ trait trait_extension {
 
 				$controller = static::getAdminController($data['controller']);
 
-				$controller->exec($data['task'], $data['params']);
+				echo $controller->exec($data['task'], $data['params']);
 				break;
 			case 'site':
-				$defaults = [
-					'controller'	=>	static::$defaultSiteController,
+				$controller = static::$default_site_controller;
+
+                $defaults = [
+					'controller'	=>	$controller ? $controller : 'default',
 					'task'			=>	'display',
 					'params'		=> null
 				];
@@ -139,7 +169,7 @@ trait trait_extension {
 
 				$controller = static::getSiteController($data['controller']);
 
-				$controller->exec($data['task'], $data['params']);
+				echo $controller->exec($data['task'], $data['params']);
 				break;
 		}
 	}
@@ -148,18 +178,18 @@ trait trait_extension {
 	 * clears cache every 8 hours
 	 */
 	private static function clear_cache() {
-		if(!file_exists(static::$cahe_path.'/cache.ini')) {
-			$fp = fopen(static::$cahe_path.'/cache.ini', 'a+b');
+		if(!file_exists(static::$cahe_path.'cache.ini')) {
+			$fp = fopen(static::$cahe_path.'cache.ini', 'a+b');
 			fclose($fp);
 
-			$ini = factory::getIniServer(static::$cahe_path.'/cache.ini');
+			$ini = factory::getIniServer(static::$cahe_path.'cache.ini');
 			$ini->write('cache_options', 'last_update', time());
 			$ini->updateFile();
 
 			return;
 		}
 
-		$ini = factory::getIniServer(static::$cahe_path.'/cache.ini');
+		$ini = factory::getIniServer(static::$cahe_path.'cache.ini');
 
 		$upd = $ini->read('cache_options', 'last_update');
 

@@ -2,12 +2,38 @@ App.module('Form', function(Form){
 
     Form._ajax = null;
 
-    Form.success = function(form){
+    Form.success_handlers = [];
 
+    Form.error_handlers = [];
+
+    Form.add_success_handler = function(id, func) {
+        this.success_handlers['id'] = func;
+    }
+
+    Form.add_error_handler = function(id, func) {
+        this.error_handlers[id] = func;
+    }
+
+    Form.success = function(form){
+        var id = form.attr('id') || form.attr('className');
+
+        var func = this.success_handlers[id];
+
+        if(typeof func == 'function')
+        {
+            func();
+        }
     };
 
     Form.error = function(form){
+        var id = form.attr('id') || form.attr('className');
 
+        var func = this.error_handlers[id];
+
+        if(typeof func == 'function')
+        {
+            func();
+        }
     };
 
     Form.send = function(form, params){
@@ -20,6 +46,22 @@ App.module('Form', function(Form){
 
         button.attr('disabled', 'true');
 
+        $form.find('input[type=text]').each(function(){
+            if(!$('span').is('[name='+$(this).attr('name')+']')) {
+                var name = $(this).attr('name');
+                var span = $('<span>', {
+                    name    : name,
+                    text    : 'test',
+                    'class' : 'hide text-error'
+                });
+                $(this).after(span);
+                span.before('<br>');
+            }
+            else if(!$('span[name='+$(this).attr('name')+']').hasClass('hide')) {
+                $('span[name='+$(this).attr('name')+']').addClass('hide')
+            }
+        })
+
         var ajax = Form._ajax = $.post(action, $form.serialize(), 'json');
 
         ajax.success(function(data){
@@ -27,8 +69,11 @@ App.module('Form', function(Form){
                 if(data.error){
                     _.each(data.error, function(v,k){
                         $form.find('input[name='+k+']')
-                            .attr('placeholder', v)
                             .addClass('error');
+
+                        $form.find('span[name='+k+']')
+                            .removeClass('hide')
+                            .text(v);
                     })
                     Form.error($form);
                 }

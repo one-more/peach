@@ -6,10 +6,10 @@ class supercontroller
 		$arr = $this->$task($params);
 
         if(!empty($_REQUEST['ajax']) && is_array($arr)) {
-            echo json_encode($arr);
+            return json_encode($arr);
         }
         else {
-            echo $arr;
+            return $arr;
         }
 	}
 }

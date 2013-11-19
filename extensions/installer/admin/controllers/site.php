@@ -40,6 +40,11 @@ class sitecontroller extends supercontroller{
 	}
 
     /**
+     * @var null array contains error messages
+     */
+    public static $reference = null;
+
+    /**
      * displays entry point of install site
      */
     public function display() {
@@ -80,6 +85,10 @@ class sitecontroller extends supercontroller{
     public static function complete()
     {
         if($_POST) {
+            $ini = factory::getIniServer('../lang/installer/admin/'.$_POST['language'].'.ini');
+
+            static::$reference = $ini->readSection('error_reference');
+
             $error = static::check($_POST, [
                 'dbname'        => 'not_empty',
                 'dbuser'        => 'not_empty',

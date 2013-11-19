@@ -68,6 +68,6 @@ class installer {
 
         $controller = static::getAdminController($data['controller']);
 
-        $controller->exec($data['task'], $data['params']);
+        echo $controller->exec($data['task'], $data['params']);
     }
 }

@@ -1,6 +1,8 @@
 <?php
 /**
  * Class trait_extension_controller
+ *
+ * @author Nikolaev D
  */
 trait trait_extension_controller {
 	/**
@@ -51,12 +53,10 @@ trait trait_extension_controller {
 	 * @return null
 	 */
 	public function getLang($page, $default = 'en-EN') {
-		$site = factory::getSite();
+		$lang = site::getLang();
 
-		$lang = $site->getLang();
-
-		$path = '../lang/'.$this->extension.site::$_mode.$lang.'.ini';
-		$path2 = '../lang/'.$this->extension.site::$_mode.$default.'.ini';
+		$path = '../lang/'.$this->extension.core::$mode.$lang.'.ini';
+		$path2 = '../lang/'.$this->extension.core::$mode.$default.'.ini';
 
 		if(file_exists($path)) {
 			$ini = factory::getIniServer($path);
