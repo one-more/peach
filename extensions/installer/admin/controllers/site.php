@@ -23,7 +23,8 @@ class sitecontroller extends supercontroller{
 	 * @var array
 	 */
 	public $js = [
-		'<script src="/js/installer/admin/view/install_site_view.js" ></script>'
+		'<script src="/js/installer/admin/view/install_site_view.js" ></script>',
+        '<script src="/js/installer/admin/module/router.js"></script>',
 	];
 
 	/**
@@ -98,10 +99,43 @@ class sitecontroller extends supercontroller{
                 'adminemail'    => ['not_empty', 'email']
             ]);
 
+            if(!$error) {
+                $ini = factory::getIniServer('../configuration.ini');
+
+                $arr = [
+                    'db_name'   => $_POST['dbname'],
+                    'db_user'   => $_POST['dbuser'],
+                    'db_pass'   => $_POST['dbpass'],
+                ];
+
+                $ini->writeSection('db_params', $arr);
+                $ini->write('language', 'current', $_POST['language']);
+
+                $ini->updateFile();
+
+                $sql = helper::getSql(installer::$path.'admin/resources/siteinstall.sql');
+
+                $model = installer::getAdminModel('site');
+
+                foreach($sql as $el) {
+                    $model->execute($el);
+                }
+
+                //todo insert user here
+            }
+
             return ['error' => $error];
         }
         else {
-            return ['error' => 'no data'];
+            $params = [
+                'css'   => document::$css_files,
+                'js'    =>  ''
+            ];
+
+            $params['all'] = templator::getTemplate('done', $params, installer::$path.'admin/views/site');
+            $html = templator::getTemplate('index', $params, installer::$path.'admin/views/site');
+
+            return $html;
         }
     }
 }

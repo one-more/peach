@@ -73,6 +73,10 @@ window.InstallSiteView = Backbone.View.extend({
         }
 
         $('#lang-tab').addClass('active');
+
+        Form.add_success_handler('install-site-form', function(){
+            App.goto('install/done');
+        })
     },
 
     render : function(html) {

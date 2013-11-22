@@ -42,6 +42,11 @@ class iniServer {
             $value = $value ? 1 : 0;
         $this->arr[$section][$key] = $value;
     }
+    function writeSection($section, $value){
+        if(is_array($value)) {
+            $this->arr[$section] = $value;
+        }
+    }
     function eraseSection($section){
         if (isset($this->arr[$section]))
             unset($this->arr[$section]);

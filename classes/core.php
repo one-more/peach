@@ -12,7 +12,9 @@ class core {
 
         $extension = preg_split('/\//', $_SERVER['REQUEST_URI'])[1];
 
-        if($extension == 'admin' || $_REQUEST['class'] == 'admin') {
+        $class = !empty($_REQUEST['class'])? $_REQUEST['class'] : '';
+
+        if($extension == 'admin' || $class == 'admin') {
             static::$_mode = 'admin';
         }
 

@@ -28,7 +28,10 @@ class document {
 		'<script src="/js/bootstrap.min.js"></script>',
 		'<script src="/js/App.js"></script>',
 		'<script src="/js/UI.js"></script>',
-        '<script src="/js/Form.js"></script>'
+        '<script src="/js/Form.js"></script>',
+        '<script src="/js/noty/jquery.noty.js"></script>',
+        '<script src="/js/noty/layouts/top.js"></script>',
+        '<script src="/js/noty/themes/default.js"></script>'
 	];
 
     /**

@@ -1,7 +1,16 @@
 <?php
+/**
+ * Class autoloader
+ *
+ * @author Nikolaev D.
+ */
 class autoloader
 {
-	public static function load($class)
+    /**
+     * @param $class
+     * @return bool
+     */
+    public static function load($class)
 	{
 		$classname = strtolower($class).'.php';
 		
@@ -20,7 +29,11 @@ class autoloader
 		require_once($file);
 	}
 
-	public static function loadTrait($class) {
+    /**
+     * @param $class
+     * @return bool
+     */
+    public static function loadTrait($class) {
 		$class_name = strtolower($class);
 
 		$file = "../trait/$class_name.php";
@@ -34,6 +47,58 @@ class autoloader
 		require_once($file);
 	}
 
+    /**
+     * @param $class
+     * @return bool
+     */
+    public static function loadInterface($class) {
+        $class_name = strtolower($class);
+
+        $file = "../interface/$class_name.php";
+
+        if(!file_exists($file)) {
+            return false;
+        }
+
+        require_once($file);
+    }
+
+    /**
+     * @param $class
+     * @return bool
+     */
+    public static function loadTemplate($class) {
+        $class_name = strtolower($class);
+
+        $file = "../templates/$class_name/$class_name.php";
+
+        if(!file_exists($file)) {
+            return false;
+        }
+
+        require_once($file);
+    }
+
+    /**
+     * @param $class
+     * @return bool
+     */
+    public static function loadEditor($class) {
+        $class_name = strtolower($class);
+
+        $file = "../editors/$class_name/$class_name.php";
+
+        if(!file_exists($file)) {
+            return false;
+        }
+
+        require_once($file);
+    }
+
+    /**
+     * @param $class
+     * @return bool
+     */
     public static function loadExtension($class) {
         $className = strtolower($class).'.php';
 

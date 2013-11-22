@@ -140,6 +140,21 @@ trait trait_extension {
             static::clear_cache();
         }
 
+        //todo костыль
+        if(!empty($_REQUEST['method']))  {
+            $defaults = [
+                'params'    => ''
+            ];
+
+            $data = array_merge($defaults, $_REQUEST);
+
+            $method = $_REQUEST['method'];
+
+            static::$method($data['params']);
+
+            exit;
+        }
+
 		switch(core::$_mode) {
 			case 'admin':
 				$controller = static::$default_admin_controller;
@@ -205,4 +220,49 @@ trait trait_extension {
 			$ini->updateFile();
 		}
 	}
+
+    /**
+     * @param $section
+     * @param null $field
+     * @return array|bool|string
+     */
+    public static function read_params($section, $field = null)
+    {
+        $name = get_called_class();
+
+        if(file_exists("../extensions/$name/$name".".ini")) {
+            $ini = factory::getIniServer("../extensions/$name/$name".'.ini');
+
+            if($field) {
+                return $ini->read($section, $field, false);
+            }
+            else {
+                return $ini->readSection($section);
+            }
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * @param $section
+     * @param $field
+     * @param null $value
+     */
+    public static function write_params($section, $field, $value = null)
+    {
+        $name = get_called_class();
+
+        $ini = factory::getIniServer("../extensions/$name/$name".'.ini');
+
+        if($value) {
+            $ini->write($section, $field, $value);
+        }
+        else {
+            $ini->writeSection($section, $field);
+        }
+
+        $ini->updateFile();
+    }
 }

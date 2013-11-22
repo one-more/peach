@@ -1,5 +1,9 @@
 <?php
-
-class stemodel  extends superModel{
+/**
+ * Class sitemodel
+ *
+ * @author Nikolaev D.
+ */
+class sitemodel  extends superModel{
 
 }
