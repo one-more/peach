@@ -21,11 +21,21 @@ trait trait_template {
     public static $name = null;
 
     /**
+     * init some static fields
+     */
+    private static function init()
+    {
+        static::$name = get_called_class();
+    }
+
+    /**
      * @param $name
      * @return mixed
      */
     public static function get_admin_controller($name)
     {
+        static::init();
+
         if(!static::$admin_controllers[$name]) {
             $template = static::$name;
 
@@ -43,6 +53,8 @@ trait trait_template {
      */
     public static function get_site_controller($name)
     {
+        static::init();
+
         if(!static::$site_controllers[$name]) {
             $template = static::$name;
 
@@ -56,7 +68,7 @@ trait trait_template {
 
     public static function start($params = null)
     {
-        static::$name = get_called_class();
+        static::init();
 
         $defaults = [
             'controller'    => 'default',

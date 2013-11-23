@@ -7,21 +7,21 @@ App.module('Form', function(Form){
     Form.error_handlers = [];
 
     Form.add_success_handler = function(id, func) {
-        this.success_handlers['id'] = func;
+        this.success_handlers[id] = func;
     }
 
     Form.add_error_handler = function(id, func) {
         this.error_handlers[id] = func;
     }
 
-    Form.success = function(form){
+    Form.success = function(form, data){
         var id = form.attr('id') || form.attr('className');
 
         var func = this.success_handlers[id];
 
         if(typeof func == 'function')
         {
-            func();
+            func(data);
         }
     };
 
@@ -46,7 +46,7 @@ App.module('Form', function(Form){
 
         button.attr('disabled', 'true');
 
-        $form.find('input[type=text]').each(function(){
+        $form.find('input[type]').each(function(){
             if(!$('span').is('[name='+$(this).attr('name')+']')) {
                 var name = $(this).attr('name');
                 var span = $('<span>', {
@@ -66,7 +66,7 @@ App.module('Form', function(Form){
 
         ajax.success(function(data){
             if(data) {
-                if(data.error){
+                if(data.error.length > 0){
                     _.each(data.error, function(v,k){
                         $form.find('input[name='+k+']')
                             .addClass('error');
@@ -78,7 +78,7 @@ App.module('Form', function(Form){
                     Form.error($form);
                 }
                 else {
-                    Form.success($form);
+                    Form.success($form, data);
                 }
             }
         });

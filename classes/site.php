@@ -2,57 +2,15 @@
 /**
  * Class site
  */
-class site extends supermodel
-{
-	/**
-	 * @var string - current mode of site e.c. site or admin
-	 */
-	public static $_mode = 'site';
+class site {
+    use trait_extension;
 
-	public function __construct()
-	{
-		$ini = factory::getIniServer();
+    /**
+     * @return string
+     */
+    public static  function getLang() {
+		$ini = factory::getIniServer('../configuration.ini');
 
-		$dbs = [];
-
-		$dbs['db_name'] = $ini->read('db_settings', 'db_name');
-		$dbs['db_user'] = $ini->read('db_settings', 'db_user');
-		$dbs['db_pass'] = $ini->read('db_settings', 'db_pass');
-		
-		parent::__construct($dbs['db_name'],$dbs['db_user'],$dbs['db_pass']);
-	}
-
-	/**
-	 * @return name of the current template
-	 */
-	public function getTemplate()
-	{
-		try
-		{
-			$sth = $this->_db->query('select * from templates where active = "1"');
-			
-			return $sth->fetch();
-		}
-		catch(PDOException $e)
-		{
-			error::log($e->getMessage());
-
-			echo templator::getTemplate('error', ['msg'=>'an exception occured'] ,'../html/');
-		}
-	}
-
-	public function getLang() {
-		try{
-			$sth = $this->_db->query('select `lang` from `site_options`');
-
-			return $sth->fetch();
-		}
-		catch(PDOException $e)
-		{
-			error::log($e->getMessage());
-
-			echo templator::getTemplate('error', ['msg'=>'an exception occured'] ,'../html/');
-		}
+        return $ini->read('language', 'current', false);
 	}
 }
-?>

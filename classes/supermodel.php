@@ -1,7 +1,15 @@
 <?php
+/**
+ * Class superModel
+ *
+ * @author Nikolaev D.
+ */
 class superModel
 {
-	protected $_db;
+    /**
+     * @var PDO
+     */
+    protected $_db;
 
 	use trait_validator;
 	
@@ -63,5 +71,4 @@ class superModel
             echo templator::getTemplate('error', ['error-msg'=>'an exception occurred'], '../html');
 		}
 	}	
-}	
-?>
+}

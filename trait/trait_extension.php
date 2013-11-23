@@ -51,8 +51,27 @@ trait trait_extension {
      */
     private static $cache_path = null;
 
-	private static function getAdminController($name) {
-		if(!in_array($name, array_keys(static::$controllers))) {
+    /**
+     * initialize some static fields
+     */
+    private static function init()
+    {
+        static::$name = get_called_class();
+
+        static::$path = '../extensions/'.static::$name.'/';
+
+        static::$cache_path = static::$path.'/cache/';
+    }
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    public static function get_admin_controller($name) {
+
+        static::init();
+
+        if(!in_array($name, array_keys(static::$controllers))) {
 			require_once(static::$path."admin/controllers/$name.php");
 
 			$controller = $name.'controller';
@@ -67,19 +86,18 @@ trait trait_extension {
 	 * @param $name - name of the models without suffix e.c. site - sitemodel
 	 * @return object of model class
 	 */
-	public static function getAdminModel($name) {
-		if(!in_array($name, array_keys(static::$models))) {
+	public static function get_admin_model($name) {
+
+        static::init();
+
+        if(!in_array($name, array_keys(static::$models))) {
 			require_once(static::$path."admin/models/$name.php");
 
 			$model = $name.'model';
 
-			$ini = factory::getIniServer();
+			$ini = factory::getIniServer('../configuration.ini');
 
-			$dbs = [];
-
-			$dbs['db_user'] = $ini->read('db_settings', 'db_user');
-			$dbs['db_pass'] = $ini->read('db_settings', 'db_pass');
-			$dbs['db_name'] = $ini->read('db_settings', 'db_name');
+			$dbs = $ini->readSection('db_params');
 
 			static::$models[$name] = new $model($dbs['db_name'], $dbs['db_user'], $dbs['db_pass']);
 		}
@@ -91,8 +109,11 @@ trait trait_extension {
 	 * @param $name
 	 * @return mixed
 	 */
-	private static function getSiteController($name) {
-		if(!in_array($name, array_keys(static::$site_controllers))) {
+	public static function get_site_controller($name) {
+
+        static::init();
+
+        if(!in_array($name, array_keys(static::$site_controllers))) {
 			require_once(static::$path."site/controllers/$name.php");
 
 			$controller = $name.'controller';
@@ -107,19 +128,18 @@ trait trait_extension {
 	 * @param $name
 	 * @return mixed
 	 */
-	public static function getSiteModel($name) {
-		if(!in_array($name, array_keys(static::$site_models))) {
+	public static function get_site_model($name) {
+
+        static::init();
+
+        if(!in_array($name, array_keys(static::$site_models))) {
 			require_once(static::$path."site/models/$name.php");
 
 			$model = $name.'model';
 
-			$ini = factory::getIniServer();
+            $ini = factory::getIniServer('../configuration.ini');
 
-			$dbs = [];
-
-			$dbs['db_user'] = $ini->read('db_settings', 'db_user');
-			$dbs['db_pass'] = $ini->read('db_settings', 'db_pass');
-			$dbs['db_name'] = $ini->read('db_settings', 'db_name');
+            $dbs = $ini->readSection('db_params');
 
 			static::$site_models[$name] = new $model($dbs['db_name'], $dbs['db_user'], $dbs['db_pass']);
 		}
@@ -129,11 +149,7 @@ trait trait_extension {
 
 	public static function start() {
 
-        static::$name = get_called_class();
-
-        static::$path = '../extensions/'.static::$name.'/';
-
-        static::$cache_path = static::$path.'/cache/';
+        static::init();
 
         if(file_exists(static::$cache_path))
         {
@@ -151,49 +167,51 @@ trait trait_extension {
             $method = $_REQUEST['method'];
 
             static::$method($data['params']);
-
-            exit;
         }
+		else {
+            switch(core::$_mode) {
+                case 'admin':
+                    $controller = static::$default_admin_controller;
 
-		switch(core::$_mode) {
-			case 'admin':
-				$controller = static::$default_admin_controller;
+                    $defaults = [
+                        'controller'	=>	$controller ? $controller : 'default',
+                        'task'			=>	'display',
+                        'params'		=> null
+                    ];
 
-                $defaults = [
-					'controller'	=>	$controller ? $controller : 'default',
-					'task'			=>	'display',
-					'params'		=> null
-				];
+                    $data = array_merge($defaults, $_REQUEST);
 
-				$data = array_merge($defaults, $_REQUEST);
+                    $controller = static::getAdminController($data['controller']);
 
-				$controller = static::getAdminController($data['controller']);
+                    echo $controller->exec($data['task'], $data['params']);
+                    break;
+                case 'site':
+                    $controller = static::$default_site_controller;
 
-				echo $controller->exec($data['task'], $data['params']);
-				break;
-			case 'site':
-				$controller = static::$default_site_controller;
+                    $defaults = [
+                        'controller'	=>	$controller ? $controller : 'default',
+                        'task'			=>	'display',
+                        'params'		=> null
+                    ];
 
-                $defaults = [
-					'controller'	=>	$controller ? $controller : 'default',
-					'task'			=>	'display',
-					'params'		=> null
-				];
+                    $data = array_merge($defaults, $_REQUEST);
 
-				$data = array_merge($defaults, $_REQUEST);
+                    $controller = static::getSiteController($data['controller']);
 
-				$controller = static::getSiteController($data['controller']);
-
-				echo $controller->exec($data['task'], $data['params']);
-				break;
-		}
+                    echo $controller->exec($data['task'], $data['params']);
+                    break;
+            }
+        }
 	}
 
 	/**
 	 * clears cache every 8 hours
 	 */
 	private static function clear_cache() {
-		if(!file_exists(static::$cahe_path.'cache.ini')) {
+
+        static::init();
+
+        if(!file_exists(static::$cahe_path.'cache.ini')) {
 			$fp = fopen(static::$cahe_path.'cache.ini', 'a+b');
 			fclose($fp);
 

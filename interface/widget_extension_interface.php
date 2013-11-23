@@ -11,7 +11,8 @@ interface widget_extension_interface extends super_interface {
     public static function get_widgets();
 
     /**
+     * @param $class
      * @return mixed
      */
-    public static function get_widget();
+    public static function get_widget($class);
 }

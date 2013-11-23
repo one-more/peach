@@ -54,9 +54,9 @@ create table if not exists `editors` (
   `name`  varchar (255) not null
 );
 
-insert into `editors` (`name`) value (`ckeditor`);
+insert into `editors` (`name`) value ('ckeditor');
 
-insert into `editors` (`name`) value (`tinymce`);
+insert into `editors` (`name`) value ('tinymce');
 
 create table if not exists `extensions` (
   `id`          serial primary key ,

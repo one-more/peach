@@ -64,7 +64,7 @@ _.extend(App, Backbone.Events, {
         Backbone.history.start({pushState: true})
 
         $.ajaxSetup({
-            dataFilter: function(data, type) {
+            dataFilter: function(data) {
                 try{
                     return $.parseJSON(data);
                 }
@@ -77,6 +77,9 @@ _.extend(App, Backbone.Events, {
             },
             complete: function() {
                 App.trigger('dom:loaded');
+            },
+            beforeSend: function() {
+                this.url += (this.url.indexOf('?') > -1 ? '&' : '?') + 'ajax=1';
             }
         });
 

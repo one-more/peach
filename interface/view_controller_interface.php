@@ -1,10 +1,10 @@
 <?php
 /**
- * Class widget_controller_interface
+ * Class view_controller_interface
  *
  * @author Nikolaev D.
  */
-interface widget_controller_interface {
+interface view_controller_interface {
     /**
      * @return mixed
      */

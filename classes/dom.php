@@ -12,7 +12,17 @@ class dom{
      */
     public static function create_element($tag, $params)
     {
-        $tag = preg_replace('/(<) | (>)/', '', $tag);
+        $pattens = [
+            '/</',
+            '/>/'
+        ];
+
+        $replacements = [
+            '',
+            ''
+        ];
+
+        $tag = preg_replace($pattens, $replacements, $tag);
 
         $text = !empty($params['text'])? $params['text'] : '';
 
@@ -23,7 +33,7 @@ class dom{
             }
         }
 
-        if(in_array($tag, ['checkbox', 'radio'])) {
+        if(in_array($tag, ['checkbox', 'radio', 'link'])) {
             return "<$tag>$text";
         }
 

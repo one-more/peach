@@ -68,15 +68,17 @@ class iniServer {
     }
     function updateFile(){
         $result = '';
-        foreach ($this->arr as $sname=>$section){
-            $result .= '[' . $sname . ']' . _BR_;
-            foreach ($section as $key=>$value){
-                $result .= $key .'='.$value . _BR_;
+        if($this->arr) {
+            foreach ($this->arr as $sname=>$section){
+                $result .= '[' . $sname . ']' . _BR_;
+                foreach ($section as $key=>$value){
+                    $result .= $key .'='.$value . _BR_;
+                }
+                $result .= _BR_;
             }
-            $result .= _BR_;
+            file_put_contents($this->filename, $result);
+            return true;
         }
-        file_put_contents($this->filename, $result);
-        return true;
     }
     function __destruct(){
         $this->updateFile();

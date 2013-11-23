@@ -46,8 +46,6 @@ window.InstallSiteView = Backbone.View.extend({
         $.post('index.php', {lang : this.current_lang}, function(data) {
             $this.render(data);
 
-            $('#'+$this.tabs[$this.current_page]+'-tab').addClass('active');
-
             switch($this.current_page) {
                 case 1:
                     $('#db').show();
@@ -68,19 +66,26 @@ window.InstallSiteView = Backbone.View.extend({
 
         $('select').val(this.current_lang);
 
-        if(location.pathname != '/install') {
-            location = '/install';
-        }
-
         $('#lang-tab').addClass('active');
 
-        Form.add_success_handler('install-site-form', function(){
-            App.goto('install/done');
+        Form.add_success_handler('install-site-form', function(data){
+            if(typeof data != 'object') {
+                App.showNoty('an error occurred', 'error');
+            }
+            else {
+                App.goto('installer/done');
+            }
+        })
+
+        Form.add_error_handler('install-site-form', function(){
+            App.showNoty('wrong data', 'error');
         })
     },
 
     render : function(html) {
         $(this.el).html(html);
+
+        $('#'+this.tabs[this.current_page]+'-tab').addClass('active');
 
         $('select').val(this.current_lang);
 

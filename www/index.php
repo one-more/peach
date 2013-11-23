@@ -1,4 +1,6 @@
 <?php
+    error_reporting(0);
+
     session_start();
 
     require_once '../classes/autoloader.php';
@@ -6,10 +8,10 @@
 
     spl_autoload_register(['autoloader','load']);
 	spl_autoload_register(['autoloader', 'loadTrait']);
-    spl_autoload_register(['autoloader','loadExtension']);
     spl_autoload_register(['autoloader','loadInterface']);
     spl_autoload_register(['autoloader','loadTemplate']);
     spl_autoload_register(['autoloader','loadEditor']);
+    spl_autoload_register(['autoloader','loadExtension']);
 
     core::initialise();
 

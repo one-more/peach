@@ -14,8 +14,8 @@ class core {
 
         $class = !empty($_REQUEST['class'])? $_REQUEST['class'] : '';
 
-        if($extension == 'admin' || $class == 'admin') {
-            static::$_mode = 'admin';
+        if(in_array($extension, ['admin', 'installer']) || in_array($class, ['admin', 'installer'])) {
+            static::$mode = 'admin';
         }
 
         //install site

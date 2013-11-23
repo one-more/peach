@@ -55,8 +55,8 @@ trait trait_extension_controller {
 	public function getLang($page, $default = 'en-EN') {
 		$lang = site::getLang();
 
-		$path = '../lang/'.$this->extension.core::$mode.$lang.'.ini';
-		$path2 = '../lang/'.$this->extension.core::$mode.$default.'.ini';
+		$path = '..'.DS.'lang'.DS.$this->extension.DS.core::$mode.DS.$lang.'.ini';
+		$path2 = '..'.DS.'lang'.DS.$this->extension.DS.core::$mode.DS.$default.'.ini';
 
 		if(file_exists($path)) {
 			$ini = factory::getIniServer($path);

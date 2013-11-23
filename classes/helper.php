@@ -1,7 +1,15 @@
 <?php
+/**
+ * Class helper
+ *
+ * @author Nikolaev D.
+ */
 class helper
 {
-	public static function remDir($path)
+    /**
+     * @param $path
+     */
+    public static function remDir($path)
 	{
 		if(file_exists($path)&& is_dir($path))
 		{
@@ -33,8 +41,13 @@ class helper
 			}
 		}	
 	}
-	
-	public function getPagination($total,$perpage)
+
+    /**
+     * @param $total
+     * @param $perpage
+     * @return null|string
+     */
+    public function getPagination($total,$perpage)
 	{
 		$count = $total/$perpage;
 		$pg=null;
@@ -44,17 +57,23 @@ class helper
 		}
 		return $pg;
 	}
-	
-	public static function getSql($filepath)
+
+    /**
+     * @param $filepath
+     * @return array
+     */
+    public static function getSql($filepath)
 	{
 		$file = file($filepath);
 		$sql = array();
 		$i = 0;
+        $sql[0] = '';
 		foreach($file as $line)
 		{
 			if(!trim($line))
 			{
 				$i++;
+                $sql[$i] = '';
 			}
 			else
 			{

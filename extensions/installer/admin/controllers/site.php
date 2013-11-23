@@ -35,9 +35,9 @@ class sitecontroller extends supercontroller{
 	];
 
 	public function __construct() {
-		$cache_path = installer::$path.'admin/cache/';
+		$this->cache_path = installer::$path.'admin/cache/';
 
-		$extension = 'installer';
+		$this->extension = 'installer';
 	}
 
     /**
@@ -75,7 +75,7 @@ class sitecontroller extends supercontroller{
 
         $html = templator::getTemplate('index', $params , installer::$path.'admin/views/site');
 
-        if(empty($_REQUEST['lang'])) {
+        if(empty($_REQUEST['ajax'])) {
 			return $html;
 		}
 		else {
@@ -83,7 +83,7 @@ class sitecontroller extends supercontroller{
 		}
     }
 
-    public static function complete()
+    public function complete()
     {
         if($_POST) {
             $ini = factory::getIniServer('../lang/installer/admin/'.$_POST['language'].'.ini');
@@ -109,28 +109,78 @@ class sitecontroller extends supercontroller{
                 ];
 
                 $ini->writeSection('db_params', $arr);
+
                 $ini->write('language', 'current', $_POST['language']);
 
                 $ini->updateFile();
 
-                $sql = helper::getSql(installer::$path.'admin/resources/siteinstall.sql');
+                ob_start();
 
                 $model = installer::getAdminModel('site');
+
+                $buffer = ob_get_clean();
+
+                //if database options are wrong
+                if($buffer) {
+                    $error['dbname'] = static::$reference['wrong_data'];
+                    $error['dbuser'] = static::$reference['wrong_data'];
+                    $error['dbpass'] = static::$reference['wrong_data'];
+
+                    //close ini handler
+                    $ini = null;
+
+                    //delete ini file
+                    unlink('../configuration.ini');
+
+                    return ['error' => $error];
+                }
+
+                $sql = helper::getSql(installer::$path.'admin/resources/siteinstall.sql');
 
                 foreach($sql as $el) {
                     $model->execute($el);
                 }
 
-                //todo insert user here
+                $user = [
+                    'login'         => $_POST['adminlogin'],
+                    'password'      => $_POST['adminpassword'],
+                    'credentials'   => 'SUPER_ADMIN'
+                ];
+
+                $info = [
+                    'email' => $_POST['adminemail']
+                ];
+
+                user::create($user, $info);
+
+                $ini = null;
+
+                $ini = factory::getIniServer('../extensions/installer/installer.ini');
+
+                $ini->write('site', 'installed', 'true');
+
+                $ini->updateFile();
             }
 
             return ['error' => $error];
         }
         else {
             $params = [
-                'css'   => document::$css_files,
-                'js'    =>  ''
+                'css'   => array_merge(document::$css_files , [
+                    '<link rel="stylesheet" href="/css/installer/admin/install_site.css" />'
+                ]),
+                'js'    => array_merge(document::$js_files , [
+                    '<script src="/js/installer/admin/view/install_site_view.js" ></script>',
+                    '<script src="/js/installer/admin/module/router.js"></script>'
+                ])
             ];
+
+            $lang = $this->getLang('done_page');
+
+            if(is_array($lang))
+            {
+                $params = array_merge($params, $lang);
+            }
 
             $params['all'] = templator::getTemplate('done', $params, installer::$path.'admin/views/site');
             $html = templator::getTemplate('index', $params, installer::$path.'admin/views/site');

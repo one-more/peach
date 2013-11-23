@@ -44,7 +44,11 @@ class installer {
 
             $model = $name.'model';
 
-            self::$models[$name] = new $model;
+            $ini = factory::getIniServer('../configuration.ini');
+
+            $params = $ini->readSection('db_params');
+
+            self::$models[$name] = new $model($params['db_name'], $params['db_user'], $params['db_pass']);
 
             return  self::$models[$name];
         }
@@ -58,9 +62,13 @@ class installer {
      */
     public static function start()
     {
+        $ini = factory::getIniServer('../extensions/installer/installer.ini');
+
+        $installed = $ini->read('site', 'installed', false);
+
         $defaults = [
             'controller'    => 'site',
-            'task'          => 'display',
+            'task'          => $installed ? 'complete' : 'display',
             'params'        => ''
         ];
 
