@@ -59,7 +59,10 @@ _.extend(App, Backbone.Events, {
             buttons:        false //array of buttons
         };
 
-        var router = App.router = new this.Router();
+        if(this.Router)
+        {
+            var router = App.router = new this.Router();
+        }
 
         Backbone.history.start({pushState: true})
 
@@ -79,7 +82,7 @@ _.extend(App, Backbone.Events, {
                 App.trigger('dom:loaded');
             },
             beforeSend: function() {
-                this.url += (this.url.indexOf('?') > -1 ? '&' : '?') + 'ajax=1';
+                this.url += (this.url.indexOf('?') > -1 ? '&' : '?') + 'ajax=1&old_url='+location.pathname;
             }
         });
 
@@ -127,6 +130,19 @@ _.extend(App, Backbone.Events, {
         trigger = trigger || true;
 
         App.router.navigate(location, {trigger:trigger});
+    },
+
+    loadPage: function(url, callback) {
+        $('body').load(url, {}, function(){
+
+            App.trigger('dom:loaded');
+
+            App.start();
+
+            if(typeof callback == 'function') {
+                callback();
+            }
+        })
     }
 })
 

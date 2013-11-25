@@ -10,7 +10,16 @@ class core {
 
         exceptionHandler::initialise();
 
-        $extension = preg_split('/\//', $_SERVER['REQUEST_URI'])[1];
+        error::init();
+
+        //todo костыль
+        if(empty($_REQUEST['ajax']))
+        {
+            $extension = preg_split('/\//', $_SERVER['REQUEST_URI'])[1];
+        }
+        else {
+            $extension = preg_split('/\//', $_REQUEST['old_url'])[1];
+        }
 
         $class = !empty($_REQUEST['class'])? $_REQUEST['class'] : '';
 

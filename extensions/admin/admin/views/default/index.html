@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div id="all" class="container">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <span class="brand">PEACH CMS V1.5</span>
+
+            <ul class="nav">
+                <li ><a href="/admin/user">:USERS_LABEL</a></li>
+                <li ><a href="/admin/site">:SITE_LABEL</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle cursor-pointer" data-toggle="dropdown">
+                        :EXTS_LABEL
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+
+                    </ul>
+                </li>
+                <li ><a href="/admin/menu">:MENU_LABEL</a></li>
+                <li ><a href="/admin/options">:OPTIONS_LABEL</a></li>
+            </ul>
+
+            <form class="ajax" id="exit-form" action="index.php?class=user&controller=auth&task=leave">
+                <button class="btn pull-right" type="submit">:EXIT_BTN</button>
+            </form>
+        </div>
+    </div>
+
+    <span class="invisible">data</span>
+
+    <div class="gridster">
+        <ul>
+            :grid
+        </ul>   
+    </div>
+</div>
+
+:js
+:css
+</body>
+</html>

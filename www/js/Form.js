@@ -25,14 +25,14 @@ App.module('Form', function(Form){
         }
     };
 
-    Form.error = function(form){
+    Form.error = function(form, data){
         var id = form.attr('id') || form.attr('className');
 
         var func = this.error_handlers[id];
 
         if(typeof func == 'function')
         {
-            func();
+            func(data);
         }
     };
 
@@ -41,7 +41,7 @@ App.module('Form', function(Form){
 
         var $form = $(form);
         var action = $form.attr('action');
-        var button = $form.find('button[type="submit"]');
+        var button = $form.find('button[type="submit"]') || $form.find('input[type=submit]');
         var name = $form.attr('name');
 
         button.attr('disabled', 'true');
@@ -66,7 +66,7 @@ App.module('Form', function(Form){
 
         ajax.success(function(data){
             if(data) {
-                if(data.error.length > 0){
+                if(data.error){
                     _.each(data.error, function(v,k){
                         $form.find('input[name='+k+']')
                             .addClass('error');
@@ -75,7 +75,7 @@ App.module('Form', function(Form){
                             .removeClass('hide')
                             .text(v);
                     })
-                    Form.error($form);
+                    Form.error($form, data);
                 }
                 else {
                     Form.success($form, data);
@@ -84,7 +84,7 @@ App.module('Form', function(Form){
         });
 
         ajax.complete(function(data){
-            button.attr('disabled', 'false');
+            button.removeAttr('disabled');
         })
     };
 

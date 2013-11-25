@@ -1,0 +1,16 @@
+.gridster * {
+    margin: 0;
+    padding: 0;
+}
+
+.gridster ul {
+    list-style: none;
+}
+
+.gridster ul li {
+    border: 1px solid #c0c0c0;
+}
+
+.gridster {
+
+}

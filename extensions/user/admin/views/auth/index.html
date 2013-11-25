@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+<div id="all" class="container">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <span class="brand">PEACH CMS V1.5</span>
+        </div>
+    </div>
+    <span class="invisible">not empty</span>
+
+    <div class="row-fluid">
+        <div class="span4 offset5">
+            <form id="auth-form" class="ajax form-horizontal" action="index.php?class=user&controller=auth&task=auth">
+                <p class="muted text-center"> :FORM_HEADER </p>
+                <hr />
+
+                <div class="control-group">
+                    <label class="control-label" for="input-login">:LOGIN_LABEL</label>
+                    <div class="controls">
+                        <input id="input-login" name="login" type="text"/>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="input-password">:PASSWORD_LABEL</label>
+                    <div class="controls">
+                        <input id="input-password" name="password" type="password"/>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn">:SUBMIT_LABEL</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+:css
+:js
+</body>
+</html>

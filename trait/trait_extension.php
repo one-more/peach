@@ -44,7 +44,7 @@ trait trait_extension {
     /**
      * @var null path to extension
      */
-    private static $path = null;
+    public static $path = null;
 
     /**
      * @var null path to cache folder
@@ -169,34 +169,32 @@ trait trait_extension {
             static::$method($data['params']);
         }
 		else {
-            switch(core::$_mode) {
+            switch(core::$mode) {
                 case 'admin':
-                    $controller = static::$default_admin_controller;
 
                     $defaults = [
-                        'controller'	=>	$controller ? $controller : 'default',
+                        'controller'	=>	'default',
                         'task'			=>	'display',
                         'params'		=> null
                     ];
 
                     $data = array_merge($defaults, $_REQUEST);
 
-                    $controller = static::getAdminController($data['controller']);
+                    $controller = static::get_admin_controller($data['controller']);
 
                     echo $controller->exec($data['task'], $data['params']);
                     break;
                 case 'site':
-                    $controller = static::$default_site_controller;
 
                     $defaults = [
-                        'controller'	=>	$controller ? $controller : 'default',
+                        'controller'	=>	'default',
                         'task'			=>	'display',
                         'params'		=> null
                     ];
 
                     $data = array_merge($defaults, $_REQUEST);
 
-                    $controller = static::getSiteController($data['controller']);
+                    $controller = static::get_site_controller($data['controller']);
 
                     echo $controller->exec($data['task'], $data['params']);
                     break;

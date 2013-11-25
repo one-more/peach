@@ -5,6 +5,17 @@
  * @author Nikolaev D.
  */
 class error {
+
+    /**
+     *
+     */
+    public static function init()
+    {
+        if(filesize('..'.DS.'error.log') > 4096) {
+            unlink('..'.DS.'error.log');
+        }
+    }
+
     /**
      * @param $msg
      */

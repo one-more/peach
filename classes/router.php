@@ -4,6 +4,8 @@ class router {
 
 		$class = preg_split('/\//', $_SERVER['REQUEST_URI'])[1];
 
+        $class = preg_replace('/\?.*/', '', $class);
+
         $default = [
             'class'   =>    $class ? $class : 'site'
         ];
