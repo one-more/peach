@@ -7,11 +7,11 @@
 class error {
 
     /**
-     *
+     *  deletes a log file if its size is larger than 4 mb
      */
     public static function init()
     {
-        if(filesize('..'.DS.'error.log') > 4096) {
+        if(filesize('..'.DS.'error.log') > 4096*1024) {
             unlink('..'.DS.'error.log');
         }
     }

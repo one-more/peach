@@ -36,10 +36,12 @@ trait trait_template {
     {
         static::init();
 
-        if(!static::$admin_controllers[$name]) {
+        if(empty(static::$admin_controllers[$name])) {
             $template = static::$name;
 
             require_once("../templates/$template/admin/controllers/$name.php");
+
+            $name = $template.'_admin\\'.$name.'controller';
 
             static::$admin_controllers[$name] = new $name();
         }
@@ -55,10 +57,12 @@ trait trait_template {
     {
         static::init();
 
-        if(!static::$site_controllers[$name]) {
+        if(empty(static::$site_controllers[$name])) {
             $template = static::$name;
 
             require_once("../templates/$template/site/controllers/$name.php");
+
+            $name = $template.'_site\\'.$name.'controller';
 
             static::$site_controllers[$name] = new $name();
         }
@@ -66,13 +70,14 @@ trait trait_template {
         return static::$site_controllers[$name];
     }
 
-    public static function start($params = null)
+    public static function start()
     {
         static::init();
 
         $defaults = [
             'controller'    => 'default',
-            'task'          => 'display'
+            'task'          => 'display',
+            'params'        => ''
         ];
 
         $data = array_merge($defaults, $_REQUEST);
@@ -81,12 +86,14 @@ trait trait_template {
             case 'admin' :
                 $controller = static::get_admin_controller($data['controller']);
 
-                $controller->exec($data['task'], $params);
+                echo $controller->exec($data['task'], $data['params']);
+
                 break;
             case 'site' :
                 $controller = static::get_site_controller($data['controller']);
 
-                $controller->exec($data['task'], $params);
+                echo $controller->exec($data['task'], $data['params']);
+
                 break;
         }
     }
@@ -131,6 +138,35 @@ trait trait_template {
         }
         else {
             $ini->writeSection($section, $key);
+        }
+    }
+
+    /**
+     * @param $section
+     * @param string $lang
+     * @return array|bool
+     */
+    public static function get_lang($section, $lang = 'en-EN')
+    {
+        static::init();
+
+        $lang2 = site::getLang();
+
+        $path = '..'.DS.'lang'.DS.static::$name.DS.core::$mode.DS.$lang2.'.ini';
+        $path2 = '..'.DS.'lang'.DS.static::$name.DS.core::$mode.DS.$lang.'.ini';
+
+        if(file_exists($path)) {
+            $ini = factory::getIniServer($path);
+
+            return $ini->readSection($section);
+        }
+        elseif(file_exists($path2)) {
+            $ini = factory::getIniServer($path2);
+
+            return $ini->readSection($section);
+        }
+        else {
+            return false;
         }
     }
 }

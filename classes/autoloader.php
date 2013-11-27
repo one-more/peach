@@ -12,8 +12,8 @@ class autoloader
      */
     public static function load($class)
 	{
-		$classname = strtolower($class).'.php';
-		
+        $classname = strtolower($class).'.php';
+
 		$file = '../classes/'.$classname;
 		
 		//file dont exists - try load by next func

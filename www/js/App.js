@@ -146,6 +146,7 @@ _.extend(App, Backbone.Events, {
     }
 })
 
+
 $(window).on('load', function(){
     App.start();
 })
