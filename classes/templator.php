@@ -1,7 +1,17 @@
 <?
+/**
+ * Class templator
+ *
+ * @author Nikolaev D.
+ */
 class templator
 {
-	public static function prepare($buffer,$params)
+    /**
+     * @param $buffer
+     * @param $params
+     * @return mixed
+     */
+    public static function prepare($buffer,$params)
 	{
 		$tmp = '';
 
@@ -21,8 +31,14 @@ class templator
 		
 		return $buffer;		
 	}
-	
-	public static function getTemplate($tpl, $params = array(), $path = null)
+
+    /**
+     * @param $tpl
+     * @param array $params
+     * @param null $path
+     * @return mixed|string
+     */
+    public static function getTemplate($tpl, $params = array(), $path = null)
 	{
 		if($params)
 		{			 
@@ -48,8 +64,13 @@ class templator
 				return file_get_contents("views\\$tpl.html");
 		}		
 	}
-	
-	public static function getReplaced($file, $params)
+
+    /**
+     * @param $file
+     * @param $params
+     * @return mixed
+     */
+    public static function getReplaced($file, $params)
 	{
 		ob_start();
 		
@@ -61,5 +82,4 @@ class templator
 		
 		return $tmpl;
 	}
-}	
-?> 
+}

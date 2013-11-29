@@ -1,7 +1,17 @@
 <?php
+/**
+ * Class supercontroller
+ *
+ * @author Nikolaev D.
+ */
 class supercontroller
 {
-	public function exec($task, $params = null)
+    /**
+     * @param $task
+     * @param null $params
+     * @return string
+     */
+    public function exec($task, $params = null)
 	{
 		$arr = $this->$task($params);
 
@@ -13,4 +23,3 @@ class supercontroller
         }
 	}
 }
-?>

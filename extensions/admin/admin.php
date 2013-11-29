@@ -11,6 +11,14 @@ class admin {
     }
 
     /**
+     * @var array
+     */
+    public static $js_files = [
+        '<script src="/js/admin/admin/models/admin_model.js"></script>',
+        '<script src="/js/admin/admin/modules/admin.js"></script>'
+    ];
+
+    /**
      * start the user panel
      */
     public static function start()

@@ -12,9 +12,13 @@ window.Layout = Backbone.View.extend({
         })
 
         App.elementLoad('.gridster', function(){
+            var width = $(window).width();
+
+            var size = Math.floor((width / 5) - 20);
+
             var gridster = $('.gridster ul').gridster({
                 widget_margins: [10,10],
-                widget_base_dimensions: [250, 250],
+                widget_base_dimensions: [size, size],
                 draggable: {
                     stop: function() {
                         $.post('index.php?class=simple_admin_template&task=update_grid',

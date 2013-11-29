@@ -12,8 +12,14 @@ class superModel
     protected $_db;
 
 	use trait_validator;
-	
-	public function __construct($dbname, $user, $pass, $dbtype = 'mysql')
+
+    /**
+     * @param $dbname
+     * @param $user
+     * @param $pass
+     * @param string $dbtype
+     */
+    public function __construct($dbname, $user, $pass, $dbtype = 'mysql')
 	{
 		try
 		{
@@ -28,8 +34,14 @@ class superModel
             echo templator::getTemplate('error', ['error-msg'=>'an exception occurred'], '../html');
 		}
 	}
-	
-	public function getAll($table, $start = 0, $perpage = 5)
+
+    /**
+     * @param $table
+     * @param int $start
+     * @param int $perpage
+     * @return array
+     */
+    public function getAll($table, $start = 0, $perpage = 5)
 	{
 		try{
 			$sth = $this->_db->query("select * from $table limit $start, $perpage");
@@ -43,8 +55,12 @@ class superModel
             echo templator::getTemplate('error', ['error-msg'=>'an exception occurred'], '../html');
 		}
 	}
-	
-	public function getTotal($table)
+
+    /**
+     * @param $table
+     * @return int
+     */
+    public function getTotal($table)
 	{
 		try{
 			$sth = $this->_db->query("select * from $table");
@@ -58,8 +74,11 @@ class superModel
             echo templator::getTemplate('error', ['error-msg'=>'an exception occurred'], '../html');
 		}
 	}
-	
-	public function execute($task)
+
+    /**
+     * @param $task
+     */
+    public function execute($task)
 	{
 		try{
 			$this->_db->query($task);

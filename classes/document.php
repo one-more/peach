@@ -1,10 +1,10 @@
 <?php
+/**
+ * Class document
+ *
+ * @author Nikolaev D.
+ */
 class document {
-    /**
-     * @var contains current template name
-     */
-    private $_template;
-
     /**
      * @var array of css files to add
      */
@@ -35,57 +35,12 @@ class document {
 	];
 
     /**
-     * @var contains html code of currents template
-     */
-    private $_document;
-
-    /**
-     * constructor of document class
-     */
-    public function __construct() {
-        $this->_template = factory::getTemplate();
-
-        require_once 'classes/phpQuery/phpQuery.php';
-
-        $this->_document = phpQuery::newDocumentHTML($this->_template->getTemplate());
-    }
-
-    /**
-     * @param $css path to css file
-     */
-    public function addCss($css) {
-        static::$css_files[] = $css;
-    }
-
-    /**
-     * @param $js path to js file
-     */
-    public function addJs($js) {
-        static::$js_files[] = $js;
-    }
-
-    /**
-     * displays html document
-     */
-    public function display() {
-        foreach(static::$css_files as $el) {
-            pq('head')->append($el);
-        }
-
-        foreach(static::$js_files as $el) {
-            pq('head')->append($el);
-        }
-
-        echo $this->_document;
-    }
-
-    /**
      * @param $file - file or string to create document
      * @param null $css - optionally, array of css files
      * @param null $js - optionally, array of js files
      * @return phpQueryObject
      */
-    public function createDocument($file, $css = null, $js = null) {
+    public static function createDocument($file, $css = null, $js = null) {
         require_once 'classes/phpQuery/phpQuery.php';
 
         $html = null;

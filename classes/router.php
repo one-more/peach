@@ -1,5 +1,13 @@
 <?php
+/**
+ * Class router
+ *
+ * @author Nikolaev D.
+ */
 class router {
+    /**
+     * server side route
+     */
     public static function route() {
 
 		$class = preg_split('/\//', $_SERVER['REQUEST_URI'])[1];
