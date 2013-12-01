@@ -10,7 +10,7 @@ trait trait_extension_controller {
 	 * @param $data
 	 */
 	public function set_cache_view($name, $data) {
-		$path = $this->_cahe_path."/$name";
+		$path = $this->_cache_path."$name";
 
 		file_put_contents($path, $data);
 	}
@@ -20,7 +20,7 @@ trait trait_extension_controller {
 	 * @return bool|string
 	 */
 	public function get_cache_view($name) {
-		$path = $this->_cahe_path."/$name";
+		$path = $this->_cache_path."$name";
 
 		if(file_exists($path)) {
 			return file_get_contents($path);
@@ -34,7 +34,7 @@ trait trait_extension_controller {
 	 * @return bool
 	 */
 	public function delete_cache_view($name) {
-		$path = $this->_cahe_path."/$name";
+		$path = $this->_cache_path."$name";
 
 		if(file_exists($path)) {
 			unlink($path);

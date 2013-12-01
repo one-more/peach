@@ -52,15 +52,20 @@ trait trait_extension {
     private static $cache_path = null;
 
     /**
+     * @var bool
+     */
+    private static $clear_cache = false;
+
+    /**
      * initialize some static fields
      */
     private static function init()
     {
         static::$name = get_called_class();
 
-        static::$path = '../extensions/'.static::$name.'/';
+        static::$path = '..'.DS.'extensions'.DS.static::$name.DS;
 
-        static::$cache_path = static::$path.'/cache/';
+        static::$cache_path = static::$path.DS.'cache'.DS;
     }
 
     /**
@@ -151,8 +156,7 @@ trait trait_extension {
 
         static::init();
 
-        if(file_exists(static::$cache_path))
-        {
+        if(static::$clear_cache) {
             static::clear_cache();
         }
 

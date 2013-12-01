@@ -17,12 +17,18 @@ class authmodel extends superModel {
 
             $sth = $sth->fetch();
 
+            $ini = user::get_admin_controller('auth')->getLang('errors');
+
             if($sth) {
-                return $sth['id'];
+                if($sth['credentials'] == 'SUPER_ADMIN' || $sth['credentials'] == 'ADMIN')
+                {
+                    return $sth['id'];
+                }
+                else {
+                    return ['message' => $ini['wrong_credentials']];
+                }
             }
             else {
-                $ini = user::get_admin_controller('auth')->getLang('errors');
-
                 return ['message' => $ini['auth_error']];
             }
         }

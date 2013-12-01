@@ -7,13 +7,23 @@
 class authcontroller extends supercontroller {
     use trait_extension_controller;
 
-    public  $extension = '';
+    /**
+     * @var string
+     */
+    private  $extension;
+
+    /**
+     * @var
+     */
+    private $_cache_path;
 
     public function __construct()
     {
         $this->extension = 'user';
 
         user::$path = '..'.DS.'extensions'.DS.'user'.DS;
+
+        $this->_cache_path = '..'.DS.'extensions'.DS.'user'.DS.'admin'.DS.'cache'.DS;
     }
 
     /**
@@ -85,6 +95,12 @@ class authcontroller extends supercontroller {
                 $url = $ini->read('auth', 'redirect_url', '/');
 
                 $_SESSION['user'] = $error;
+
+                $model = user::get_admin_model('user');
+
+                $user = $model->get($error);
+
+                $this->set_cache_view('user', json_encode($user));
 
                 $ini = factory::getIniServer(user::$path.'user.ini');
 

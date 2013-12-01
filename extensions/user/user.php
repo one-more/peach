@@ -47,4 +47,24 @@ class user implements widget_extension_interface {
 
         return $controller->is_auth();
     }
+
+    /**
+     * @return boolean
+     */
+    public static function is_super_admin()
+    {
+        $controller = static::get_admin_controller('user');
+
+        return $controller->is_super_admin();
+    }
+
+    /**
+     * @return boolean
+     */
+    public static function is_admin()
+    {
+        $controller = static::get_admin_controller('user');
+
+        return $controller->is_admin();
+    }
 }

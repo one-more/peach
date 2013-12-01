@@ -3,6 +3,11 @@
  * Class usermodel
  */
 class usermodel extends superModel {
+    /**
+     * @param $user
+     * @param $info
+     * @return string
+     */
     public function create($user, $info)
     {
         try {
@@ -56,6 +61,24 @@ class usermodel extends superModel {
             $sth->execute();
 
             return $id;
+        }
+        catch(PDOException $e) {
+            error::log($e->getMessage());
+
+            error::show_error();
+        }
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function get($id)
+    {
+        try{
+            $sth = $this->_db->query("select * from users where id = $id");
+
+            return $sth->fetch();
         }
         catch(PDOException $e) {
             error::log($e->getMessage());

@@ -23,7 +23,7 @@ class admin {
      */
     public static function start()
     {
-        if(!user::is_auth()) {
+        if(!user::is_auth() || !user::is_admin()) {
             user::auth('/admin');
         }
         else {

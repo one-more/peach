@@ -1,0 +1,56 @@
+#header{
+    display: inline-block;
+    width: 100%;
+    min-height: 100px;
+    background: #000;
+    opacity: .5;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.logo {
+    display: inline-block;
+    width: 20%;
+    margin: 1%;
+}
+
+.menu-bar {
+    display: inline-block;
+    width: 65%;
+}
+
+.logo h2 {
+    color: #ffffff;
+}
+
+.block {
+    display: inline-block;
+    width: 100%;
+}
+
+.block1 {
+    background: #414141;
+}
+
+.block2 {
+    background: #ffffff;
+}
+
+.footer {
+    width: 100%;
+    min-height: 150px;
+    display: inline-block;
+    background: #000;
+}
+
+.footer p{
+    color: #ffffff;
+    display: inline-block;
+}
+
+.footer span {
+    display: inline-block;
+    width: 65%;
+}
