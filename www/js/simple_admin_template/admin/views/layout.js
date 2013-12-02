@@ -9,7 +9,7 @@ window.Layout = Backbone.View.extend({
             else {
                 App.loadPage('/admin');
             }
-        })
+        });
 
         App.elementLoad('.gridster', function(){
             var width = $(window).width();

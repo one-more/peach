@@ -14,4 +14,12 @@ class defaultcontroller extends supercontroller {
 
         $options['template']::start();
     }
+
+    /**
+     * @return array|bool|string
+     */
+    public function get_options()
+    {
+        return site::read_params('options');
+    }
 }

@@ -15,7 +15,7 @@ class router {
         $class = preg_replace('/\?.*/', '', $class);
 
         $default = [
-            'class'   =>    $class ? $class : 'site'
+            'class'   =>    ($class == 'admin') ? 'admin' : 'site'
         ];
 
         $default = array_merge($default, $_REQUEST);

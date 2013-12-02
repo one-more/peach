@@ -17,8 +17,11 @@ class core {
         {
             $extension = preg_split('/\//', $_SERVER['REQUEST_URI'])[1];
         }
-        else {
+        elseif(!empty($_REQUEST['old_url'])) {
             $extension = preg_split('/\//', $_REQUEST['old_url'])[1];
+        }
+        else {
+            $extension = '';
         }
 
         $class = !empty($_REQUEST['class'])? $_REQUEST['class'] : '';

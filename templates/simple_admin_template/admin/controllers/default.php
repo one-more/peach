@@ -21,9 +21,11 @@ class defaultcontroller extends supercontroller {
 
         $params['js'] = array_merge(document::$js_files, [
             '<script src="/js/simple_admin_template/admin/views/layout.js"></script>',
-            '<script src="js/simple_admin_template/admin/modules/router.js"></script>',
+            '<script src="/js/simple_admin_template/admin/modules/router.js"></script>',
             '<script src="/js/gridster/dist/jquery.gridster.min.js"></script>'
         ]);
+
+        $params['js'] = array_merge($params['js'], \admin::$js_files);
 
         $params['grid'] = $this->get_grid();
 

@@ -66,3 +66,7 @@ html,body {
 .cursor-pointer {
     cursor: pointer;
 }
+
+.decoration-none:hover, .decoration-none {
+    text-decoration: none;
+}

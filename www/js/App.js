@@ -35,9 +35,9 @@ _.extend(App, Backbone.Events, {
                 'html'  :   $('<span>', {
                     'class' : 'noty_text'
                 })
-                .after($('<div>', {
-                    'class' : 'noty_close'
-                }))
+                    .after($('<div>', {
+                        'class' : 'noty_close'
+                    }))
             }),
             animation:      {
                 open:   {height: 'toggle'},
@@ -103,7 +103,15 @@ _.extend(App, Backbone.Events, {
         $(document).on('click', 'a[href]:not(.disabled, .external)', function(e){
             e.preventDefault();
 
-            App.router.navigate(this.href, {trigger:true});
+            App.router.navigate($(this).attr('href'), {trigger:true});
+        })
+
+        App.on('dom:loaded', function(){
+            _.each(this._initializers, function(func){
+                if (typeof func == "function"){
+                    func();
+                }
+            });
         })
     },
 

@@ -17,10 +17,21 @@ class defaultcontroller extends supercontroller {
         $this->extension = 'admin';
     }
 
+    /**
+     * display template
+     */
     public function display()
     {
         $template = admin::read_params('options')['template'];
 
         $template::start();
+    }
+
+    /**
+     * @return array|bool|string
+     */
+    public function get_options()
+    {
+        return admin::read_params('options');
     }
 }

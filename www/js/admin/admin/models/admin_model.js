@@ -1,7 +1,22 @@
-/**
- * Created with JetBrains PhpStorm.
- * User: 1
- * Date: 01.12.13
- * Time: 15:53
- * To change this template use File | Settings | File Templates.
- */
+var AdminModel = Backbone.Model.extend({
+    initialize: function() {
+        $.post('index.php', {'class':'admin', 'task':'get_options', 'ajax':'1'},
+        function(data) {
+            try {
+                var json =  (typeof data == 'object') ? data : $.parseJSON(data);
+
+                AdminModel.set(json);
+            }
+            catch(exception) {
+                App.showNoty('cannot load admin model', 'error');
+                console.log(exception);
+            }
+        })
+    },
+
+    update: function() {
+        this.initialize();
+    }
+})
+
+window.AdminModel = new AdminModel;
