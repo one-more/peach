@@ -16,13 +16,17 @@ class defaultcontroller extends supercontroller {
 
         $params['css'] = array_merge(document::$css_files, [
             '<link rel="stylesheet" href="/js/gridster/dist/jquery.gridster.min.css" />',
-            '<link rel="stylesheet" href="/css/simple_admin_template/admin/default.css" />'
+            '<link rel="stylesheet" href="/css/simple_admin_template/admin/default.css" />',
+            '<link rel="stylesheet" href="/js/jtoolbar/jquery.toolbars.css" />'
         ]);
 
         $params['js'] = array_merge(document::$js_files, [
             '<script src="/js/simple_admin_template/admin/views/layout.js"></script>',
             '<script src="/js/simple_admin_template/admin/modules/router.js"></script>',
-            '<script src="/js/gridster/dist/jquery.gridster.min.js"></script>'
+            '<script src="/js/gridster/dist/jquery.gridster.min.js"></script>',
+            '<script src="/js/jtoolbar/jquery.toolbar.js"></script>',
+            '<script src="/js/simple_admin_template/admin/views/widget.js"></script>',
+            '<script src="/js/simple_admin_template/admin/models/widget.js"></script>'
         ]);
 
         $params['js'] = array_merge($params['js'], \admin::$js_files);
@@ -74,5 +78,27 @@ class defaultcontroller extends supercontroller {
             '..'.DS.'templates'.DS.'simple_admin_template'.DS.'admin'.DS.'resources'.DS.'grid.txt',
             $arr
         );
+    }
+
+    /**
+     * @return array
+     */
+    public function get_widgets()
+    {
+        return simple_admin_template::read_params('widgets');
+    }
+
+    /**
+     * @param $arr
+     * @return string
+     */
+    public function update_widgets($arr)
+    {
+        if(is_array($arr)) {
+            simple_admin_template::write_params('widgets', $arr);
+        }
+        else {
+            return 'update failed';
+        }
     }
 }

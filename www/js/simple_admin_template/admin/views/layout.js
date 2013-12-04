@@ -14,7 +14,8 @@ window.Layout = Backbone.View.extend({
         App.elementLoad('.gridster', function(){
             var width = $(window).width();
 
-            var size = Math.floor((width / 5) - 20);
+            //todo - compute better size
+            var size = Math.floor((width / 5) - (width*0.018));
 
             var gridster = $('.gridster ul').gridster({
                 widget_margins: [10,10],

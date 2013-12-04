@@ -37,7 +37,10 @@ class authcontroller extends supercontroller {
             ['<link rel="stylesheet" href="/css/user/admin/auth.css" />']);
 
         $params['js']   = array_merge(document::$js_files,
-            ['<script src="/js/user/admin/views/auth_view.js"></script>']);
+            [
+                '<script src="/js/user/admin/views/auth_view.js"></script>',
+                '<script src="/js/empty_router.js"></script>'
+            ]);
 
         return templator::getTemplate('index', $params ,user::$path.'admin'.DS.'views'.DS.'auth');
     }

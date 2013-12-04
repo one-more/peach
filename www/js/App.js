@@ -7,14 +7,14 @@ _.extend(App, Backbone.Events, {
 
     //fires callback when element is loaded
     elementLoad : function(el, callback) {
-        setTimeout(function timer1(){
-            if(!$('div').is(el)) {
-                timer1();
+        var interval = setInterval(function(){
+            if($('*').is(el)) {
+                if(typeof callback == 'function') {
+                    callback();
+                }
+                clearInterval(interval);
             }
-            else {
-                callback();
-            }
-        }, 20);
+        }, 50);
     },
 
     start: function(){
@@ -87,6 +87,8 @@ _.extend(App, Backbone.Events, {
         });
 
       this.registerEvents();
+
+      App.trigger('document:ready');
     },
 
     registerEvents: function() {
@@ -151,6 +153,16 @@ _.extend(App, Backbone.Events, {
                 callback();
             }
         })
+    },
+
+    alertObj: function(obj) {
+        var str = "";
+
+        for(k in obj) {
+            str += k+" : "+obj[k]+" \r\n";
+        }
+
+        alert(str);
     }
 })
 

@@ -29,7 +29,7 @@ class dom{
         foreach($params as $key=>$value) {
             if($key != 'text')
             {
-                if($value) {
+                if($value || $value == 0) {
                     $tag .= " $key=\"$value\" ";
                 }
                 else {
