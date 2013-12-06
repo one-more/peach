@@ -8,6 +8,11 @@ class user implements widget_extension_interface {
     use trait_extension, trait_widget_extension;
 
     /**
+     * @var bool
+     */
+    private static $clear_cache = true;
+
+    /**
      * @param $user
      * @param $info
      */
@@ -16,6 +21,22 @@ class user implements widget_extension_interface {
         $controller = static::get_admin_controller('user');
 
         return $controller->exec('create', ['user'=>$user, 'info'=>$info]);
+    }
+
+    /**
+     * @param null $id
+     * @return mixed
+     */
+    public static function get($id = null)
+    {
+        $controller = static::get_admin_controller('user');
+
+        if($id == null && !static::is_auth()) {
+            return false;
+        }
+        else {
+            return $controller->exec('get', $id == null ? $_SESSION['user'] : $id);
+        }
     }
 
     /**

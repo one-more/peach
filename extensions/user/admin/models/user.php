@@ -71,14 +71,26 @@ class usermodel extends superModel {
 
     /**
      * @param $id
+     * @param bool $info
      * @return mixed
      */
-    public function get($id)
+    public function get($id, $info = false)
     {
         try{
             $sth = $this->_db->query("select * from users where id = $id");
 
-            return $sth->fetch();
+            if($info) {
+                $arr['user'] = $sth->fetch();
+
+                $sth = $this->_db->query("select * from user_info where user = $id");
+
+                $arr['info'] = $sth->fetch();
+
+                return $arr;
+            }
+            else {
+                return $sth->fetch();
+            }
         }
         catch(PDOException $e) {
             error::log($e->getMessage());

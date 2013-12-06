@@ -1,5 +1,12 @@
 <?php
+/**
+ * Class installer
+ *
+ * @author Nikolaev D.
+ */
 class installer {
+    use trait_widget_extension;
+
 	/**
 	 * @var string - path to root of extension
 	 */
@@ -62,20 +69,33 @@ class installer {
      */
     public static function start()
     {
-        $ini = factory::getIniServer('../extensions/installer/installer.ini');
+        if(!empty($_REQUEST['method']))  {
+            $defaults = [
+                'params'    => ''
+            ];
 
-        $installed = $ini->read('site', 'installed', false);
+            $data = array_merge($defaults, $_REQUEST);
 
-        $defaults = [
-            'controller'    => 'site',
-            'task'          => $installed ? 'complete' : 'display',
-            'params'        => ''
-        ];
+            $method = $_REQUEST['method'];
 
-        $data = array_merge($defaults, $_REQUEST);
+            static::$method($data['params']);
+        }
+        else {
+            $ini = factory::getIniServer('../extensions/installer/installer.ini');
 
-        $controller = static::getAdminController($data['controller']);
+            $installed = $ini->read('site', 'installed', false);
 
-        echo $controller->exec($data['task'], $data['params']);
+            $defaults = [
+                'controller'    => 'site',
+                'task'          => $installed ? 'complete' : 'display',
+                'params'        => ''
+            ];
+
+            $data = array_merge($defaults, $_REQUEST);
+
+            $controller = static::getAdminController($data['controller']);
+
+            echo $controller->exec($data['task'], $data['params']);
+        }
     }
 }

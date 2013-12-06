@@ -52,11 +52,6 @@ trait trait_extension {
     private static $cache_path = null;
 
     /**
-     * @var bool
-     */
-    private static $clear_cache = false;
-
-    /**
      * initialize some static fields
      */
     private static function init()
@@ -65,7 +60,7 @@ trait trait_extension {
 
         static::$path = '..'.DS.'extensions'.DS.static::$name.DS;
 
-        static::$cache_path = static::$path.DS.'cache'.DS;
+        static::$cache_path = static::$path.DS.core::$mode.DS.'cache'.DS;
     }
 
     /**
@@ -156,7 +151,7 @@ trait trait_extension {
 
         static::init();
 
-        if(static::$clear_cache) {
+        if(!empty(static::$clear_cache)) {
             static::clear_cache();
         }
 
@@ -213,18 +208,18 @@ trait trait_extension {
 
         static::init();
 
-        if(!file_exists(static::$cahe_path.'cache.ini')) {
-			$fp = fopen(static::$cahe_path.'cache.ini', 'a+b');
+        if(!file_exists(static::$cache_path.'cache.ini')) {
+			$fp = fopen(static::$cache_path.'cache.ini', 'a+b');
 			fclose($fp);
 
-			$ini = factory::getIniServer(static::$cahe_path.'cache.ini');
+			$ini = factory::getIniServer(static::$cache_path.'cache.ini');
 			$ini->write('cache_options', 'last_update', time());
 			$ini->updateFile();
 
 			return;
 		}
 
-		$ini = factory::getIniServer(static::$cahe_path.'cache.ini');
+		$ini = factory::getIniServer(static::$cache_path.'cache.ini');
 
 		$upd = $ini->read('cache_options', 'last_update');
 

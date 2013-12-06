@@ -1,7 +1,9 @@
+/*
 .gridster * {
     margin: 0;
     padding: 0;
 }
+*/
 
 .gridster ul {
     list-style: none;
@@ -9,11 +11,48 @@
 
 .gridster ul li {
     border: 1px solid #c0c0c0;
-    z-index: 0;
+    overflow: auto;
+}
+
+.gridster ul li li {
+    border: none;
 }
 
 .gridster li span{
     width: 100%;
     height: 92%;
     display: block;
+}
+
+.widget-blue {
+    background: deepskyblue;
+    color: #ffffff;
+}
+
+.widget-green {
+    background: limegreen;
+}
+
+.widget-grey {
+    background: #eeeeee;
+}
+
+.widget {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.widget-header *{
+    font-family: Verdana;
+    margin: 0;
+}
+
+.widget-header h1{
+    color: #0088cc;
+}
+
+.widget-header {
+    padding-bottom: 10px;
+    border-bottom: 2px solid #000000;
 }

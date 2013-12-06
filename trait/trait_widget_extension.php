@@ -37,6 +37,8 @@ trait trait_widget_extension {
 
         require_once("../extensions/$name/widgets/$class.php");
 
+        $class = $class.'widget';
+
         $class = new $class();
 
         $defaults = [

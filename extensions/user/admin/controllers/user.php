@@ -39,6 +39,26 @@ class usercontroller extends supercontroller {
     }
 
     /**
+     * @param $id
+     * @return mixed
+     */
+    public function get($id)
+    {
+        if($cache = $this->get_cache_view('user_info')) {
+            return json_decode($cache, true);
+        }
+        else {
+            $model = user::get_admin_model('user');
+
+            $cache = $model->get($id, true);
+
+            $this->set_cache_view('user_info', json_encode($cache));
+
+            return $cache;
+        }
+    }
+
+    /**
      * @return bool
      */
     public function is_super_admin()

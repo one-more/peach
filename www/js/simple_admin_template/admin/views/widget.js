@@ -42,6 +42,14 @@ var Widgetview = Backbone.View.extend({
                     content:    '#widget-options-'+k,
                     position:   'right'
                 });
+
+                if(v != -1) {
+                    var arr = v.split(' ');
+
+                    Widgetview.$el.find('*[data-widget='+k+"]").children('span').load('index.php',
+                        {'class':arr[0], 'method':'get_widget', 'params':arr[1], 'ajax':'1',
+                        'old_url':location.pathname});
+                }
             });
         })
     },
@@ -61,17 +69,20 @@ var Widgetview = Backbone.View.extend({
         if(!$('div').is('.modal-backdrop')) {
             var className = $(this).children('i').attr('class');
 
-            var widget = $(this).attr('data-widget');
+            //if add widget
+            if(className == 'icon-plus') {
+                var widget = $(this).attr('data-widget');
 
-            var layout = $('<div>', {
-                'class': 'modal-backdrop',
-                html: $('<div>', {
-                    'class':'modal',
-                    text: 'test'
+                var layout = $('<div>', {
+                    'class': 'modal-backdrop',
+                    html: $('<div>', {
+                        'class':'modal',
+                        text: 'test'
+                    })
                 })
-            })
 
-            $('body').append(layout);
+                $('body').append(layout);
+            }
         }
     },
 

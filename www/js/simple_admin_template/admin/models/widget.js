@@ -12,7 +12,7 @@ var WidgetModel = Backbone.Model.extend({
                     App.trigger('widgetmodel:loaded');
                 }
                 catch(exception) {
-                    App.showNoty('cannot load widget model');
+                    App.showNoty('cannot load widget model', 'error');
                     console.log(exception);
                 }
             }

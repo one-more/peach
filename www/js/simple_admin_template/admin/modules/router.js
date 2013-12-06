@@ -1,4 +1,8 @@
 App.Router = Backbone.Router.extend({
+    initialize: function() {
+
+    },
+
     routes : {
         'admin':            'actionIndex',
         'admin/':           'actionIndex',
@@ -8,7 +12,15 @@ App.Router = Backbone.Router.extend({
     },
 
     actionIndex: function() {
+        App.modelLoad(TemplateModel, function(){
+            if(TemplateModel.get('start_extension') != -1) {
 
+                var start_extension = TemplateModel.get('start_extension');
+
+                $('*[data-widget="2"]').load('index.php',
+                    {'class':start_extension, 'ajax':'1', 'old_url':location.pathname});
+            }
+        })
     },
 
     actionOptions: function(){

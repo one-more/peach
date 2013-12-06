@@ -26,7 +26,8 @@ class defaultcontroller extends supercontroller {
             '<script src="/js/gridster/dist/jquery.gridster.min.js"></script>',
             '<script src="/js/jtoolbar/jquery.toolbar.js"></script>',
             '<script src="/js/simple_admin_template/admin/views/widget.js"></script>',
-            '<script src="/js/simple_admin_template/admin/models/widget.js"></script>'
+            '<script src="/js/simple_admin_template/admin/models/widget.js"></script>',
+            '<script src="/js/simple_admin_template/admin/models/template_model.js"></script>'
         ]);
 
         $params['js'] = array_merge($params['js'], \admin::$js_files);
@@ -100,5 +101,13 @@ class defaultcontroller extends supercontroller {
         else {
             return 'update failed';
         }
+    }
+
+    /**
+     * @return array|bool|string
+     */
+    public function get_options()
+    {
+        return simple_admin_template::read_params('options');
     }
 }

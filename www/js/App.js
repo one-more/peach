@@ -17,6 +17,18 @@ _.extend(App, Backbone.Events, {
         }, 50);
     },
 
+    modelLoad: function(model, callback) {
+        var interval = setInterval(function(){
+            if(model.attributes) {
+                clearInterval(interval);
+
+                if(typeof callback == 'function') {
+                    callback();
+                }
+            }
+        },50)
+    },
+
     start: function(){
         _.each(this._initializers, function(func){
             if (typeof func == "function"){
