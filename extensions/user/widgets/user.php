@@ -4,7 +4,10 @@
  *
  * @author Nikolaev D.
  */
-class userwidget extends supercontroller {
+class userwidget extends supercontroller implements widget_controller_interface{
+
+    use trait_extension_controller;
+
     /**
      *
      */
@@ -19,5 +22,15 @@ class userwidget extends supercontroller {
         $params = array_merge($user, []);
 
         return templator::getTemplate('user', $params ,user::$path.'widget_views'.DS.'user');
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public function get_info()
+    {
+        $alias = $this->getLang('user_widget')['alias'];
+
+        return ['alias'=>'alias', 'name'=>'user'];
     }
 }

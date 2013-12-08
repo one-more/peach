@@ -41,10 +41,13 @@ class superModel
      * @param int $perpage
      * @return array
      */
-    public function getAll($table, $start = 0, $perpage = 5)
+    public function get_all($table, $start = 0, $perpage = 0)
 	{
 		try{
-			$sth = $this->_db->query("select * from $table limit $start, $perpage");
+			$sth = $this->_db->prepare("select * from $table limit ?,?");
+            $sth->bindParam(1, $start, PDO::PARAM_INT);
+            $sth->bindParam(2, $perpage, PDO::PARAM_INT);
+            $sth->execute();
 			
 			return $sth->fetchAll();
 		}
@@ -60,7 +63,7 @@ class superModel
      * @param $table
      * @return int
      */
-    public function getTotal($table)
+    public function get_total($table)
 	{
 		try{
 			$sth = $this->_db->query("select * from $table");

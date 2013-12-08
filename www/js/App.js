@@ -19,7 +19,7 @@ _.extend(App, Backbone.Events, {
 
     modelLoad: function(model, callback) {
         var interval = setInterval(function(){
-            if(model.attributes) {
+            if(model.attributes && !$.isEmptyObject(model.attributes)) {
                 clearInterval(interval);
 
                 if(typeof callback == 'function') {
@@ -155,6 +155,17 @@ _.extend(App, Backbone.Events, {
     },
 
     loadPage: function(url, callback) {
+        $('body').find('button').each(function(){
+            var div = $('<div>',{
+                'class':'loader '+$(this).attr('class'),
+                'width' : $(this).width(),
+                'height' : $(this).height(),
+                'text': $(this).text()
+            })
+
+            $(this).replaceWith(div);
+        });
+
         $('body').load(url, {}, function(){
 
             App.trigger('dom:loaded');

@@ -88,4 +88,14 @@ class user implements widget_extension_interface {
 
         return $controller->is_admin();
     }
+
+    /**
+     * @return array
+     */
+    public static  function get_info()
+    {
+        $alias = static::read_lang('info')['alias'];
+
+        return ['alias'=>$alias, 'icon'=>null, 'submenu'=>null];
+    }
 }

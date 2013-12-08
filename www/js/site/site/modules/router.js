@@ -8,22 +8,24 @@ App.Router = Backbone.Router.extend({
 
         $(document).find('*[data-position]').html('');
 
-        if(SiteModel.get('menu') != -1) {
-            $.post('index.php', {'class': SiteModel.get('menu') ,'method':'get_page'}, function(data) {
-                try {
-                    var json = $.parseJSON(data);
+        App.modelLoad(SiteModel, function(){
+            if(SiteModel.get('menu') != -1) {
+                $.post('index.php', {'class': SiteModel.get('menu') ,'method':'get_page'}, function(data) {
+                    try {
+                        var json = (typeof data == 'object')? data : $.parseJSON(data);
 
-                    $.each(json, function(k,v) {
-                        $('*[data-position='+ v.position+']').load('index.php',
-                            {'class': v.extension, 'controller': v.controller, 'params': v.params})
-                    })
-                }
-                catch(exception) {
-                    App.showNoty('error load page', 'error');
-                    console.log(exception);
-                }
-            })
-        }
+                        $.each(json, function(k,v) {
+                            $('*[data-position='+ v.position+']').load('index.php',
+                                {'class': v.extension, 'controller': v.controller, 'params': v.params})
+                        })
+                    }
+                    catch(exception) {
+                        App.showNoty('error load page', 'error');
+                        console.log(exception);
+                    }
+                })
+            }
+        })
     },
 
     actionPage: function() {

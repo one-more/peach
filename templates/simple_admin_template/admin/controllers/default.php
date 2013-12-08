@@ -7,6 +7,19 @@ use supercontroller, document, templator, simple_admin_template, dom;
  * @author Nikolaev D.
  */
 class defaultcontroller extends supercontroller {
+
+    use \trait_extension_controller;
+
+    /**
+     * @var
+     */
+    public $extension;
+
+    public function __construct()
+    {
+        $this->extension = 'simple_admin_template';
+    }
+
     /**
      * @return mixed|string
      */
@@ -109,5 +122,33 @@ class defaultcontroller extends supercontroller {
     public function get_options()
     {
         return simple_admin_template::read_params('options');
+    }
+
+    /**
+     * @param null $class
+     * @return array
+     */
+    public function get_widget_list($class = null)
+    {
+        if(!$class) {
+            $arr =  \admin::get_widgets();
+
+            $li = '';
+
+            foreach($arr as $el) {
+                $alias = $el::get_info()['alias'];
+
+                $a = dom::create_element('<a>',
+                    ['data-extension'=>$el, 'text'=>$alias, 'class'=>'cursor-pointer']);
+
+                $li .= dom::create_element('<li>', ['text'=>$a]);
+            }
+
+            $h3 = $this->getLang('widget_modal')['header'];
+
+            $h3 = dom::create_element('<h3>', ['text'=>$h3]);
+
+            return $h3.dom::create_element('<ul>', ['text'=>$li]);
+        }
     }
 }

@@ -103,7 +103,7 @@ class authcontroller extends supercontroller {
 
                 $user = $model->get($error);
 
-                $this->set_cache_view('user', json_encode($user));
+                $this->set_cache_view('user_'.$error, json_encode($user));
 
                 $ini = factory::getIniServer(user::$path.'user.ini');
 
@@ -120,7 +120,7 @@ class authcontroller extends supercontroller {
     }
 
     /**
-     *
+     * exit from admin panel
      */
     public function leave()
     {

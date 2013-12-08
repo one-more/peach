@@ -20,8 +20,6 @@ class usercontroller extends supercontroller {
     public function __construct()
     {
         $this->_cache_path = '..'.DS.'extensions'.DS.'user'.DS.'admin'.DS.'cache'.DS;
-
-        $this->_cache = json_decode($this->get_cache_view('user'), true);
     }
 
     /**
@@ -44,7 +42,7 @@ class usercontroller extends supercontroller {
      */
     public function get($id)
     {
-        if($cache = $this->get_cache_view('user_info')) {
+        if($cache = $this->get_cache_view('user_info_'.$id)) {
             return json_decode($cache, true);
         }
         else {
@@ -52,7 +50,7 @@ class usercontroller extends supercontroller {
 
             $cache = $model->get($id, true);
 
-            $this->set_cache_view('user_info', json_encode($cache));
+            $this->set_cache_view('user_info_'.$id, json_encode($cache));
 
             return $cache;
         }
@@ -63,8 +61,10 @@ class usercontroller extends supercontroller {
      */
     public function is_super_admin()
     {
-        if($this->_cache) {
-            return $this->_cache['credentials'] == 'SUPER_ADMIN';
+        if(user::is_auth()) {
+            $user = $this->get($_SESSION['user']);
+
+            return $user['user']['credentials'] == 'SUPER_ADMIN';
         }
         else {
             return false;
@@ -76,8 +76,11 @@ class usercontroller extends supercontroller {
      */
     public function is_admin()
     {
-        if($this->_cache) {
-            return $this->_cache['credentials'] == 'SUPER_ADMIN' || $this->_cache['credentials'] == 'ADMIN';
+        if(user::is_auth()) {
+            $user = $this->get($_SESSION['user']);
+
+            return  $user['user']['credentials'] == 'ADMIN' ||
+                    $user['user']['credentials'] == 'SUPER_ADMIN';
         }
         else {
             return false;

@@ -40,7 +40,8 @@ var Widgetview = Backbone.View.extend({
 
                 $('#widget-toolbar-'+k).toolbar({
                     content:    '#widget-options-'+k,
-                    position:   'right'
+                    position:   'right',
+                    hideOnClick: true
                 });
 
                 if(v != -1) {
@@ -55,7 +56,7 @@ var Widgetview = Backbone.View.extend({
     },
 
     delegateEvents: function() {
-        App.elementLoad('.gridster', function(){
+        App.on('document:ready', function(){
             //todo - при выходе/входе обработчики навешиваются повторно
             $.each(Widgetview.events, function(k,c){
                 var arr = k.split(' ');
@@ -71,17 +72,25 @@ var Widgetview = Backbone.View.extend({
 
             //if add widget
             if(className == 'icon-plus') {
-                var widget = $(this).attr('data-widget');
+                var $this = $(this);
 
-                var layout = $('<div>', {
-                    'class': 'modal-backdrop',
-                    html: $('<div>', {
-                        'class':'modal',
-                        text: 'test'
-                    })
-                })
+                $.post(
+                    'index.php',
+                    {'class':'simple_admin_template', 'task':'get_widget_list'},
+                    function(data) {
+                        var widget = $this.attr('data-widget');
 
-                $('body').append(layout);
+                        var layout = $('<div>', {
+                            'class': 'modal-backdrop',
+                            html: $('<div>', {
+                                'class':'modal',
+                                html: data
+                            })
+                        })
+
+                        $('body').append(layout);
+                    }
+                );
             }
         }
     },

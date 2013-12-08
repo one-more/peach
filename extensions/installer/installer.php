@@ -4,7 +4,7 @@
  *
  * @author Nikolaev D.
  */
-class installer {
+class installer implements widget_extension_interface{
     use trait_widget_extension;
 
 	/**
@@ -97,5 +97,29 @@ class installer {
 
             echo $controller->exec($data['task'], $data['params']);
         }
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public static function get_extensions()
+    {
+        $controller = static::getAdminController('default');
+
+        $arr = $controller->exec('get_extensions');
+
+        return is_array($arr)? $arr : json_decode($arr);
+    }
+
+    /**
+     * @return array
+     */
+    public static function get_info()
+    {
+        $controller = static::getAdminController('default');
+
+        $alias = $controller->getLang('info')['alias'];
+
+        return ['alias'=>$alias, 'icon'=>null, 'submenu'=>null];
     }
 }

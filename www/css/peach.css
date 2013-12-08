@@ -118,3 +118,14 @@ html,body {
 .height-20 {
     height: 20%;
 }
+
+.loader, .loader:hover {
+    background: none;
+    background: url(../media/images/preloader.GIF)no-repeat;
+    background-size: 100% 100%;
+}
+
+.modal-backdrop {
+    opacity: 1 !important;
+    background: rgba(0,0,0,.8) !important;
+}

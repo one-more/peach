@@ -30,4 +30,23 @@ class admin {
             static::trait_start();
         }
     }
+
+    /**
+     * @return array
+     */
+    public static function get_widgets() {
+        $arr = installer::get_extensions();
+
+        $arr = array_merge($arr, ['user', 'installer']);
+
+        $result = [];
+
+        foreach($arr as $el) {
+            if(new $el instanceof widget_extension_interface) {
+                $result[] = $el;
+            }
+        }
+
+        return $result;
+    }
 }

@@ -23,7 +23,9 @@ trait trait_widget_extension {
 
             $widget = new $class();
 
-            $result[] = $widget->get_info();
+            if($widget instanceof widget_controller_interface) {
+                $result[] = $widget->get_info();
+            }
         }
 
         return $result;

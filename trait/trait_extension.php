@@ -202,38 +202,19 @@ trait trait_extension {
 	}
 
 	/**
-	 * clears cache every 8 hours
+	 * clears cache every 8 days
 	 */
 	private static function clear_cache() {
 
         static::init();
 
-        if(!file_exists(static::$cache_path.'cache.ini')) {
-			$fp = fopen(static::$cache_path.'cache.ini', 'a+b');
-			fclose($fp);
+        $iterator = new FilesystemIterator(static::$cache_path);
 
-			$ini = factory::getIniServer(static::$cache_path.'cache.ini');
-			$ini->write('cache_options', 'last_update', time());
-			$ini->updateFile();
-
-			return;
-		}
-
-		$ini = factory::getIniServer(static::$cache_path.'cache.ini');
-
-		$upd = $ini->read('cache_options', 'last_update');
-
-		if(time() > ($upd + 3600*60*8)) {
-			$dirhandle = opendir(static::$cache_path);
-
-			while(false != ($file = readdir($dirhandle)))
-			{
-				unlink($file);
-			}
-
-			$ini->write('cache_options', 'last_update', time());
-			$ini->updateFile();
-		}
+        foreach($iterator as $el) {
+            if(filemtime($el) > time()+3600*60*8) {
+                unlink($el);
+            }
+        }
 	}
 
     /**
@@ -279,5 +260,34 @@ trait trait_extension {
         }
 
         $ini->updateFile();
+    }
+
+    /**
+     * @param $section
+     * @param string $default
+     * @return array
+     */
+    public static function read_lang($section, $default = 'en-EN')
+    {
+        static::init();
+
+        $cur = site::getLang();
+
+        $path1 = '..'.DS.'lang'.DS.static::$name.DS.core::$mode.DS.$cur.'.ini';
+        $path2 = '..'.DS.'lang'.DS.static::$name.DS.core::$mode.DS.$default.'.ini';
+
+        if(file_exists($path1)) {
+            $ini = factory::getIniServer($path1);
+
+            return $ini->readSection($section);
+        }
+        elseif(file_exists($path2)) {
+            $ini = factory::getIniServer($path2);
+
+            return $ini->readSection($section);
+        }
+        else {
+            return [];
+        }
     }
 }
