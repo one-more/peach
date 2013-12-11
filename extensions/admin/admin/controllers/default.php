@@ -1,11 +1,12 @@
 <?php
+namespace admin_admin;
 /**
  * Class defaultcontroller
  *
  * @author Nikolaev D.
  */
-class defaultcontroller extends supercontroller {
-    use trait_extension_controller;
+class defaultcontroller extends \supercontroller {
+    use \trait_extension_controller;
 
     /**
      * @var
@@ -22,7 +23,7 @@ class defaultcontroller extends supercontroller {
      */
     public function display()
     {
-        $template = admin::read_params('options')['template'];
+        $template = \admin::read_params('options')['template'];
 
         $template::start();
     }
@@ -32,6 +33,6 @@ class defaultcontroller extends supercontroller {
      */
     public function get_options()
     {
-        return admin::read_params('options');
+        return \admin::read_params('options');
     }
 }

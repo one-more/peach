@@ -49,4 +49,58 @@ class admin {
 
         return $result;
     }
+
+    /**
+     * @return array
+     */
+    public static function get_user_extensions()
+    {
+        $arr = installer::get_extensions();
+
+        $result = [];
+
+        foreach($arr as $el) {
+            if(new $el instanceof user_extension_interface) {
+                $result[] = $el;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return array
+     */
+    public static function get_site_templates()
+    {
+        $arr = installer::get_templates();
+
+        $result = [];
+
+        foreach($arr as $el) {
+            if($el['type'] == 'site') {
+                $result[] = $el;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return array
+     */
+    public static function get_admin_templates()
+    {
+        $arr = installer::get_templates();
+
+        $result = [];
+
+        foreach($arr as $el) {
+            if($el['type'] == 'admin') {
+                $result[] = $el;
+            }
+        }
+
+        return $result;
+    }
 }

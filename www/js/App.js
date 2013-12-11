@@ -3,7 +3,12 @@ var App = {};
 _.extend(App, Backbone.Events, {
 
     _initializers: [],
+
     router: null,
+
+    js_hooks: [],
+
+    css_hooks: [],
 
     //fires callback when element is loaded
     elementLoad : function(el, callback) {
@@ -30,6 +35,27 @@ _.extend(App, Backbone.Events, {
     },
 
     start: function(){
+
+        $.ajaxSetup({
+            dataFilter: function(data) {
+                try{
+                    return $.parseJSON(data);
+                }
+                catch(Exception){
+                    return data;
+                }
+            },
+            error: function() {
+                App.showNoty('request error', 'error');
+            },
+            complete: function() {
+                App.trigger('dom:loaded');
+            },
+            beforeSend: function() {
+                this.url += (this.url.indexOf('?') > -1 ? '&' : '?') + 'ajax=1&old_url='+location.pathname;
+            }
+        });
+
         _.each(this._initializers, function(func){
             if (typeof func == "function"){
                 func();
@@ -78,29 +104,9 @@ _.extend(App, Backbone.Events, {
 
         Backbone.history.start({pushState: true})
 
-        $.ajaxSetup({
-            dataFilter: function(data) {
-                try{
-                    return $.parseJSON(data);
-                }
-                catch(Exception){
-                    return data;
-                }
-            },
-            error: function() {
-                App.showNoty('request error', 'error');
-            },
-            complete: function() {
-                App.trigger('dom:loaded');
-            },
-            beforeSend: function() {
-                this.url += (this.url.indexOf('?') > -1 ? '&' : '?') + 'ajax=1&old_url='+location.pathname;
-            }
-        });
+        this.registerEvents();
 
-      this.registerEvents();
-
-      App.trigger('document:ready');
+        App.trigger('document:ready');
     },
 
     registerEvents: function() {
@@ -126,6 +132,14 @@ _.extend(App, Backbone.Events, {
                     func();
                 }
             });
+
+            App.loadHooks();
+        })
+
+        $(document).on('click', '.modal-backdrop', function(e){
+            if(e.target.tagName == 'DIV' && e.target.className == 'modal-backdrop') {
+                $(this).remove();
+            }
         })
     },
 
@@ -154,28 +168,9 @@ _.extend(App, Backbone.Events, {
         App.router.navigate(location, {trigger:trigger});
     },
 
-    loadPage: function(url, callback) {
-        $('body').find('button').each(function(){
-            var div = $('<div>',{
-                'class':'loader '+$(this).attr('class'),
-                'width' : $(this).width(),
-                'height' : $(this).height(),
-                'text': $(this).text()
-            })
-
-            $(this).replaceWith(div);
-        });
-
-        $('body').load(url, {}, function(){
-
-            App.trigger('dom:loaded');
-
-            App.start();
-
-            if(typeof callback == 'function') {
-                callback();
-            }
-        })
+    loadPage: function(url) {
+        //todo - сделать ajax загрузку
+        location = url;
     },
 
     alertObj: function(obj) {
@@ -186,6 +181,58 @@ _.extend(App, Backbone.Events, {
         }
 
         alert(str);
+    },
+
+    closeModal: function() {
+        $('.modal-backdrop').remove();
+    },
+
+    loadHooks: function() {
+
+        $('body').find('*.css-hook').each(function(){
+            var href = $(this).text();
+
+            $(this).remove();
+
+            if($.inArray(href, App.css_hooks) == -1) {
+                var css = $('<link>', {
+                    'rel':  'stylesheet',
+                    'href': href
+                })
+
+                $('head').append(css);
+
+                App.css_hooks.push(href);
+            }
+        })
+
+        $('body').find('*.js-hook').each(function(){
+            var src = $(this).text();
+
+            $(this).remove();
+
+            if($.inArray(src, App.js_hooks) == -1) {
+                var js = $('<script>', {
+                    'src': src
+                })
+
+                $('body').append(js);
+
+                App.js_hooks.push(src);
+            }
+            else {
+                //todo - not very pretty
+                $.each(App.js_hooks, function(k,v) {
+                    var tmp = $('script[src="'+v+'"]');
+
+                    var src = tmp.attr('src');
+
+                    tmp.remove();
+
+                    $('body').append($('<script>', {'src':src}));
+                })
+            }
+        })
     }
 })
 

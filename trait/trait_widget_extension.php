@@ -14,14 +14,16 @@ trait trait_widget_extension {
 
         $result = [];
 
-        $iterator = new FilesystemIterator("../extensions/$name/widgets/");
+        $iterator = new FilesystemIterator("..".DS."extensions".DS."$name".DS."widgets".DS);
 
         foreach($iterator as $file) {
-            require_once($file->getFilename());
+            require_once($file);
 
             $class = preg_split('/\./', $file->getFilename())[0];
 
-            $widget = new $class();
+            $class = $class.'widget';
+
+            $widget = new $class;
 
             if($widget instanceof widget_controller_interface) {
                 $result[] = $widget->get_info();

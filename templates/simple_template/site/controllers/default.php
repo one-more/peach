@@ -21,6 +21,9 @@ class defaultcontroller extends supercontroller {
             '<link rel="stylesheet" href="/css/simple_template/site/default.css" />'
         ]);
 
+        $params['css'] = \builder::build('simple_template.css', $params['css']);
+        $params['js']  = \builder::build('simple_template.js', $params['js']);
+
         $params = array_merge($params, simple_template::read_params('options'));
 
         return templator::getTemplate('index', $params, simple_template::$path.'site'.DS.'views'.DS.'default');

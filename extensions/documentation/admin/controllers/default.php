@@ -1,19 +1,20 @@
 <?php
+namespace documentation_admin;
 /**
  * Class defaultcontroller
  *
  * @author Nikolaev D.
  */
-class defaultcontroller extends supercontroller{
+class defaultcontroller extends \supercontroller{
     /**
      * @return mixed|string
      */
     public function display()
     {
-        return templator::getTemplate(
+        return \templator::getTemplate(
             'index',
             null,
-            documentation::$path.'admin'.DS.'views'.DS.site::getLang().DS.'default'
+            \documentation::$path.'admin'.DS.'views'.DS.\site::getLang().DS.'default'
         );
     }
 }

@@ -1,9 +1,12 @@
 var Widgetview = Backbone.View.extend({
     el : '.gridster',
 
+    current_widget: -1,
+
     events: {
-        "click .tool-items>a":      "widget_action",
-        "click .modal-backdrop":    "close_modal"
+        "click .tool-items>a":          "widget_action",
+        "click .widget-extensions a":   "widget_action_2",
+        "click .widget-list a":         "widget_action_3"
     },
 
     initialize: function() {
@@ -57,7 +60,6 @@ var Widgetview = Backbone.View.extend({
 
     delegateEvents: function() {
         App.on('document:ready', function(){
-            //todo - при выходе/входе обработчики навешиваются повторно
             $.each(Widgetview.events, function(k,c){
                 var arr = k.split(' ');
 
@@ -67,36 +69,67 @@ var Widgetview = Backbone.View.extend({
     },
 
     widget_action: function() {
-        if(!$('div').is('.modal-backdrop')) {
-            var className = $(this).children('i').attr('class');
+        var className = $(this).children('i').attr('class');
 
-            //if add widget
-            if(className == 'icon-plus') {
-                var $this = $(this);
+        //if add widget
+        if(className == 'icon-plus') {
 
-                $.post(
-                    'index.php',
-                    {'class':'simple_admin_template', 'task':'get_widget_list'},
-                    function(data) {
-                        var widget = $this.attr('data-widget');
+            Widgetview.current_widget = $(this).data('widget');
 
-                        var layout = $('<div>', {
-                            'class': 'modal-backdrop',
-                            html: $('<div>', {
-                                'class':'modal',
-                                html: data
-                            })
+            $.post(
+                'index.php',
+                {'class':'simple_admin_template', 'task':'get_widget_list'},
+                function(data) {
+
+                    var layout = $('<div>', {
+                        'class': 'modal-backdrop',
+                        html: $('<div>', {
+                            'class':'modal',
+                            html: data
                         })
+                    })
 
-                        $('body').append(layout);
-                    }
-                );
-            }
+                    $('body').append(layout);
+                }
+            );
+        }
+        else {
+            var widget = $(this).data('widget');
+
+            WidgetModel.set(widget, -1);
+
+            WidgetModel.update();
+
+            $('*[data-widget='+widget+']').children('span').html('');
         }
     },
 
-    close_modal: function(){
-        $('.modal-backdrop').remove();
+    widget_action_2: function(e) {
+        var params = $(e.target).data('extension');
+
+        $('div.modal').load(
+            'index.php',
+            {'class':'simple_admin_template', 'task':'get_widget_list', 'params':params});
+    },
+
+    widget_action_3: function(e) {
+        var params = $(e.target).data('widget');
+
+        var extension = $(e.target).data('class');
+
+        var widget = Widgetview.current_widget;
+
+        WidgetModel.set(widget, extension+" "+params);
+
+        WidgetModel.update();
+
+        $('*[data-widget='+widget+']').load(
+            'index.php',
+            {'class':extension, 'method':'get_widget', 'params':params},
+            function() {
+                App.closeModal();
+            }
+        );
     }
 })
 

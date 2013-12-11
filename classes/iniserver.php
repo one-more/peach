@@ -72,7 +72,7 @@ class iniServer {
             foreach ($this->arr as $sname=>$section){
                 $result .= '[' . $sname . ']' . _BR_;
                 foreach ($section as $key=>$value){
-                    $result .= $key .'='.$value . _BR_;
+                    $result .= $key .' = "'.$value.'"'. _BR_;
                 }
                 $result .= _BR_;
             }

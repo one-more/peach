@@ -9,6 +9,16 @@ class userwidget extends supercontroller implements widget_controller_interface{
     use trait_extension_controller;
 
     /**
+     * @var
+     */
+    public $extension;
+
+    public function __construct()
+    {
+        $this->extension = 'user';
+    }
+
+    /**
      *
      */
     public function display()
@@ -31,6 +41,6 @@ class userwidget extends supercontroller implements widget_controller_interface{
     {
         $alias = $this->getLang('user_widget')['alias'];
 
-        return ['alias'=>'alias', 'name'=>'user'];
+        return ['alias'=>$alias, 'name'=>'user'];
     }
 }

@@ -27,7 +27,7 @@ class installer implements widget_extension_interface{
      * @return mixed
      */
     public static function getAdminController($name) {
-        if(!in_array($name, array_keys(self::$controllers))) {
+        if(empty(static::$controllers[$name])) {
             require_once(self::$path."admin/controllers/$name.php");
 
             $controller = $name.'controller';
@@ -46,7 +46,7 @@ class installer implements widget_extension_interface{
      * @return mixed
      */
     public static function getAdminModel($name) {
-        if(!in_array($name, array_keys(self::$models))) {
+        if(empty(static::$models[$name])) {
             require_once(self::$path."admin/models/$name.php");
 
             $model = $name.'model';
@@ -108,7 +108,19 @@ class installer implements widget_extension_interface{
 
         $arr = $controller->exec('get_extensions');
 
-        return is_array($arr)? $arr : json_decode($arr);
+        return is_array($arr)? $arr : json_decode($arr, true);
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public static function get_templates()
+    {
+        $controller = static::getAdminController('default');
+
+        $arr = $controller->exec('get_templates');
+
+        return is_array($arr)? $arr : json_decode($arr, true);
     }
 
     /**

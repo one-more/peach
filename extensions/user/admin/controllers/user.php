@@ -1,10 +1,11 @@
 <?php
+namespace user_admin;
 /**
  * Class usercontroller
  *
  * @author Nikolaev D.
  */
-class usercontroller extends supercontroller {
+class usercontroller extends \supercontroller {
     /**
      * @var string
      */
@@ -15,7 +16,7 @@ class usercontroller extends supercontroller {
      */
     private $_cache_path;
 
-    use trait_extension_controller;
+    use \trait_extension_controller;
 
     public function __construct()
     {
@@ -31,7 +32,7 @@ class usercontroller extends supercontroller {
 
         $info = $arr['info'];
 
-        $model = user::get_admin_model('user');
+        $model = \user::get_admin_model('user');
 
         return $model->create($user, $info);
     }
@@ -46,7 +47,7 @@ class usercontroller extends supercontroller {
             return json_decode($cache, true);
         }
         else {
-            $model = user::get_admin_model('user');
+            $model = \user::get_admin_model('user');
 
             $cache = $model->get($id, true);
 
@@ -61,7 +62,7 @@ class usercontroller extends supercontroller {
      */
     public function is_super_admin()
     {
-        if(user::is_auth()) {
+        if(\user::is_auth()) {
             $user = $this->get($_SESSION['user']);
 
             return $user['user']['credentials'] == 'SUPER_ADMIN';
@@ -76,7 +77,7 @@ class usercontroller extends supercontroller {
      */
     public function is_admin()
     {
-        if(user::is_auth()) {
+        if(\user::is_auth()) {
             $user = $this->get($_SESSION['user']);
 
             return  $user['user']['credentials'] == 'ADMIN' ||

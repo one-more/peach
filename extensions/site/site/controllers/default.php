@@ -1,16 +1,17 @@
 <?php
+namespace site_site;
 /**
  * Class defaultcontroller
  *
  * @author Nikolaev D.
  */
-class defaultcontroller extends supercontroller {
+class defaultcontroller extends \supercontroller {
     /**
      * display template
      */
     public function display()
     {
-        $options = site::read_params('options');
+        $options = \site::read_params('options');
 
         $options['template']::start();
     }
@@ -20,6 +21,6 @@ class defaultcontroller extends supercontroller {
      */
     public function get_options()
     {
-        return site::read_params('options');
+        return \site::read_params('options');
     }
 }

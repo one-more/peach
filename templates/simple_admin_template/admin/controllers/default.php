@@ -45,7 +45,36 @@ class defaultcontroller extends supercontroller {
 
         $params['js'] = array_merge($params['js'], \admin::$js_files);
 
+        $params['css'] = \builder::build('simple_admin_template.css', $params['css']);
+
+        $params['js'] = \builder::build('simple_admin_template.js', $params['js']);
+
         $params['grid'] = $this->get_grid();
+
+        $user_extensions = \admin::get_user_extensions();
+
+        if(count($user_extensions) > 0) {
+
+            $li = '';
+
+            foreach($user_extensions as $el) {
+                $a = dom::create_element('a', [
+                    'href'  => '/admin/'.$el,
+                    'text'  => $el::get_info()['alias']
+                ]);
+
+                $li .= dom::create_element('li', [
+                    'text'  => $a
+                ]);
+            }
+
+            $params['user_extensions_list'] = $li;
+        }
+        else {
+            $params['user_extensions_list'] = dom::create_element('li', [
+                'text'=> $params['NO_EXTENSIONS']
+            ]);
+        }
 
         return templator::getTemplate(
             'index',
@@ -148,7 +177,29 @@ class defaultcontroller extends supercontroller {
 
             $h3 = dom::create_element('<h3>', ['text'=>$h3]);
 
-            return $h3.dom::create_element('<ul>', ['text'=>$li]);
+            return $h3.dom::create_element('<ul>', ['text'=>$li, 'class'=>'widget-extensions']);
+        }
+        else {
+            $arr = $class::get_widgets();
+
+            $li = '';
+
+            foreach($arr as $el) {
+
+                $a = dom::create_element('<a>', [
+                    'data-widget'   => $el['name'],
+                    'text'          => $el['alias'],
+                    'class'         => 'cursor-pointer',
+                    'data-class'    => $class
+                ]);
+
+                $li .= dom::create_element('<li>', ['text'=>$a]);
+            }
+
+            return dom::create_element('ul', [
+                'class' => 'widget-list',
+                'text'  => $li
+            ]);
         }
     }
 }

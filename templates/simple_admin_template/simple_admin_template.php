@@ -12,11 +12,11 @@ class simple_admin_template implements template_interface {
      */
     public static function get_info()
     {
-        $lang = static::get_lang('alias');
+        $alias = static::get_lang('info')['alias'];
 
         return [
             'author'    => 'Nikolaev D.',
-            'alias'     => $lang['alias'],
+            'alias'     => $alias,
             'preview'   => ''
         ];
     }

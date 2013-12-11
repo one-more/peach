@@ -74,7 +74,7 @@ trait trait_extension {
         if(!in_array($name, array_keys(static::$controllers))) {
 			require_once(static::$path."admin/controllers/$name.php");
 
-			$controller = $name.'controller';
+			$controller = static::$name.'_admin\\'.$name.'controller';
 
 			static::$controllers[$name] = new $controller;
 		}
@@ -93,7 +93,7 @@ trait trait_extension {
         if(!in_array($name, array_keys(static::$models))) {
 			require_once(static::$path."admin/models/$name.php");
 
-			$model = $name.'model';
+			$model = static::$name.'_admin\\'.$name.'model';
 
 			$ini = factory::getIniServer('../configuration.ini');
 
@@ -116,7 +116,7 @@ trait trait_extension {
         if(!in_array($name, array_keys(static::$site_controllers))) {
 			require_once(static::$path."site/controllers/$name.php");
 
-			$controller = $name.'controller';
+			$controller = static::$name.'_site\\'.$name.'controller';
 
 			static::$site_controllers[$name] = new $controller;
 		}
@@ -135,7 +135,7 @@ trait trait_extension {
         if(!in_array($name, array_keys(static::$site_models))) {
 			require_once(static::$path."site/models/$name.php");
 
-			$model = $name.'model';
+			$model = static::$name.'_site\\'.$name.'model';
 
             $ini = factory::getIniServer('../configuration.ini');
 

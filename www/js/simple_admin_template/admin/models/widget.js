@@ -19,12 +19,14 @@ var WidgetModel = Backbone.Model.extend({
         )
     },
     update: function() {
+
         $.post(
             'index.php',
-            {'class':'simple_admin_template', 'task':'update_widgets', 'params': this.serialize()},
+            {'class':'simple_admin_template', 'task':'update_widgets', 'params': this.toJSON()},
             function(data) {
                 if(data.trim()) {
                     App.showNoty('failed to update the widget model', 'error');
+                    console.log(data);
                 }
             }
         )

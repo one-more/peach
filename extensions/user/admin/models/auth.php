@@ -1,10 +1,11 @@
 <?php
+namespace user_admin;
 /**
  * Class authmodel
  *
  * @author Nikolaev D.
  */
-class authmodel extends superModel {
+class authmodel extends \superModel {
     public function auth($data)
     {
         try{
@@ -17,7 +18,7 @@ class authmodel extends superModel {
 
             $sth = $sth->fetch();
 
-            $ini = user::get_admin_controller('auth')->getLang('errors');
+            $ini = \user::get_admin_controller('auth')->getLang('errors');
 
             if($sth) {
                 if($sth['credentials'] == 'SUPER_ADMIN' || $sth['credentials'] == 'ADMIN')
@@ -33,9 +34,9 @@ class authmodel extends superModel {
             }
         }
         catch(PDOException $e) {
-            error::log($e->getMessage());
+            \error::log($e->getMessage());
 
-            error::show_error();
+            \error::show_error();
         }
     }
 }

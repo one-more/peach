@@ -1,8 +1,9 @@
 <?php
+namespace user_admin;
 /**
  * Class usermodel
  */
-class usermodel extends superModel {
+class usermodel extends \superModel {
     /**
      * @param $user
      * @param $info
@@ -63,9 +64,9 @@ class usermodel extends superModel {
             return $id;
         }
         catch(PDOException $e) {
-            error::log($e->getMessage());
+            \error::log($e->getMessage());
 
-            error::show_error();
+            \error::show_error();
         }
     }
 
@@ -93,9 +94,9 @@ class usermodel extends superModel {
             }
         }
         catch(PDOException $e) {
-            error::log($e->getMessage());
+            \error::log($e->getMessage());
 
-            error::show_error();
+            \error::show_error();
         }
     }
 }

@@ -1,11 +1,12 @@
 <?php
+namespace user_admin;
 /**
  * Class authcontroller
  *
  * @author = Nikolaev D.
  */
-class authcontroller extends supercontroller {
-    use trait_extension_controller;
+class authcontroller extends \supercontroller {
+    use \trait_extension_controller;
 
     /**
      * @var string
@@ -21,7 +22,7 @@ class authcontroller extends supercontroller {
     {
         $this->extension = 'user';
 
-        user::$path = '..'.DS.'extensions'.DS.'user'.DS;
+        \user::$path = '..'.DS.'extensions'.DS.'user'.DS;
 
         $this->_cache_path = '..'.DS.'extensions'.DS.'user'.DS.'admin'.DS.'cache'.DS;
     }
@@ -33,16 +34,19 @@ class authcontroller extends supercontroller {
     {
         $params = $this->getLang('auth_page');
 
-        $params['css']  = array_merge(document::$css_files,
+        $params['css']  = array_merge(\document::$css_files,
             ['<link rel="stylesheet" href="/css/user/admin/auth.css" />']);
 
-        $params['js']   = array_merge(document::$js_files,
+        $params['js']   = array_merge(\document::$js_files,
             [
                 '<script src="/js/user/admin/views/auth_view.js"></script>',
                 '<script src="/js/empty_router.js"></script>'
             ]);
 
-        return templator::getTemplate('index', $params ,user::$path.'admin'.DS.'views'.DS.'auth');
+        $params['css'] = \builder::build('admin_auth.css', $params['css']);
+        $params['js']  = \builder::build('admin_auth.js', $params['js']);
+
+        return \templator::getTemplate('index', $params ,\user::$path.'admin'.DS.'views'.DS.'auth');
     }
 
     /**
@@ -52,7 +56,7 @@ class authcontroller extends supercontroller {
     {
         if(!empty($_SESSION['user']))
         {
-            $ini = factory::getIniServer(user::$path.'user.ini');
+            $ini = \factory::getIniServer(\user::$path.'user.ini');
 
             $interval = $ini->read('params', 'exit_time', 15);
 
@@ -84,7 +88,7 @@ class authcontroller extends supercontroller {
 
             $data = array_merge($defaults, $_POST);
 
-            $model = user::get_admin_model('auth');
+            $model = \user::get_admin_model('auth');
 
             $error = $model->auth($data);
 
@@ -93,19 +97,19 @@ class authcontroller extends supercontroller {
                 return ['error' => $error];
             }
             else {
-                $ini = factory::getIniServer(user::$path.'user.ini');
+                $ini = \factory::getIniServer(\user::$path.'user.ini');
 
                 $url = $ini->read('auth', 'redirect_url', '/');
 
                 $_SESSION['user'] = $error;
 
-                $model = user::get_admin_model('user');
+                $model = \user::get_admin_model('user');
 
                 $user = $model->get($error);
 
                 $this->set_cache_view('user_'.$error, json_encode($user));
 
-                $ini = factory::getIniServer(user::$path.'user.ini');
+                $ini = \factory::getIniServer(\user::$path.'user.ini');
 
                 $ini->write('user', 'last_activity', time());
 

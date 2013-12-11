@@ -44,18 +44,24 @@ class superModel
     public function get_all($table, $start = 0, $perpage = 0)
 	{
 		try{
-			$sth = $this->_db->prepare("select * from $table limit ?,?");
-            $sth->bindParam(1, $start, PDO::PARAM_INT);
-            $sth->bindParam(2, $perpage, PDO::PARAM_INT);
+            if($perpage) {
+                $sth = $this->_db->prepare("select * from $table limit ?,?");
+                $sth->bindParam(1, $start, PDO::PARAM_INT);
+                $sth->bindParam(2, $perpage, PDO::PARAM_INT);
+            }
+            else {
+                $sth = $this->_db->prepare("select * from $table");
+            }
+
             $sth->execute();
-			
+
 			return $sth->fetchAll();
 		}
 		catch(PDOException $e)
 		{
             error::log($e->getMessage());
 
-            echo templator::getTemplate('error', ['error-msg'=>'an exception occurred'], '../html');
+            error::show_error();
 		}
 	}
 

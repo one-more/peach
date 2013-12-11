@@ -12,9 +12,16 @@ class defaultcontroller extends supercontroller {
      */
     public $extension;
 
+    /**
+     * @var
+     */
+    private $_cache_path;
+
     public function __construct()
     {
         $this->extension = 'installer';
+
+        $this->_cache_path = '..'.DS.'extensions'.DS.'installer'.DS.'admin'.DS.'cache'.DS;
     }
 
     /**
@@ -22,8 +29,40 @@ class defaultcontroller extends supercontroller {
      */
     public function get_extensions()
     {
-        $model = installer::getAdminModel('default');
+        if($cache = $this->get_cache_view('extensions')) {
+            return $cache;
+        }
+        else {
+            $model = installer::getAdminModel('default');
 
-        return $model->get_all('extensions');
+            $cache = $model->get_all('extensions');
+
+            if(is_array($cache)) {
+                $this->set_cache_view('extensions', json_encode($cache));
+            }
+
+            return $cache;
+        }
+    }
+
+    /**
+     * @return bool|string
+     */
+    public function get_templates()
+    {
+        if($cache = $this->get_cache_view('templates')) {
+            return $cache;
+        }
+        else {
+            $model = installer::getAdminModel('default');
+
+            $cache = $model->get_all('templates');
+
+            if(is_array($cache)) {
+                $this->set_cache_view('templates', json_encode($cache));
+            }
+
+            return $cache;
+        }
     }
 }

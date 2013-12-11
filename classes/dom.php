@@ -24,6 +24,8 @@ class dom{
 
         $tag = preg_replace($pattens, $replacements, $tag);
 
+        $close_tag = $tag;
+
         $text = !empty($params['text'])? $params['text'] : '';
 
         foreach($params as $key=>$value) {
@@ -38,10 +40,10 @@ class dom{
             }
         }
 
-        if(in_array($tag, ['checkbox', 'radio', 'link'])) {
+        if(in_array($tag, ['checkbox', 'radio', 'link'. 'img'])) {
             return "<$tag>$text";
         }
 
-        return "<$tag>$text</$tag>";
+        return "<$tag>$text</$close_tag>";
     }
 }
