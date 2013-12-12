@@ -11,10 +11,6 @@ class defaultcontroller extends \supercontroller{
      */
     public function display()
     {
-        return \templator::getTemplate(
-            'index',
-            null,
-            \documentation::$path.'admin'.DS.'views'.DS.\site::getLang().DS.'default'
-        );
+        return \templator::get_stub();
     }
 }

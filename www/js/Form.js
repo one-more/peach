@@ -46,38 +46,41 @@ App.module('Form', function(Form){
 
         button.attr('disabled', 'true');
 
-        $form.find('input[type]').each(function(){
-            if(!$('span').is('[name='+$(this).attr('name')+']')) {
-                var name = $(this).attr('name');
-                var span = $('<span>', {
-                    name    : name,
-                    text    : 'test',
-                    'class' : 'hide text-error'
-                });
-                $(this).after(span);
-                span.before('<br>');
-            }
-            else if(!$('span[name='+$(this).attr('name')+']').hasClass('hide')) {
-                $('span[name='+$(this).attr('name')+']').addClass('hide')
-            }
+        $('.error-span').each(function(){
+            $(this).remove();
         })
 
         var ajax = Form._ajax = $.post(action, $form.serialize(), 'json');
 
         ajax.success(function(data){
             if(data) {
-                if(data.error){
+                if(data.error && !$.isEmptyObject(data.error)){
                     _.each(data.error, function(v,k){
                         $form.find('input[name='+k+']')
                             .addClass('error');
 
-                        $form.find('span[name='+k+']')
-                            .removeClass('hide')
-                            .text(v);
+                        var el = $form.find('input[name='+k+']');
+
+                        var span = $('<span>', {
+                            'class' : 'error-span text-error',
+                            'text': v
+                        });
+
+                        span.css({
+                            'left'  : el.offset().left,
+                            'top'   : el.offset().top + el.outerHeight(true),
+                            'width' : el.width()
+                        });
+
+                        $('body').append(span);
+
                     })
                     Form.error($form, data);
                 }
                 else {
+
+                    $form.find('input').val('');
+
                     Form.success($form, data);
                 }
             }

@@ -82,4 +82,12 @@ class templator
 		
 		return $tmpl;
 	}
+
+    /**
+     * @return string
+     */
+    public static function get_stub()
+    {
+        return file_get_contents('..'.DS.'html'.DS.'section_under_construction.html');
+    }
 }

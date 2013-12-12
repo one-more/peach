@@ -78,7 +78,7 @@ class admin {
         $result = [];
 
         foreach($arr as $el) {
-            if($el['type'] == 'site') {
+            if($el['type'] == 'site' && new $el['name'] instanceof template_interface) {
                 $result[] = $el;
             }
         }
@@ -96,7 +96,25 @@ class admin {
         $result = [];
 
         foreach($arr as $el) {
-            if($el['type'] == 'admin') {
+            if($el['type'] == 'admin' && new $el['name'] instanceof template_interface) {
+                $result[] = $el;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return array
+     */
+    public static function get_menu_extensions()
+    {
+        $arr = installer::get_extensions();
+
+        $result = [];
+
+        foreach($arr as $el) {
+            if(new $el instanceof menu_extension_interface) {
                 $result[] = $el;
             }
         }

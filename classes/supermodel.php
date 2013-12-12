@@ -14,6 +14,11 @@ class superModel
 	use trait_validator;
 
     /**
+     * @var
+     */
+    static  $reference;
+
+    /**
      * @param $dbname
      * @param $user
      * @param $pass
@@ -98,5 +103,28 @@ class superModel
 
             echo templator::getTemplate('error', ['error-msg'=>'an exception occurred'], '../html');
 		}
-	}	
+	}
+
+    /**
+     * @throws Exception
+     */
+    public function get_reference()
+    {
+        $path1 = '..'.DS.'lang'.DS.'references'.DS.system::get_current_lang().'.ini';
+        $path2 = '..'.DS.'lang'.DS.'references'.DS.'en-EN.ini';
+
+        if(file_exists($path1)) {
+            $ini = factory::getIniServer($path1);
+
+            static::$reference = $ini->readSection('reference');
+        }
+        elseif(file_exists($path2)) {
+            $ini = factory::getIniServer($path2);
+
+            static::$reference = $ini->readSection('reference');
+        }
+        else {
+            throw new Exception('cannot load reference to model');
+        }
+    }
 }

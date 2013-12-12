@@ -1,0 +1,20 @@
+<h5>:LANG_SELECT_LABEL</h5>
+<select class="lang-select" name="language" id="">
+    :options
+</select>
+
+<form id="add-lang-form" method="post" class="ajax margin-top-5" action="index.php?class=system&controller=lang&task=add">
+
+    <h5>:HEADER</h5>
+
+    <div class="control-group">
+        <div class="controls controls-row">
+            <input name="alias" placeholder=":ALIAS_FIELD_PLACEHOLDER" class="span3" type="text"/>
+            <input name="key" placeholder=":KEY_FIELD_PLACEHOLDER" class="span2" type="text"/>
+        </div>
+    </div>
+
+    <div class="control-group controls">
+        <button class="btn  margin-top-2" type="submit">:SUBMIT_BUTTON_LABEL</button>
+    </div>
+</form>

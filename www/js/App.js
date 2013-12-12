@@ -141,6 +141,10 @@ _.extend(App, Backbone.Events, {
                 $(this).remove();
             }
         })
+
+        $(document).on('click', '.error-span', function(){
+            $(this).remove();
+        })
     },
 
     addInitializer:function(func){
@@ -189,10 +193,14 @@ _.extend(App, Backbone.Events, {
 
     loadHooks: function() {
 
+        var tmp_hooks = [];
+
         $('body').find('*.css-hook').each(function(){
             var href = $(this).text();
 
             $(this).remove();
+
+            tmp_hooks.push(href);
 
             if($.inArray(href, App.css_hooks) == -1) {
                 var css = $('<link>', {
@@ -206,10 +214,13 @@ _.extend(App, Backbone.Events, {
             }
         })
 
+
         $('body').find('*.js-hook').each(function(){
             var src = $(this).text();
 
             $(this).remove();
+
+            tmp_hooks.push(src);
 
             if($.inArray(src, App.js_hooks) == -1) {
                 var js = $('<script>', {
@@ -233,6 +244,27 @@ _.extend(App, Backbone.Events, {
                 })
             }
         })
+
+        //purify outdated hooks
+        if(tmp_hooks.length > 0) {
+            $.each(App.css_hooks, function(k,v){
+                if($.inArray(v, tmp_hooks) == -1) {
+
+                    $('link[href="'+v+'"]').remove();
+
+                    delete App.css_hooks[k];
+                }
+            })
+
+            $.each(App.js_hooks, function(k,v){
+                if($.inArray(v, tmp_hooks) == -1) {
+
+                    $('script[src="'+v+'"]').remove();
+
+                    delete App.js_hooks[k];
+                }
+            })
+        }
     }
 })
 
