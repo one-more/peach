@@ -1,5 +1,7 @@
 <?php
 /**
+ * parent class for all controllers
+ *
  * Class supercontroller
  *
  * @author Nikolaev D.

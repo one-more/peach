@@ -1,5 +1,7 @@
 <?php
 /**
+ * this interface must implement all of the templates
+ *
  * Class template_interface
  *
  * @author Nikolaev D.

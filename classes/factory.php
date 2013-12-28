@@ -1,5 +1,7 @@
 <?php
 /**
+ * implements factory pattern
+ *
  * Class factory
  *
  * @author Nikolaev D.

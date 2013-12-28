@@ -1,5 +1,7 @@
 <?php
 /**
+ * WYSIWYG editor
+ *
  * Class ckeditor
  *
  * @author Nikolaev D.

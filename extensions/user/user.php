@@ -1,5 +1,7 @@
 <?php
 /**
+ * extension for managing users
+ *
  * Class user
  *
  * @author Nikolaev D.

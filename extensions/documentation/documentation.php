@@ -1,5 +1,7 @@
 <?php
 /**
+ * CMS documentation
+ *
  * Class documentation
  *
  * @author Nikolaev D.

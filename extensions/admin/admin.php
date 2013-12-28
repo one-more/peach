@@ -1,5 +1,7 @@
 <?php
 /**
+ * administrative part of CMS
+ *
  * Class admin
  *
  * @author Nikolaev D.
@@ -9,14 +11,6 @@ class admin {
     {
         trait_extension::start as trait_start;
     }
-
-    /**
-     * @var array
-     */
-    public static $js_files = [
-        '<script src="/js/admin/admin/models/admin_model.js"></script>',
-        '<script src="/js/admin/admin/modules/admin.js"></script>'
-    ];
 
     /**
      * start the user panel

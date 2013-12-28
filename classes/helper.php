@@ -1,5 +1,7 @@
 <?php
 /**
+ * contains helper methods
+ *
  * Class helper
  *
  * @author Nikolaev D.

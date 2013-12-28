@@ -13,15 +13,20 @@ class defaultcontroller extends supercontroller {
      */
     public function display()
     {
-        $params['js'] = array_merge(document::$js_files, site::$js_files);
+        $params['js'] = array_merge(document::$js_files, \system::$system_js);
+
+        $params['js'] = array_merge($params['js'], site::$js_files);
+
         $params['js'] = array_merge($params['js'], [
             '<script src="/js/simple_template/site/views/layout.js"></script>'
         ]);
+
         $params['css'] = array_merge(document::$css_files, [
             '<link rel="stylesheet" href="/css/simple_template/site/default.css" />'
         ]);
 
         $params['css'] = \builder::build('simple_template.css', $params['css']);
+
         $params['js']  = \builder::build('simple_template.js', $params['js']);
 
         $params = array_merge($params, simple_template::read_params('options'));

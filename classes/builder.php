@@ -1,5 +1,7 @@
 <?php
 /**
+ * assembles js and css files into one
+ *
  * Class builder
  *
  * @author Nikolaev D.
@@ -38,7 +40,7 @@ class builder {
                 throw new Exception('no js or css file in array in builder::build');
             }
 
-            //todo - make obfuscation
+            //todo - make minimization
             //$tmp = file_get_contents('.'.$path);
 
             //$output .= preg_replace($patterns, $replacements, $tmp);

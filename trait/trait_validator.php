@@ -1,6 +1,10 @@
 <?php
 /**
+ * Trait contains the basic methods for validating form fields
+ *
  * Class trait_validator - validates form fields
+ *
+ * @author Nikolaev D
  */
 trait trait_validator {
     /**

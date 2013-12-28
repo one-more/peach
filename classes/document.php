@@ -1,5 +1,7 @@
 <?php
 /**
+ * class allows you to create html document from a file or string
+ *
  * Class document
  *
  * @author Nikolaev D.

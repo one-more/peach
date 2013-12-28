@@ -1,5 +1,7 @@
 <?php
 /**
+ * Trait contains the basic methods for widget controllers
+ *
  * Class trait_widget_extension
  *
  * @author Nikolaev D.

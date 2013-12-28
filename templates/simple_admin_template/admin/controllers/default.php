@@ -43,7 +43,7 @@ class defaultcontroller extends supercontroller {
             '<script src="/js/simple_admin_template/admin/models/template_model.js"></script>'
         ]);
 
-        $params['js'] = array_merge($params['js'], \admin::$js_files);
+        $params['js'] = array_merge($params['js'], \system::$system_js);
 
         $params['css'] = \builder::build('simple_admin_template.css', $params['css']);
 

@@ -1,5 +1,7 @@
 <?php
 /**
+ * extension for installation
+ *
  * Class installer
  *
  * @author Nikolaev D.

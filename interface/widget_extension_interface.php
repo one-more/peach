@@ -1,5 +1,7 @@
 <?php
 /**
+ * this interface must implement all the extensions that have widgets
+ *
  * Class widget_extension_interface
  *
  * @author Nikolaev D.

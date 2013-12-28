@@ -1,5 +1,7 @@
 <?php
 /**
+ * class allows you to create html elements
+ *
  * Class dom
  *
  * @author Nikolaev D.

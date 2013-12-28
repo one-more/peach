@@ -1,5 +1,7 @@
 <?
 /**
+ * templator
+ *
  * Class templator
  *
  * @author Nikolaev D.

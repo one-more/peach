@@ -1,5 +1,7 @@
 <?php
 /**
+ * sets its own interceptors errors and exceptions
+ *
  * Class exceptionHandler
  *
  * @author - Nikolaev Dmitriy

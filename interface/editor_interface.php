@@ -1,5 +1,7 @@
 <?php
 /**
+ * this interface must implement the editors
+ *
  * Class editor_interface
  *
  * @author Nikolaev D.

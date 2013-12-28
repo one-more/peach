@@ -1,5 +1,7 @@
 <?php
 /**
+ * simple template for administrative panel
+ *
  * Class simple_admin_template
  *
  * @author Nikolaev D.

@@ -1,5 +1,7 @@
 <?php
 /**
+ * Trait contains the basic methods for templates
+ *
  * Class trait_template
  *
  * @author Nikolaev D.

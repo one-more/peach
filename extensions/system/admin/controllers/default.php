@@ -32,4 +32,26 @@ class defaultcontroller extends \supercontroller {
             \system::$path.'admin'.DS.'views'.DS.'default'
         );
     }
+
+    /**
+     * @return array|bool|string
+     */
+    public function get_options()
+    {
+        return \system::read_params('options');
+    }
+
+    /**
+     * @param $arr
+     * @return array
+     */
+    public function update_options($arr)
+    {
+        if(is_array($arr)) {
+            \system::write_params('options', $arr);
+        }
+        else {
+            return ['error' => 'params is not array'];
+        }
+    }
 }

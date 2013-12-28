@@ -1,4 +1,11 @@
 <?php
+/**
+ * initialize the CMS
+ *
+ * Class core
+ *
+ * @author Nikolaev D
+ */
 class core {
 
     /**

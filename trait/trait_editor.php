@@ -1,5 +1,7 @@
 <?php
 /**
+ * Trait contains basic methods for editors
+ *
  * Class trait_editor
  *
  * @author Nikolaev D.

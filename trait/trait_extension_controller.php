@@ -1,5 +1,7 @@
 <?php
 /**
+ * Trait contains basic methods for extension controllers
+ *
  * Class trait_extension_controller
  *
  * @author Nikolaev D

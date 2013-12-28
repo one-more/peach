@@ -28,7 +28,7 @@ App.Router = Backbone.Router.extend({
     },
 
     actionMenu: function() {
-        if(AdminModel.get('menu') != -1) {
+        if(SystemModel.get('menu') != -1) {
             $('*[data-widget="2"]').load('index.php',{'class':AdminModel.get('menu')});
         }
         else {

@@ -1,5 +1,7 @@
 <?php
 /**
+ * this interface must implement all extensions except system
+ *
  * Class user_extension_interface
  *
  * @author Nikolaev D.

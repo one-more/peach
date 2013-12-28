@@ -29,11 +29,11 @@ window.InstallSiteView = Backbone.View.extend({
 
         switch(this.current_page) {
             case 1:
-                $('#db').show();
+                $('#db').removeClass('hide');
                 break;
             case 2:
-                $('#admin').show();
-                $('.complete-button').show();
+                $('#admin').removeClass('hide');
+                $('.complete-button').removeClass('hide');
                 break;
         }
     },
@@ -48,14 +48,17 @@ window.InstallSiteView = Backbone.View.extend({
 
             switch($this.current_page) {
                 case 1:
-                    $('#db').show();
+                    $('#db').removeClass('hide');
                     break;
                 case 2:
-                    $('#db').show();
-                    $('#admin').show();
-                    $('.complete-button').show();
+                    $('#db').removeClass('hide');
+                    $('#admin').removeClass('hide');
+                    $('.complete-button').removeClass('hide');
+                    $('.next-button').addClass('disabled');
                     break;
             }
+
+            $('body').find('.error-span').remove();
         });
     },
 

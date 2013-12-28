@@ -1,5 +1,7 @@
 <?php
 /**
+ * parent interface for most interfaces
+ *
  * Class super_interface
  *
  * @author Nikolaev D.

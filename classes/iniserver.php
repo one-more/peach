@@ -2,7 +2,13 @@
 if (!defined('_BR_'))
     define('_BR_',chr(13).chr(10));
 /**
+ * work with ini files
+ *
  * Class iniServer
+ *
+ * @author DevelStudio
+ *
+ * @author-url develstudio.ru
  */
 class iniServer {
     public $filename;

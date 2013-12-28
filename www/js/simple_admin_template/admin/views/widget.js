@@ -101,6 +101,8 @@ var Widgetview = Backbone.View.extend({
             WidgetModel.update();
 
             $('*[data-widget='+widget+']').children('span').html('');
+
+            $('a[data-widget='+widget+'] i').attr('class', 'icon-plus');
         }
     },
 
@@ -123,11 +125,13 @@ var Widgetview = Backbone.View.extend({
 
         WidgetModel.update();
 
-        $('*[data-widget='+widget+']').load(
+        $('*[data-widget='+widget+'] span').load(
             'index.php',
             {'class':extension, 'method':'get_widget', 'params':params},
             function() {
                 App.closeModal();
+
+                $('a[data-widget='+widget+'] i').attr('class', 'icon-trash');
             }
         );
     }

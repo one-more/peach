@@ -1,5 +1,7 @@
 <?php
 /**
+ * sending email
+ *
  * Class mailer
  *
  * @author Nikolaev D.

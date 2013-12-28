@@ -1,5 +1,7 @@
 <?php
 /**
+ * parent class for all models
+ *
  * Class superModel
  *
  * @author Nikolaev D.

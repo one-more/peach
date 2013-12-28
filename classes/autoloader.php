@@ -1,5 +1,7 @@
 <?php
 /**
+ * classes autoloading
+ *
  * Class autoloader
  *
  * @author Nikolaev D.
@@ -16,12 +18,9 @@ class autoloader
 
 		$file = '../classes/'.$classname;
 		
-		//file dont exists - try load by next func
+		//file dont exists - try to load by next func
         if(!file_exists($file))
 		{
-			//file_put_contents('../error.log',date('j.m.Y H:i:s -')." cannot load $file \r\n", FILE_APPEND);
-
-            //echo templator::getTemplate('error', ['error-msg'=>'an error occurred'], '../html');
 
             return false;
 		}
@@ -39,7 +38,6 @@ class autoloader
 		$file = "../trait/$class_name.php";
 
 		if(!file_exists($file)) {
-			//echo templator::getTemplate('error', ['error-msg'=>'an error occurred'], '../html');
 
 			return false;
 		}

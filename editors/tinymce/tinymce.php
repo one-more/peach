@@ -1,5 +1,7 @@
 <?php
 /**
+ * WYSIWYG editor
+ *
  * Class tinymce
  *
  * @author Nikolaev D.

@@ -1,6 +1,10 @@
 <?php
 /**
+ * extension implements site work
+ *
  * Class site
+ *
+ * @author Nikolaev D
  */
 class site {
     use trait_extension;
@@ -10,7 +14,6 @@ class site {
      */
     public static $js_files = [
         '<script src="/js/site/site/modules/router.js"></script>',
-        '<script src="/js/site/site/models/site_model.js"></script>'
     ];
 
     /**

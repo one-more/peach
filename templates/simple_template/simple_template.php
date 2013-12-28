@@ -1,5 +1,7 @@
 <?php
 /**
+ * simple site template
+ *
  * Class simple_template
  *
  * @author Nikolaev D.

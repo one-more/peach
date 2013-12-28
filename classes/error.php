@@ -1,5 +1,7 @@
 <?php
 /**
+ * writes errors in the log file and displays an error message on the screen
+ *
  * Class error
  *
  * @author Nikolaev D.

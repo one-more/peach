@@ -1,5 +1,7 @@
 <?php
 /**
+ * this interface must implement menu extensions
+ *
  * Class menu_extension_interface
  *
  * @author Nikolaev D.

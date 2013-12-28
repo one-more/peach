@@ -8,9 +8,9 @@ App.Router = Backbone.Router.extend({
 
         $(document).find('*[data-position]').html('');
 
-        App.modelLoad(SiteModel, function(){
-            if(SiteModel.get('menu') != -1) {
-                $.post('index.php', {'class': SiteModel.get('menu') ,'method':'get_page'}, function(data) {
+        App.modelLoad(SystemModel, function(){
+            if(SystemModel.get('menu') != -1) {
+                $.post('index.php', {'class': SystemModel.get('menu') ,'method':'get_page'}, function(data) {
                     try {
                         var json = (typeof data == 'object')? data : $.parseJSON(data);
 
@@ -32,7 +32,7 @@ App.Router = Backbone.Router.extend({
 
         $(document).find('*[data-position]').html('');
 
-        if(SiteModel.get('menu') != -1) {
+        if(SystemModel.get('menu') != -1) {
             var url = Backbone.history.fragment.split('/');
 
             var page = url.shift();
@@ -42,7 +42,7 @@ App.Router = Backbone.Router.extend({
             params['url']       = page;
             params['options']   = url;
 
-            $.post('index.php', {'class': SiteModel.get('menu') ,'method':'get_page', 'params':params},
+            $.post('index.php', {'class': SystemModel.get('menu') ,'method':'get_page', 'params':params},
                 function(data) {
                     try {
                         var json = $.parseJSON(data);

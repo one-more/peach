@@ -1,12 +1,20 @@
 <?php
-
 /**
+ * extension to control the parameters of the system
+ *
  * Class system
  *
  * @author Nikolaev D.
  */
 class system {
     use trait_extension;
+
+    /**
+     * @var array
+     */
+    public  static  $system_js = [
+        '<script src="/js/system/admin/models/system_model.js"></script>'
+    ];
 
     /**
      * @return array

@@ -59,20 +59,25 @@ App.module('Form', function(Form){
                         $form.find('input[name='+k+']')
                             .addClass('error');
 
-                        var el = $form.find('input[name='+k+']');
+                        try{
+                            var el = $form.find('input[name='+k+']');
 
-                        var span = $('<span>', {
-                            'class' : 'error-span text-error',
-                            'text': v
-                        });
+                            var span = $('<span>', {
+                                'class' : 'error-span text-error',
+                                'text': v
+                            });
 
-                        span.css({
-                            'left'  : el.offset().left,
-                            'top'   : el.offset().top + el.outerHeight(true),
-                            'width' : el.width()
-                        });
+                            span.css({
+                                'left'  : el.offset().left,
+                                'top'   : el.offset().top + el.outerHeight(true) + 10,
+                                'width' : el.width()
+                            });
 
-                        $('body').append(span);
+                            $('body').append(span);
+                        }
+                        catch(exception) {
+                            console.log(exception);
+                        }
 
                     })
                     Form.error($form, data);
