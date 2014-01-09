@@ -265,6 +265,21 @@ _.extend(App, Backbone.Events, {
                 }
             })
         }
+    },
+
+    makeModal: function(url) {
+        if(!$('*').is('.modal-backdrop')) {
+            var div = $('<div>', {
+                'class' : 'modal-backdrop',
+                'html' : $('div', {
+                    'class' : 'modal'
+                })
+            });
+
+            $('body').append(div);
+
+            $('.modal').load(url);
+        }
     }
 })
 

@@ -9,6 +9,18 @@
 class helper
 {
     /**
+     * @return array
+     */
+    public static function get_jquery_tabs_js()
+    {
+        return [
+            dom::create_element('script', ['src'=>'/js/ui/minified/jquery.ui.core.min.js']),
+            dom::create_element('script', ['src'=>'/js/ui/minified/jquery.ui.widget.min.js']),
+            dom::create_element('script', ['src'=>'/js/ui/minified/jquery.ui.tabs.min.js'])
+        ];
+    }
+
+    /**
      * @param $path
      */
     public static function remDir($path)

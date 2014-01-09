@@ -27,4 +27,35 @@ class factory {
 
         return static::$_iniserver;
     }
+
+    /**
+     * @param null $section
+     * @param string $lang
+     * @return bool|iniServer|null
+     */
+    public static function get_reference($section = null, $lang = 'en-EN')
+    {
+        $path1 = '..'.DS.'lang'.DS.'references'.DS.system::get_current_lang().'.ini';
+        $path2 = '..'.DS.'lang'.DS.'references'.DS.$lang.'.ini';
+
+        if(file_exists($path1)) {
+            if($section) {
+                return factory::getIniServer($path1)->readSection($section);
+            }
+            else {
+                return false;
+            }
+        }
+        elseif(file_exists($path2)) {
+            if($section) {
+                return factory::getIniServer($path2)->readSection($section);
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }
 }

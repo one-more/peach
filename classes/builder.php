@@ -11,19 +11,22 @@ class builder {
     /**
      * @param $name
      * @param $arr
+     * @param bool $tag - if true, returns tag else path
      * @return string
      * @throws Exception
      */
-    public static function build($name, $arr)
+    public static function build($name, $arr, $tag = true)
     {
         $output = '';
 
         $patterns = [
-            "/\s/"
+            '/\s+\/\/.*/',
+            '/\s/'
         ];
 
         $replacements = [
-            ""
+            '',
+            ' '
         ];
 
         $ext = preg_split('/\./', $name)[1];
@@ -41,9 +44,6 @@ class builder {
             }
 
             //todo - make minimization
-            //$tmp = file_get_contents('.'.$path);
-
-            //$output .= preg_replace($patterns, $replacements, $tmp);
 
             $tmp = file('.'.$path);
 
@@ -58,12 +58,16 @@ class builder {
         file_put_contents($ext.DS.'builder'.DS.$name, $output);
 
         if($ext == 'js') {
-            return dom::create_element('<script>', ['src'=>'/js/builder/'.$name]);
+            $script = dom::create_element('<script>', ['src'=>'/js/builder/'.$name]);
+
+            return $tag ? $script : "/js/builder/$name";
         }
         else {
-            return dom::create_element('<link>',
+            $link = dom::create_element('<link>',
                 ['rel'=>'stylesheet',
-                'href'=>'/css/builder/'.$name]);
+                    'href'=>'/css/builder/'.$name]);
+
+            return $tag ? $link  : "/css/builder/path";
         }
     }
 }
