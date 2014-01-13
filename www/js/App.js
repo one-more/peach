@@ -271,7 +271,7 @@ _.extend(App, Backbone.Events, {
         if(!$('*').is('.modal-backdrop')) {
             var div = $('<div>', {
                 'class' : 'modal-backdrop',
-                'html' : $('div', {
+                'html' : $('<div>', {
                     'class' : 'modal'
                 })
             });
@@ -279,6 +279,8 @@ _.extend(App, Backbone.Events, {
             $('body').append(div);
 
             $('.modal').load(url);
+
+            $('.modal').css({'max-height':$(window).height()*0.85, 'overflow':'auto'})
         }
     }
 })

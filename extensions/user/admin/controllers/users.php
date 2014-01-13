@@ -26,8 +26,9 @@ class userscontroller extends \supercontroller {
             $a = \dom::create_element(
                 'a',
                 [
-                    'text'  => $el['login'],
-                    'class' => 'cursor-pointer view-user-btn external'
+                    'text'          => $el['login'],
+                    'class'         => 'cursor-pointer view-user-btn external',
+                    'data-params'   => $el['id']
                 ]);
             $td = \dom::create_element('td', ['text' => $a]);
             $tr .= $td;
@@ -61,5 +62,115 @@ class userscontroller extends \supercontroller {
             $params,
             \user::$path.'admin'.DS.'views'.DS.'users'
         );
+    }
+
+    /**
+     * @param $id
+     * @return string
+     */
+    public function view($id) {
+        if(is_numeric($id)) {
+            $controller = \user::get_admin_controller('user');
+
+            $arr = $controller->get($id);
+
+            $params = $arr['user'];
+
+            $params['privileges'] =
+                \factory::get_reference('privileges')[$params['credentials']];
+
+            $params['avatar'] = $arr['info']['avatar'];
+
+            unset($arr['info']['id']);
+            unset($arr['info']['user']);
+            unset($arr['info']['avatar']);
+
+            $str = '';
+
+            $refs = \factory::get_reference('user');
+
+            foreach($arr['info'] as $k=>$v) {
+                if(!array_key_exists($k, $refs)) {
+                    $refs[$k] = $k;
+                }
+            }
+
+            foreach($arr['info'] as $k=>$v) {
+                $str .= \dom::create_element(
+                    '<p>',
+                    ['text' => "$refs[$k]: $v"]
+                );
+            }
+
+            $params['info'] = $str;
+
+            return \templator::getTemplate(
+                'view',
+                $params,
+                \user::$path.'admin'.DS.'views'.DS.'users'
+            );
+        }
+        else {
+            return "invalid id - $id";
+        }
+    }
+
+    public function create($arr) {
+        if($arr) {
+
+        }
+        else {
+
+            $privs = \factory::get_reference('privileges');
+
+            $refs = \factory::get_reference('user');
+
+            $opt = '';
+
+            foreach($privs as $k=>$v) {
+                $opt .= \dom::create_element(
+                    '<option>',
+                    ['value' => $k, 'text' => $v]
+                );
+            }
+
+            $select = \dom::create_element(
+                '<select>',
+                [
+                    'name'  => 'credentials',
+                    'text'  => $opt,
+                    'class' => 'align-center'
+                ]
+            );
+
+            $params = [
+                'avatar'        => \user::read_params('user', 'default_avatar'),
+                'login'         => '',
+                'password'      => '',
+                'credentials'   => $select,
+                'full_name_val' => '',
+                'email'         => '',
+                'phone_val'     => '',
+                'icq'           => '',
+                'skype'         => '',
+                'site_val'      => '',
+                'facebook'      => '',
+                'twitter'       => ''
+            ];
+
+            $lbls = \user::read_lang('create_edit_page');
+
+            $params = array_merge($params, $lbls);
+
+            $params['BTN_LABEL'] = $params['CREATE_BTN_LABEL'];
+
+            $params = array_merge($params, $refs);
+
+            return \templator::getTemplate(
+                'edit',
+                $params,
+                \user::$path.'admin'.DS.'views'.DS.'users'
+            );
+        }
     }
 }
