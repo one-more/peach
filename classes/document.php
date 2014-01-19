@@ -33,7 +33,8 @@ class document {
         '<script src="/js/Form.js"></script>',
         '<script src="/js/noty/jquery.noty.js"></script>',
         '<script src="/js/noty/layouts/top.js"></script>',
-        '<script src="/js/noty/themes/default.js"></script>'
+        '<script src="/js/noty/themes/default.js"></script>',
+        '<script src="/js/bootbox.min.js"></script>'
 	];
 
     /**

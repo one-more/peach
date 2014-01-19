@@ -42,6 +42,10 @@ th {
     padding-left: 2%;
 }
 
+.padding-left-20 {
+    padding-left: 20%;
+}
+
 .padding-right-2 {
     padding-right: 2%;
 }
@@ -84,8 +88,22 @@ th {
     margin-left: 2%;
 }
 
+.margin-left-20 {
+    margin-left: 20%;
+}
+
 .margin-1 {
     margin: 1%;
+}
+
+.margin-left-top-45 {
+    margin-left: 45%;
+    margin-top: 45%;
+}
+
+.margin-left-top-50 {
+    margin-left: 50%;
+    margin-top: 50%;
 }
 /*-------------------------------------------------------------------------------------------------*/
 
@@ -109,7 +127,7 @@ html,body {
     visibility: hidden;
 }
 
-/*------------------------- width ----------------------------------------------------------*/
+/*------------------------- width-height ----------------------------------------------------------*/
 
 .width-100 {
     width: 100%;
@@ -125,6 +143,14 @@ html,body {
 
 .width-80 {
     width: 80%;
+}
+
+.width-170px {
+    width: 170px;
+}
+
+.height-170px {
+    height: 170px;
 }
 /*------------------------------------------------------------------------------------------*/
 
@@ -224,6 +250,7 @@ html,body {
     overflow: scroll;
 }
 
+/*---------------------------- tops-lefts -----------------------------------------*/
 .left-45 {
     left: 45%;
 }
@@ -238,4 +265,25 @@ top-45 {
 
 .top-5 {
     top: 5%;
+}
+
+.top-0 {
+    top: 0;
+}
+/*----------------------------------------------------------------------------------*/
+
+.hover-block {
+    display: none;
+    position: absolute;
+    background: rgba(0,0,0,0.5);
+}
+
+.size-32px {
+    width: 32px;
+    height: 32px;
+}
+
+.size-170px {
+    width: 170px;
+    height: 170px;
 }

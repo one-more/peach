@@ -115,8 +115,8 @@ class userscontroller extends \supercontroller {
         }
     }
 
-    public function create($arr) {
-        if($arr) {
+    public function create() {
+        if($_POST) {
 
         }
         else {
@@ -163,6 +163,8 @@ class userscontroller extends \supercontroller {
             $params = array_merge($params, $lbls);
 
             $params['BTN_LABEL'] = $params['CREATE_BTN_LABEL'];
+
+            $params['action'] = 'index.php?class=user&controller=users&task=create';
 
             $params = array_merge($params, $refs);
 
