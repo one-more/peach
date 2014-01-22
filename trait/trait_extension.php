@@ -60,7 +60,7 @@ trait trait_extension {
 
         static::$path = '..'.DS.'extensions'.DS.static::$name.DS;
 
-        static::$cache_path = static::$path.DS.core::$mode.DS.'cache'.DS;
+        static::$cache_path = static::$path.core::$mode.DS.'cache'.DS;
     }
 
     /**
@@ -95,7 +95,7 @@ trait trait_extension {
 
 			$model = static::$name.'_admin\\'.$name.'model';
 
-			$ini = factory::getIniServer('../configuration.ini');
+			$ini = factory::getIniServer(SITE_PATH.'configuration.ini');
 
 			$dbs = $ini->readSection('db_params');
 
@@ -137,7 +137,7 @@ trait trait_extension {
 
 			$model = static::$name.'_site\\'.$name.'model';
 
-            $ini = factory::getIniServer('../configuration.ini');
+            $ini = factory::getIniServer(SITE_PATH.'configuration.ini');
 
             $dbs = $ini->readSection('db_params');
 
@@ -220,9 +220,10 @@ trait trait_extension {
     /**
      * @param $section
      * @param null $field
+     * @param bool $default
      * @return array|bool|string
      */
-    public static function read_params($section, $field = null)
+    public static function read_params($section, $field = null, $default = false)
     {
         $name = get_called_class();
 
@@ -230,7 +231,7 @@ trait trait_extension {
             $ini = factory::getIniServer("../extensions/$name/$name".'.ini');
 
             if($field) {
-                return $ini->read($section, $field, false);
+                return $ini->read($section, $field, $default);
             }
             else {
                 return $ini->readSection($section);

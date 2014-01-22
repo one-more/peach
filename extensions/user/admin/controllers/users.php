@@ -117,9 +117,32 @@ class userscontroller extends \supercontroller {
 
     public function create() {
         if($_POST) {
+            $model = \user::get_admin_model('user');
 
+            $answer = $model->create(
+                $user   = [
+                'login'         => $_POST['login'],
+                'password'      => $_POST['password'],
+                'credentials'   => $_POST['credentials']
+                ],
+                $info   = [
+                   'full_name'  =>  $_POST['full_name'],
+                    'email'     =>  $_POST['email'],
+                    'phone'     =>  $_POST['phone'],
+                    'icq'       =>  $_POST['icq'],
+                    'skype'     =>  $_POST['skype'],
+                    'site'      =>  $_POST['site'],
+                    'facebook'  =>  $_POST['facebook'],
+                    'twitter'   =>  $_POST['twitter'],
+                    'avatar'    =>  $_POST['avatar']
+                ]
+            );
+
+            if(is_array($answer)) {
+                return ['error' => $answer];
+            }
         }
-        else {
+        elseif(\user::is_super_admin()) {
 
             $privs = \factory::get_reference('privileges');
 
@@ -144,7 +167,7 @@ class userscontroller extends \supercontroller {
             );
 
             $params = [
-                'avatar'        => \user::read_params('user', 'default_avatar'),
+                'avatar'        => \user::read_params('user', 'default_avatar', DS.'media'.DS.'images'.DS.'noavatar.gif'),
                 'login'         => '',
                 'password'      => '',
                 'credentials'   => $select,
@@ -173,6 +196,9 @@ class userscontroller extends \supercontroller {
                 $params,
                 \user::$path.'admin'.DS.'views'.DS.'users'
             );
+        }
+        else {
+            return \user::read_lang('create_edit_page')['HAVE_NO_RIGHTS'];
         }
     }
 }

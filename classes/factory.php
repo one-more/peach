@@ -22,7 +22,7 @@ class factory {
 		}
 
 		if(static::$_iniserver == null) {
-            static::$_iniserver = new iniServer('../configuration.ini');
+            static::$_iniserver = new iniServer(SITE_PATH.'configuration.ini');
         }
 
         return static::$_iniserver;

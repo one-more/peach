@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * templator
  *
@@ -30,7 +30,7 @@ class templator
                 $buffer = preg_replace("/:$key/","$value",$buffer);
             }
 		}
-		
+
 		return $buffer;		
 	}
 
@@ -48,22 +48,22 @@ class templator
 			ob_start();
 			
 			if($path)
-				include("$path\\$tpl.html");
+				include($path.DS.$tpl.'.html');
 			else
-				include("views\\$tpl.html");
+				include('..'.DS.'html'.DS.$tpl.'.html');
 			
 			$tmpl = self::prepare(ob_get_contents(),$params);
 			
 			ob_end_clean();
-			
+
 			return $tmpl;		
 		}
 		else
 		{
 			if($path)
-				return file_get_contents("$path\\$tpl.html");
+				return file_get_contents($path.DS.$tpl.'.html');
 			else
-				return file_get_contents("views\\$tpl.html");
+				return file_get_contents('..'.DS.'html'.DS.$tpl.'.html');
 		}		
 	}
 

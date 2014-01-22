@@ -21,8 +21,36 @@ class usermodel extends \superModel {
                 'site'          => '-',
                 'facebook'      => '-',
                 'twitter'       => '-',
-                'avatar'        => '/media/images/noavatar.gif'
+                'avatar'        => DS.'media'.DS.'images'.DS.'noavatar.gif'
             ];
+
+            $this->get_reference();
+
+            $user = \helper::purify($user);
+            $info = \helper::purify($info);
+
+            $merged_array = array_merge($user,$info);
+
+            $errors = static::check($merged_array, [
+                'login'     => ['not_empty', 'unique_user'],
+                'email'     => 'email',
+                'password'  => ['not_empty', 'password']
+            ]);
+
+            if($errors) {
+                return $errors;
+            }
+
+            if($info['avatar']) {
+                $avatar = \user::read_params('user');
+
+                $info['avatar'] = \helper::make_img(
+                    $info['avatar'],
+                    \user::$path.'avatars',
+                    $avatar['default_avatar_width'],
+                    $avatar['default_avatar_height']
+                );
+            }
 
             $info = array_merge($default, $info);
 
@@ -97,6 +125,50 @@ class usermodel extends \superModel {
             \error::log($e->getMessage());
 
             \error::show_error();
+        }
+    }
+
+    public function get_by_login($name, $info = false)
+    {
+        try{
+            $sth = $this->_db->prepare('select * from users where `login` = ?');
+            $sth->bindParam(1, $name);
+
+            $sth->execute();
+
+            $result = $sth->fetch();
+
+            if($result) {
+                return $this->get($result['id'], $info);
+            }
+            else {
+                return false;
+            }
+        }
+        catch(\PDOException $e) {
+            \error::log($e->getMessage());
+
+            \error::show_error();
+        }
+    }
+
+    /**
+     * checks whether user exists
+     *
+     * @param $value
+     * @return bool
+     */
+    public static function valid_unique_user($value)
+    {
+        static::$reference['user_exists'] = \user::read_lang('references', 'user_exists');
+
+        $model = \user::get_admin_model('user');
+
+        if($user = $model->get_by_login($value)) {
+            return static::$reference['user_exists'];
+        }
+        else {
+            return false;
         }
     }
 }

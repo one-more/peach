@@ -19,6 +19,8 @@ class core {
 
         mb_http_output('UTF-8');
 
+        clearstatcache();
+
         exceptionHandler::initialise();
 
         error::init();
@@ -42,7 +44,7 @@ class core {
         }
 
         //install site
-        if(!file_exists('../configuration.ini')) {
+        if(!file_exists(SITE_PATH.'configuration.ini')) {
 
             installer::start();
 

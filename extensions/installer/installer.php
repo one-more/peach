@@ -53,7 +53,7 @@ class installer implements widget_extension_interface{
 
             $model = $name.'model';
 
-            $ini = factory::getIniServer('../configuration.ini');
+            $ini = factory::getIniServer(SITE_PATH.'configuration.ini');
 
             $params = $ini->readSection('db_params');
 

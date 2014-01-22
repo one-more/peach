@@ -154,8 +154,8 @@ trait trait_template {
 
         $lang2 = site::getLang();
 
-        $path = '..'.DS.'lang'.DS.static::$name.DS.core::$mode.DS.$lang2.'.ini';
-        $path2 = '..'.DS.'lang'.DS.static::$name.DS.core::$mode.DS.$lang.'.ini';
+        $path  = SITE_PATH.'lang'.DS.static::$name.DS.core::$mode.DS.$lang2.'.ini';
+        $path2 = SITE_PATH.'lang'.DS.static::$name.DS.core::$mode.DS.$lang.'.ini';
 
         if(file_exists($path)) {
             $ini = factory::getIniServer($path);

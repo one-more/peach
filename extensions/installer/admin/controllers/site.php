@@ -100,7 +100,7 @@ class sitecontroller extends supercontroller{
             ]);
 
             if(!$error) {
-                $ini = factory::getIniServer('../configuration.ini');
+                $ini = factory::getIniServer(SITE_PATH.'configuration.ini');
 
                 $arr = [
                     'db_name'   => $_POST['dbname'],
@@ -130,7 +130,7 @@ class sitecontroller extends supercontroller{
                     $ini = null;
 
                     //delete ini file
-                    unlink('../configuration.ini');
+                    unlink(SITE_PATH.'configuration.ini');
 
                     return ['error' => $error];
                 }

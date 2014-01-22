@@ -96,5 +96,61 @@ class helper
 		}
 		
 		return $sql;
-	}	
+	}
+
+    /**
+     * @param $arr
+     * @return string
+     */
+    public static function purify($arr)
+    {
+        if(is_array($arr)) {
+            foreach($arr as $k=>$v) {
+                $arr[$k] = static::purify($v);
+            }
+
+            return $arr;
+        }
+        else {
+            return htmlentities(trim($arr));
+        }
+    }
+
+    /**
+     * @param $data
+     * @param $path
+     * @param $width
+     * @param $height
+     * @return string
+     */
+    public static function make_img($data, $path, $width, $height)
+    {
+        preg_match('/data:image\/(\w+);/', $data, $arr);
+
+        $func = "imagecreatefrom$arr[1]";
+
+        $im = $func($data);
+
+        $name = md5($im);
+
+        imagesavealpha($im, true);
+
+        $thmb = imagecreatetruecolor($width, $height);
+
+        $size = ['0' => imagesx($im), '1' => imagesy($im)];
+
+        imagealphablending($thmb, false);
+        imagesavealpha($thmb, true);
+
+        imagecopyresampled($thmb, $im, 0,0,0,0, $width, $height, $size[0], $size[1]);
+
+        $func = "image$arr[1]";
+
+        $func($thmb, $path.DS.$name);
+
+        imagedestroy($im);
+        imagedestroy($thmb);
+
+        return $path.DS.$name;
+    }
 }
