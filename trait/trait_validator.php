@@ -50,7 +50,7 @@ trait trait_validator {
      * @return bool
      */
     public static function valid_email($v) {
-		if (filter_var($v, FILTER_VALIDATE_EMAIL))
+		if (filter_var($v, FILTER_VALIDATE_EMAIL) || empty($v))
 		{
 			return false;
 		}
@@ -78,7 +78,7 @@ trait trait_validator {
      */
     public static function valid_password($v)
     {
-        if(strlen($v) < 5) {
+        if(strlen($v) < 5 || empty($v)) {
             return static::$reference['password'];
         }
         else {
