@@ -20,6 +20,8 @@ class userscontroller extends \supercontroller {
         $tr = '';
 
         foreach($all as $el) {
+            $tr = '';
+
             $td = \dom::create_element('td', ['text' => $el['id']]);
             $tr .= $td;
 
@@ -40,9 +42,16 @@ class userscontroller extends \supercontroller {
                 $i = \dom::create_element(
                     'i',
                     [
-                        'class' => 'icon-edit user-edit-btn cursor-pointer',
+                        'class' => 'icon-edit user-edit-btn cursor-pointer float-left',
                         'data-params' => $el['id']
                     ]);
+                $i .= \dom::create_element(
+                    '<i>',
+                    [
+                        'class'         => 'icon-trash user-delete-btn cursor-pointer',
+                        'data-params'   => $el['id']
+                    ]
+                );
 
                 $td = \dom::create_element('td', ['text' => $i]);
                 $tr .= $td;
@@ -141,6 +150,37 @@ class userscontroller extends \supercontroller {
             if(is_array($answer)) {
                 return ['error' => $answer];
             }
+            else {
+
+                $ref = \user::read_lang('references')['user_created'];
+
+                \comet::add_message(
+                    [
+                        'task'      => 'delegate',
+                        'object'    => 'App',
+                        'method'    => 'closeModal',
+                        'params'    => []
+                    ]
+                );
+
+                \comet::add_message(
+                    [
+                        'task'      => 'delegate',
+                        'object'    => 'UserView',
+                        'method'    => 'update_users_table',
+                        'params'    => []
+                    ]
+                );
+
+                \comet::add_message(
+                    [
+                        'task'      => 'delegate',
+                        'object'    => 'App',
+                        'method'    => 'showNoty',
+                        'params'    => [$ref, 'success']
+                    ]
+                );
+            }
         }
         elseif(\user::is_super_admin()) {
 
@@ -198,7 +238,54 @@ class userscontroller extends \supercontroller {
             );
         }
         else {
-            return \user::read_lang('create_edit_page')['HAVE_NO_RIGHTS'];
+            return \templator::get_warning(\user::read_lang('create_edit_page')['HAVE_NO_RIGHTS']);
+        }
+    }
+
+    /**
+     * @param $id
+     * @return string
+     */
+    public function edit($id)
+    {
+        if($id) {
+            return 'we will edit user with id '.$id;
+        }
+        else {
+            return 'this is update branch of method';
+        }
+    }
+
+    /**
+     * @param $id
+     */
+    public function delete($id)
+    {
+        if($id) {
+
+            $model = \user::get_admin_model('user');
+
+            $model->delete($id);
+
+            \comet::add_message(
+                [
+                    'task'      => 'delegate',
+                    'object'    => 'UserView',
+                    'method'    => 'update_users_table',
+                    'params'    => []
+                ]
+            );
+
+            $ref = \user::read_lang('references')['user_deleted'];
+
+            \comet::add_message(
+                [
+                    'task'      => 'delegate',
+                    'object'    => 'App',
+                    'method'    => 'showNoty',
+                    'params'    => [$ref, 'success']
+                ]
+            );
         }
     }
 }

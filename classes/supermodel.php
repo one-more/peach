@@ -33,6 +33,8 @@ class superModel
 			$this->_db = new PDO("$dbtype:host=localhost;dbname=$dbname",$user, $pass);
 			$this->_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$this->_db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
+            $this->get_reference();
 		}
 		catch(PDOException $e)
 		{

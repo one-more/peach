@@ -46,8 +46,12 @@ App.module('Form', function(Form){
 
         button.attr('disabled', 'true');
 
-        $('.error-span').each(function(){
+        $('.span-error').each(function(){
             $(this).remove();
+        })
+
+        $('input.error').each(function(){
+            $(this).removeClass('error');
         })
 
         var ajax = Form._ajax = $.post(action, $form.serialize(), 'json');
@@ -63,17 +67,15 @@ App.module('Form', function(Form){
                             var el = $form.find('input[name='+k+']');
 
                             var span = $('<span>', {
-                                'class' : 'error-span text-error',
+                                'class' : 'no-margin span-error text-error',
                                 'text': v
                             });
 
                             span.css({
-                                'left'  : el.offset().left,
-                                'top'   : el.offset().top + el.outerHeight(true) + 10,
                                 'width' : el.width()
                             });
 
-                            $('body').append(span);
+                            $form.find('input[name='+k+']').after(span);
                         }
                         catch(exception) {
                             console.log(exception);

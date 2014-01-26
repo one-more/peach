@@ -60,6 +60,10 @@ th {
     margin-top: 10%;
 }
 
+.no-margin {
+    margin: 0 !important;
+}
+
 .margin-top-5 {
     margin-top: 5%;
 }
@@ -147,6 +151,10 @@ html,body {
 
 .width-170px {
     width: 170px;
+}
+
+.width-270px {
+    width: 270px;
 }
 
 .height-170px {

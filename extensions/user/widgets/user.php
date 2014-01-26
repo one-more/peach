@@ -25,11 +25,13 @@ class userwidget extends supercontroller implements widget_controller_interface{
     {
         $user = user::get();
 
+        $privs = factory::get_reference('privileges');
+
         $user = json_decode($user, true);
 
         $user = array_merge($user['user'], $user['info']);
 
-        $params = array_merge($user, []);
+        $params = array_merge($user, ['privileges' => $privs[$user['credentials']]]);
 
         return templator::getTemplate('user', $params ,user::$path.'widget_views'.DS.'user');
     }

@@ -6,6 +6,7 @@ var UserView = Backbone.View.extend({
         'click .user-edit-btn'          : 'open_edit',
         'click .view-user-btn'          : 'view_user',
         'click .create-user-btn'        : 'create_user',
+        'click .user-delete-btn'        : 'delete_user',
         'click .user-download-avatar'   : 'download_avatar'
     },
 
@@ -15,18 +16,39 @@ var UserView = Backbone.View.extend({
         })
     },
 
-    open_edit: function() {
-        alert(1);
+    open_edit: function(e) {
+        var data = $(e.target).data('params')
+
+        App.makeModal('index.php?class=user&controller=users&task=edit&params='+data);
     },
 
     view_user: function(e) {
         var id = $(e.target).data('params');
 
-        App.makeModal('index.php?class=user&controller=users&task=view&params='+id);
+        App.makeModal(
+            'index.php?class=user&controller=users&task=view&params='+id
+        );
     },
 
     create_user: function() {
         App.makeModal('index.php?class=user&controller=users&task=create');
+    },
+
+    delete_user: function(e) {
+        var id = $(e.target).data('params');
+
+        App.confirm(
+            'delete user?',
+            function() {
+                $.post('index.php?class=user&controller=users&task=delete&params='+id);
+            }
+        );
+    },
+
+    update_users_table: function(){
+        $.post('index.php?class=user&controller=users', {}, function(data){
+            $('#users-table').replaceWith(data);
+        })
     },
 
     download_avatar: function() {
@@ -46,7 +68,7 @@ var UserView = Backbone.View.extend({
 
                         $('.user-avatar-img').attr('src', data);
 
-                        $('input[name="avatar"]').val(data);
+                        $('textarea[name="avatar"]').val(data);
                     }
                 })(file)
 

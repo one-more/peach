@@ -46,12 +46,14 @@ class usermodel extends \superModel {
 
                 $info['avatar'] = \helper::make_img(
                     $info['avatar'],
-                    \user::$path.'avatars',
+                    '.'.DS.'media'.DS.'users_avatars',
+                    DS.'media'.DS.'users_avatars',
                     $avatar['default_avatar_width'],
                     $avatar['default_avatar_height']
                 );
             }
 
+            $info = \helper::delete_empty_values($info);
             $info = array_merge($default, $info);
 
             $user['password'] = crypt($user['password'], 'the_best_ever');
@@ -131,8 +133,8 @@ class usermodel extends \superModel {
     public function get_by_login($name, $info = false)
     {
         try{
-            $sth = $this->_db->prepare('select * from users where `login` = ?');
-            $sth->bindParam(1, $name);
+            $sth = $this->_db->prepare('select * from `users` where `login` = ?');
+            $sth->bindParam(1, $name, \PDO::PARAM_STR);
 
             $sth->execute();
 
@@ -153,6 +155,33 @@ class usermodel extends \superModel {
     }
 
     /**
+     * @param $id
+     */
+    public function delete($id)
+    {
+        try{
+            $user = $this->get($id, true);
+
+            $sth = $this->_db->prepare('delete from users where id = ?');
+            $sth->bindParam(1, $id, \PDO::PARAM_INT);
+            $sth->execute();
+
+            $sth = $this->_db->prepare('delete from user_info where `user` = ?');
+            $sth->bindParam(1, $id, \PDO::PARAM_INT);
+            $sth->execute();
+
+            if($user['info']['avatar'] != \user::read_params('user')['default_avatar']) {
+                unlink('.'.$user['info']['avatar']);
+            }
+        }
+        catch(\PDOException $e) {
+            \error::log($e->getMessage());
+
+            \error::show_error();
+        }
+    }
+
+    /**
      * checks whether user exists
      *
      * @param $value
@@ -160,7 +189,7 @@ class usermodel extends \superModel {
      */
     public static function valid_unique_user($value)
     {
-        static::$reference['user_exists'] = \user::read_lang('references', 'user_exists');
+        static::$reference['user_exists'] = \user::read_lang('references')['user_exists'];
 
         $model = \user::get_admin_model('user');
 

@@ -118,20 +118,19 @@ class helper
 
     /**
      * @param $data
-     * @param $path
+     * @param $path1 - path for script
+     * @param $path2 - path for <img> tag
      * @param $width
      * @param $height
      * @return string
      */
-    public static function make_img($data, $path, $width, $height)
+    public static function make_img($data, $path1, $path2, $width, $height)
     {
         preg_match('/data:image\/(\w+);/', $data, $arr);
 
         $func = "imagecreatefrom$arr[1]";
 
         $im = $func($data);
-
-        $name = md5($im);
 
         imagesavealpha($im, true);
 
@@ -144,13 +143,32 @@ class helper
 
         imagecopyresampled($thmb, $im, 0,0,0,0, $width, $height, $size[0], $size[1]);
 
+        $name = md5($data);
+
         $func = "image$arr[1]";
 
-        $func($thmb, $path.DS.$name);
+        $func($thmb, $path1.DS.$name.'.'.$arr[1]);
 
         imagedestroy($im);
         imagedestroy($thmb);
 
-        return $path.DS.$name;
+        return $path2.DS.$name.'.'.$arr[1];
+    }
+
+    /**
+     * @param $arr
+     * @return array
+     */
+    public static function delete_empty_values($arr)
+    {
+        $result = [];
+
+        foreach($arr as $k=>$v) {
+            if(!empty($v)) {
+               $result[$k] = $v;
+            }
+        }
+
+        return $result;
     }
 }

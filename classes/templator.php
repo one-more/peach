@@ -92,4 +92,13 @@ class templator
     {
         return file_get_contents('..'.DS.'html'.DS.'section_under_construction.html');
     }
+
+    /**
+     * @param $msg
+     * @return mixed
+     */
+    public static function get_warning($msg)
+    {
+        return preg_replace("/:msg/", $msg, file_get_contents(SITE_PATH.'html'.DS.'warning.html'));
+    }
 }

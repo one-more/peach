@@ -166,6 +166,31 @@ _.extend(App, Backbone.Events, {
         return n;
     },
 
+    confirm: function(text, ok_callback, cancel_callback){
+        noty({
+            text    : text,
+            layout  : 'topCenter',
+            buttons : [
+                {
+                    addClass:'btn', text:'ok', onClick: function($noty){
+                        $noty.close();
+                        if(typeof ok_callback == 'function') {
+                            ok_callback();
+                        }
+                    }
+                },
+                {
+                    addClass: 'btn', text : 'cancel', onClick: function($noty) {
+                        $noty.close();
+                        if(typeof cancel_callback == 'function') {
+                            cancel_callback();
+                        }
+                    }
+                }
+            ]
+        });
+    },
+
     goto: function(location, trigger) {
         trigger = trigger || true;
 
