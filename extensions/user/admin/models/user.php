@@ -4,12 +4,36 @@ namespace user_admin;
  * Class usermodel
  */
 class usermodel extends \superModel {
+
     /**
      * @param $user
      * @param $info
-     * @return string
+     * @return array|string
      */
     public function create($user, $info)
+    {
+        return $this->create_edit($user, $info, null, 'create');
+    }
+
+    /**
+     * @param $user
+     * @param $info
+     * @param $id
+     * @return array|string
+     */
+    public function edit($user, $info, $id)
+    {
+        return $this->create_edit($user, $info, $id, 'edit');
+    }
+
+    /**
+     * @param $user
+     * @param $info
+     * @param null $_id
+     * @param string $type
+     * @return array|string
+     */
+    public function create_edit($user, $info, $_id = null, $type = 'create')
     {
         try {
             $default = [
@@ -24,6 +48,17 @@ class usermodel extends \superModel {
                 'avatar'        => DS.'media'.DS.'images'.DS.'noavatar.gif'
             ];
 
+            if($type == 'create') {
+                $task   = 'INSERT INTO';
+                $where  = '';
+                $where1 = '';
+            }
+            elseif($type == 'edit') {
+                $task   = 'UPDATE';
+                $where  = "WHERE id = $_id";
+                $where1 = "WHERE user = $_id";
+            }
+
             $this->get_reference();
 
             $user = \helper::purify($user);
@@ -31,22 +66,34 @@ class usermodel extends \superModel {
 
             $merged_array = array_merge($user,$info);
 
-            $errors = static::check($merged_array, [
-                'login'     => ['not_empty', 'unique_user'],
-                'email'     => 'email',
-                'password'  => ['not_empty', 'password']
-            ]);
+            if($type == 'create') {
+                $checks = [
+                    'login'     => ['not_empty', 'unique_user'],
+                    'email'     => 'email',
+                    'password'  => ['not_empty', 'password']
+                ];
+            }
+            elseif($type == 'edit') {
+                $checks = [
+                    'login'     => 'not_empty',
+                    'email'     => 'email',
+                    'password'  => ['not_empty', 'password']
+                ];
+            }
+
+            $errors = static::check($merged_array, $checks);
 
             if($errors) {
                 return $errors;
             }
 
-            if($info['avatar']) {
+            if((!empty($info['avatar']) && $type == 'create') ||
+                ($info['avatar'] != $info['old_avatar'])
+            ) {
                 $avatar = \user::read_params('user');
 
                 $info['avatar'] = \helper::make_img(
                     $info['avatar'],
-                    '.'.DS.'media'.DS.'users_avatars',
                     DS.'media'.DS.'users_avatars',
                     $avatar['default_avatar_width'],
                     $avatar['default_avatar_height']
@@ -58,16 +105,23 @@ class usermodel extends \superModel {
 
             $user['password'] = crypt($user['password'], 'the_best_ever');
 
-            $sth = $this->_db->prepare('INSERT INTO `users` SET `login` = ?, `password` = ?, `credentials` = ?');
+            $sth = $this->_db->prepare(
+                "$task `users` SET
+                    `login` = ?,
+                    `password` = ?,
+                    `credentials` = ?
+                     $where"
+            );
             $sth->bindParam(1, $user['login']);
             $sth->bindParam(2, $user['password']);
             $sth->bindParam(3, $user['credentials']);
             $sth->execute();
 
             $id = $this->_db->lastInsertId();
+            $id = ($id) ? $id : $_id;
 
-            $sth = $this->_db->prepare('
-                INSERT INTO `user_info` SET
+            $sth = $this->_db->prepare("
+                $task `user_info` SET
                     `user`      = ?,
                     `full_name` = ?,
                     `email`     = ?,
@@ -78,7 +132,8 @@ class usermodel extends \superModel {
                     `facebook`  = ?,
                     `twitter`   = ?,
                     `avatar`    = ?
-                ');
+                     $where1
+                ");
             $sth->bindParam(1, $id);
             $sth->bindParam(2, $info['full_name']);
             $sth->bindParam(3, $info['email']);

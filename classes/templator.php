@@ -24,10 +24,10 @@ class templator
                     $tmp .= $v1;
                 }
 
-                $buffer = preg_replace("/:$key/", "$tmp", $buffer);
+                $buffer = preg_replace("/:$key/", $tmp, $buffer, 1);
             }
             else {
-                $buffer = preg_replace("/:$key/","$value",$buffer);
+                $buffer = preg_replace("/:$key/", $value, $buffer, 1);
             }
 		}
 

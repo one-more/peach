@@ -118,13 +118,12 @@ class helper
 
     /**
      * @param $data
-     * @param $path1 - path for script
-     * @param $path2 - path for <img> tag
+     * @param $path
      * @param $width
      * @param $height
      * @return string
      */
-    public static function make_img($data, $path1, $path2, $width, $height)
+    public static function make_img($data, $path, $width, $height)
     {
         preg_match('/data:image\/(\w+);/', $data, $arr);
 
@@ -147,12 +146,12 @@ class helper
 
         $func = "image$arr[1]";
 
-        $func($thmb, $path1.DS.$name.'.'.$arr[1]);
+        $func($thmb, '.'.$path.DS.$name.'.'.$arr[1]);
 
         imagedestroy($im);
         imagedestroy($thmb);
 
-        return $path2.DS.$name.'.'.$arr[1];
+        return $path.DS.$name.'.'.$arr[1];
     }
 
     /**

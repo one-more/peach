@@ -61,6 +61,10 @@ trait trait_extension {
         static::$path = '..'.DS.'extensions'.DS.static::$name.DS;
 
         static::$cache_path = static::$path.core::$mode.DS.'cache'.DS;
+
+        if(!file_exists(static::$cache_path)) {
+            mkdir(static::$cache_path);
+        }
     }
 
     /**
@@ -208,11 +212,13 @@ trait trait_extension {
 
         static::init();
 
+        clearstatcache();
+
         $iterator = new FilesystemIterator(static::$cache_path);
 
         foreach($iterator as $el) {
-            if(filemtime($el) > time()+3600*60*8) {
-                unlink($el);
+            if(time() > filemtime($el)+3600*24) {
+               unlink($el);
             }
         }
 	}

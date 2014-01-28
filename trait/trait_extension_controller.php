@@ -36,7 +36,7 @@ trait trait_extension_controller {
 	 * @return bool
 	 */
 	public function delete_cache_view($name) {
-		$path = $this->_cache_path."$name";
+		$path = $this->_cache_path.$name;
 
 		if(file_exists($path)) {
 			unlink($path);

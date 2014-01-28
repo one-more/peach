@@ -19,12 +19,28 @@ class exceptionHandler {
     }
 }
 
+/**
+ *
+ * custom exception handler
+ *
+ * @param $exception
+ */
 function peach_exception_handler($exception) {
     error::log($exception->getMessage());
 
     echo templator::getTemplate('error', ['error-msg'=>'an exception occurred'], '../html');
 }
 
+
+/**
+ *
+ * custom error handler
+ *
+ * @param $errno
+ * @param $errstr
+ * @param $errfile
+ * @param $errline
+ */
 function peach_error_handler($errno, $errstr, $errfile, $errline) {
 
     $msg = "$errno : $errstr in $errline of $errfile";
@@ -34,21 +50,23 @@ function peach_error_handler($errno, $errstr, $errfile, $errline) {
     echo templator::getTemplate('error', ['error-msg'=>'there was an error'], '../html');
 }
 
+/**
+ * custom fatal error handler
+ */
 function peach_fatal_error_handler()
 {
     if($arr = error_get_last()) {
         $msg = "FATAL ERROR : $arr[message] : $arr[line] : $arr[file] \r\n";
 
-        $path = realpath(dirname(__FILE__).'../..');
         $ds = DIRECTORY_SEPARATOR;
 
-        file_put_contents($path.$ds.'error.log', $msg, FILE_APPEND);
+        file_put_contents(SITE_PATH.'error.log', $msg, FILE_APPEND);
 
-        require_once($path.$ds.'classes'.$ds.'dom.php');
+        require_once(SITE_PATH.'classes'.$ds.'dom.php');
 
         echo dom::create_element('<link>', ['rel'=>'stylesheet', 'href' => '/css/bootstrap.min.css']);
 
-        $str = file_get_contents($path.$ds.'html'.$ds.'error.html');
+        $str = file_get_contents(SITE_PATH.'html'.$ds.'error.html');
 
         echo preg_replace('/:error-msg/', 'fatal error occurred', $str);
     }

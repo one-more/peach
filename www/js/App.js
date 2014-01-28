@@ -212,6 +212,10 @@ _.extend(App, Backbone.Events, {
         alert(str);
     },
 
+    alert: function(msg){
+        alert(msg);
+    },
+
     closeModal: function() {
         $('.modal-backdrop').remove();
     },

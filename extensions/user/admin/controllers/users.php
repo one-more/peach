@@ -8,6 +8,14 @@ namespace user_admin;
  */
 class userscontroller extends \supercontroller {
 
+    use \trait_extension_controller;
+
+    public function __construct()
+    {
+        $this->_cache_path = \user::$path.'admin'.DS.'cache'.DS;
+        $this->extension = 'user';
+    }
+
     public function display() {
 
         $params = \factory::get_reference('privileges');
@@ -229,7 +237,20 @@ class userscontroller extends \supercontroller {
 
             $params['action'] = 'index.php?class=user&controller=users&task=create';
 
+            $params['id'] = '';
+
             $params = array_merge($params, $refs);
+
+            $password_label = \dom::create_element(
+                'label',
+                [
+                    'class'     => 'control-label',
+                    'for'       => 'input_password',
+                    'text'      => $params['PASSWORD_LABEL'].' '.\dom::create_element('sup',['text'=>'*'])
+                ]
+            );
+
+            $params['pswd_label'] = $password_label;
 
             return \templator::getTemplate(
                 'edit',
@@ -249,10 +270,168 @@ class userscontroller extends \supercontroller {
     public function edit($id)
     {
         if($id) {
-            return 'we will edit user with id '.$id;
+
+            $model = \user::get_admin_model('user');
+
+            if($this->get_cache_view('user_info_'.$id)) {
+                $user = json_decode($this->get_cache_view('user_info_'.$id), true);
+            }
+            else {
+                $user = $model->get($id, true);
+
+                $this->set_cache_view('user_info_'.$id, json_encode($user));
+            }
+
+            $privs = \factory::get_reference('privileges');
+
+            $refs = \factory::get_reference('user');
+
+            $opt = '';
+
+            foreach($privs as $k=>$v) {
+                if($user['user']['credentials'] === $k)
+                    $opt = \dom::create_element(
+                        'option',
+                        [
+                            'value'     => $k,
+                            'text'      => $v,
+                            'selected'  => ''
+                        ]
+                    );
+                else
+                    $opt .= \dom::create_element(
+                        'option',
+                        [
+                            'value' => $k,
+                            'text'  => $v
+                        ]
+                    );
+            }
+
+            $select = \dom::create_element(
+                'select',
+                [
+                    'name'  => 'credentials',
+                    'text'  => $opt,
+                    'class' => 'align-center'
+                ]
+            );
+
+            $params = array_merge($user['user'], $user['info']);
+
+            $params['full_name_val']    = $params['full_name'];
+            $params['phone_val']        = $params['phone'];
+            $params['site_val']         = $params['site'];
+
+            $lbls = \user::read_lang('create_edit_page');
+
+            $params = array_merge($params, $lbls);
+
+            $params['BTN_LABEL'] = $params['SAVE_BTN_LABEL'];
+
+            $params['action'] = 'index.php?class=user&controller=users&task=edit';
+
+            $params['credentials'] = $select;
+
+            $params['id'] = $id;
+
+            $params = array_merge($params, $refs);
+
+            foreach($params as $k=>$v) {
+                if($v == '-') {
+                    $params[$k] = '';
+                }
+            }
+
+            $params['password'] = '';
+
+            $password_label = \dom::create_element(
+                'label',
+                [
+                    'class'     => 'control-label',
+                    'for'       => 'input_password',
+                    'text'      => $params['NEW_PASSWORD_LABEL']
+                ]
+            );
+
+            $params['pswd_label'] = $password_label;
+
+            return \templator::getTemplate(
+                'edit',
+                $params,
+                \user::$path.'admin'.DS.'views'.DS.'users'
+            );
+        }
+        elseif($_POST) {
+            $model = \user::get_admin_model('user');
+
+            $id = $_POST['id'];
+
+            if($this->get_cache_view('user_info_'.$id)) {
+                $user_old = json_decode($this->get_cache_view('user_info_'.$id), true);
+            }
+            else {
+                $user_old = $model->get($id);
+            }
+
+            $answer = $model->edit(
+                $user   = [
+                    'login'         => $_POST['login'],
+                    'password'      => $_POST['password'] ? $_POST['password'] : $user_old['user']['password'],
+                    'credentials'   => $_POST['credentials']
+                ],
+                $info   = [
+                    'full_name'  =>  $_POST['full_name'],
+                    'email'      =>  $_POST['email'],
+                    'phone'      =>  $_POST['phone'],
+                    'icq'        =>  $_POST['icq'],
+                    'skype'      =>  $_POST['skype'],
+                    'site'       =>  $_POST['site'],
+                    'facebook'   =>  $_POST['facebook'],
+                    'twitter'    =>  $_POST['twitter'],
+                    'avatar'     =>  $_POST['avatar'] ? $_POST['avatar'] : $user_old['info']['avatar'],
+                    'old_avatar' =>  $user_old['info']['avatar']
+                ],
+                $_POST['id']
+            );
+
+            if(is_array($answer)) {
+                return ['error' => $answer];
+            }
+
+            $ref = \user::read_lang('references')['user_edited'];
+
+            \comet::add_message(
+                [
+                    'task'      => 'delegate',
+                    'object'    => 'App',
+                    'method'    => 'closeModal',
+                    'params'    => []
+                ]
+            );
+
+            \comet::add_message(
+                [
+                    'task'      => 'delegate',
+                    'object'    => 'App',
+                    'method'    => 'showNoty',
+                    'params'    => ['0' => $ref, '1' => 'success']
+                ]
+            );
+
+            \comet::add_message(
+                [
+                    'task'      => 'delegate',
+                    'object'    => 'UserView',
+                    'method'    => 'update_users_table',
+                    'params'    => []
+                ]
+            );
+
+            $this->delete_cache_view('user_info_'.$_POST['id']);
         }
         else {
-            return 'this is update branch of method';
+            return \templator::get_warning('no data');
         }
     }
 
@@ -266,6 +445,8 @@ class userscontroller extends \supercontroller {
             $model = \user::get_admin_model('user');
 
             $model->delete($id);
+
+            $this->delete_cache_view('user_info_'.$id);
 
             \comet::add_message(
                 [
