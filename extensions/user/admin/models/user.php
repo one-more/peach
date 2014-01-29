@@ -57,6 +57,14 @@ class usermodel extends \superModel {
                 $task   = 'UPDATE';
                 $where  = "WHERE id = $_id";
                 $where1 = "WHERE user = $_id";
+
+                $old_user = $this->get($_id, true);
+                if(empty($user['password'])) {
+                    $user['password'] = $old_user['user']['password'];
+                }
+                if(empty($info['avatar'])) {
+                    $info['avatar'] = $old_user['info']['avatar'];
+                }
             }
 
             $this->get_reference();
@@ -88,7 +96,7 @@ class usermodel extends \superModel {
             }
 
             if((!empty($info['avatar']) && $type == 'create') ||
-                ($info['avatar'] != $info['old_avatar'])
+                ($type == 'edit' && !empty($info['avatar']) && $info['avatar'] != $old_user['info']['avatar'])
             ) {
                 $avatar = \user::read_params('user');
 
@@ -103,7 +111,8 @@ class usermodel extends \superModel {
             $info = \helper::delete_empty_values($info);
             $info = array_merge($default, $info);
 
-            $user['password'] = crypt($user['password'], 'the_best_ever');
+            if($type == 'create' || $user['password'] != $old_user['user']['password'])
+                $user['password'] = crypt($user['password'], 'the_best_ever');
 
             $sth = $this->_db->prepare(
                 "$task `users` SET
@@ -228,6 +237,41 @@ class usermodel extends \superModel {
             if($user['info']['avatar'] != \user::read_params('user')['default_avatar']) {
                 unlink('.'.$user['info']['avatar']);
             }
+        }
+        catch(\PDOException $e) {
+            \error::log($e->getMessage());
+
+            \error::show_error();
+        }
+    }
+
+    /**
+     * @param $data
+     * @param $id
+     */
+    public function change_avatar($data, $id) {
+        try{
+            $defs = \user::read_params('user');
+
+            $img = \helper::make_img(
+                $data,
+                DS.'media'.DS.'users_avatars',
+                $defs['default_avatar_width'],
+                $defs['default_avatar_height']
+            );
+
+            $sth = $this->_db->prepare(
+                "
+                    UPDATE `user_info` SET
+                     `avatar` = ?
+                     where `user` = ?
+                "
+            );
+
+            $sth->bindParam(1, $img);
+            $sth->bindParam(2, $id);
+
+            $sth->execute();
         }
         catch(\PDOException $e) {
             \error::log($e->getMessage());

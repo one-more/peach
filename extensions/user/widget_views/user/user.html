@@ -1,5 +1,16 @@
-<figure class="text-center widget-blue widget">
+<figure class="text-center widget-blue widget current-user-widget">
     <figcaption>:full_name</figcaption>
-    <img src=":avatar" alt=""/>
+    <div class="user-widget-img-container position-relative inline-block">
+        <img class="width-height-170px" src=":avatar" alt=""/>
+        <div class="user-widget-change-avatar hover-block left-bottom-0 width-100 height-15">
+            <a data-params=":id" class="color-white external user-widget-change-avatar-btn cursor-pointer">
+                <i class="icon-circle-arrow-up icon-white"></i>
+                :CHANGE_AVATAR_BTN_LABEL
+            </a>
+        </div>
+    </div>
     <p>:privileges</p>
+
+    <link rel="stylesheet" href="/css/user/admin/user.css" />
+    <script src="/js/user/admin/views/user_widget_view.js"></script>
 </figure>

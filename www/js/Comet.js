@@ -37,7 +37,12 @@ App.module('Comet', function(Comet){
             $.each(msgs, function(k,v){
                 switch (v.task) {
                     case 'delegate':
-                        window[v.object][v.method].apply(v.object, v.params);
+                        try{
+                            window[v.object][v.method].apply(v.object, v.params);
+                        }
+                        catch(exc){
+                            console.log(exc);
+                        }
                         break;
                 }
             })

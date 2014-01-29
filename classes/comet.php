@@ -23,6 +23,13 @@ class comet {
      */
     public static function get_array()
     {
+        if(!file_exists(SITE_PATH.'resources')) {
+            mkdir(SITE_PATH.'resources');
+        }
+        if(!file_exists(SITE_PATH.'resources'.DS.'comet.db')) {
+            file_put_contents(SITE_PATH.'resources'.DS.'comet.db', '');
+        }
+
         return json_decode(file_get_contents(SITE_PATH.'resources'.DS.'comet.db'), true);
     }
 

@@ -13,7 +13,8 @@ class router {
     public static function route() {
 
         //if the user`s session is ended and started ajax request
-        if(core::$mode == 'admin' && !empty($_SESSION['user']) && !user::is_auth()) {
+        if(core::$mode == 'admin' && !empty($_REQUEST['ajax'])
+            && !empty($_SESSION['user']) && !user::is_auth()) {
             comet::add_message(
                 [
                     'task'      => 'delegate',

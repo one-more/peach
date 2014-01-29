@@ -10,12 +10,22 @@ class userscontroller extends \supercontroller {
 
     use \trait_extension_controller;
 
+    /**
+     *
+     */
     public function __construct()
     {
         $this->_cache_path = \user::$path.'admin'.DS.'cache'.DS;
         $this->extension = 'user';
+
+        if(!file_exists(SITE_PATH.'www'.DS.'media'.DS.'users_avatars')) {
+            mkdir(SITE_PATH.'www'.DS.'media'.DS.'users_avatars');
+        }
     }
 
+    /**
+     * @return mixed|string
+     */
     public function display() {
 
         $params = \factory::get_reference('privileges');
@@ -87,9 +97,16 @@ class userscontroller extends \supercontroller {
      */
     public function view($id) {
         if(is_numeric($id)) {
-            $controller = \user::get_admin_controller('user');
+            $model = \user::get_admin_model('user');
 
-            $arr = $controller->get($id);
+            if($this->get_cache_view('user_info_'.$id)) {
+                $arr = json_decode($this->get_cache_view('user_info_'.$id), true);
+            }
+            else {
+                $arr = $model->get($id);
+
+                $this->set_cache_view('user_info_'.$id, json_encode($arr));
+            }
 
             $params = $arr['user'];
 
@@ -365,32 +382,22 @@ class userscontroller extends \supercontroller {
         elseif($_POST) {
             $model = \user::get_admin_model('user');
 
-            $id = $_POST['id'];
-
-            if($this->get_cache_view('user_info_'.$id)) {
-                $user_old = json_decode($this->get_cache_view('user_info_'.$id), true);
-            }
-            else {
-                $user_old = $model->get($id);
-            }
-
             $answer = $model->edit(
                 $user   = [
                     'login'         => $_POST['login'],
-                    'password'      => $_POST['password'] ? $_POST['password'] : $user_old['user']['password'],
+                    'password'      => $_POST['password'],
                     'credentials'   => $_POST['credentials']
                 ],
                 $info   = [
-                    'full_name'  =>  $_POST['full_name'],
-                    'email'      =>  $_POST['email'],
-                    'phone'      =>  $_POST['phone'],
-                    'icq'        =>  $_POST['icq'],
-                    'skype'      =>  $_POST['skype'],
-                    'site'       =>  $_POST['site'],
-                    'facebook'   =>  $_POST['facebook'],
-                    'twitter'    =>  $_POST['twitter'],
-                    'avatar'     =>  $_POST['avatar'] ? $_POST['avatar'] : $user_old['info']['avatar'],
-                    'old_avatar' =>  $user_old['info']['avatar']
+                    'full_name'         =>  $_POST['full_name'],
+                    'email'             =>  $_POST['email'],
+                    'phone'             =>  $_POST['phone'],
+                    'icq'               =>  $_POST['icq'],
+                    'skype'             =>  $_POST['skype'],
+                    'site'              =>  $_POST['site'],
+                    'facebook'          =>  $_POST['facebook'],
+                    'twitter'           =>  $_POST['twitter'],
+                    'avatar'            =>  $_POST['avatar']
                 ],
                 $_POST['id']
             );
@@ -428,7 +435,18 @@ class userscontroller extends \supercontroller {
                 ]
             );
 
+            \comet::add_message(
+                [
+                    'task'      => 'delegate',
+                    'object'    => 'UserWidgetView',
+                    'method'    => 'update',
+                    'params'    => []
+                ]
+            );
+
             $this->delete_cache_view('user_info_'.$_POST['id']);
+
+            $this->manage_avatars();
         }
         else {
             return \templator::get_warning('no data');
@@ -467,6 +485,32 @@ class userscontroller extends \supercontroller {
                     'params'    => [$ref, 'success']
                 ]
             );
+
+            $this->manage_avatars();
+        }
+    }
+
+    /**
+     * removes avatars that are no longer used
+     */
+    public function manage_avatars()
+    {
+        $model = \user::get_admin_model('user');
+
+        $all = $model->get_all('user_info');
+
+        $avatars = [];
+
+        foreach($all as $el) {
+            $avatars[] = basename($el['avatar']);
+        }
+
+        $iterator = new \FilesystemIterator(SITE_PATH.'www'.DS.'media'.DS.'users_avatars');
+
+        foreach($iterator as $el) {
+            if(!in_array($el->getFilename(), $avatars)) {
+                unlink($el);
+            }
         }
     }
 }

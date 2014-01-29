@@ -1,3 +1,7 @@
 .user-avatar-container:hover .user-change-avatar {
     display: block;
 }
+
+.user-widget-img-container:hover .user-widget-change-avatar {
+    display: block;
+}

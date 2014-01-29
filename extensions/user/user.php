@@ -42,6 +42,14 @@ class user implements widget_extension_interface {
     }
 
     /**
+     * @return bool
+     */
+    public static function get_id()
+    {
+        return static::is_auth() ? $_SESSION['user'] : false;
+    }
+
+    /**
      * @param $url
      */
     public static function auth($url)
