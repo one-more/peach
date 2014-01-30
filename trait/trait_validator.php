@@ -85,4 +85,18 @@ trait trait_validator {
             return false;
         }
     }
+
+    /**
+     * @param $v
+     * @return bool
+     */
+    public static function valid_positive_number($v)
+    {
+        if(intval($v) > 0) {
+            return false;
+        }
+        else {
+            return static::$reference['positive_number'];
+        }
+    }
 }

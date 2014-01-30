@@ -34,11 +34,9 @@ class userwidget extends supercontroller implements widget_controller_interface{
             $user = json_decode($this->get_cache_view('user_info_'.$id), true);
         }
         else{
-            $user = user::get();
+            $model = user::get_admin_model('user');
 
-            if(!is_array($user)) {
-                $user = json_decode($user, true);
-            }
+            $user = $model->get($id, true);
 
             $this->set_cache_view('user_info_'.$id, json_encode($user));
         }

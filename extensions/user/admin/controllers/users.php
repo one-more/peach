@@ -103,7 +103,7 @@ class userscontroller extends \supercontroller {
                 $arr = json_decode($this->get_cache_view('user_info_'.$id), true);
             }
             else {
-                $arr = $model->get($id);
+                $arr = $model->get($id, true);
 
                 $this->set_cache_view('user_info_'.$id, json_encode($arr));
             }

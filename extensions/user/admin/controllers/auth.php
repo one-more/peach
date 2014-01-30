@@ -58,7 +58,7 @@ class authcontroller extends \supercontroller {
         {
             $ini = \factory::getIniServer(\user::$path.'user.ini');
 
-            $interval = $ini->read('params', 'exit_time', 15);
+            $interval = $ini->read('options', 'exit_time', 15);
 
             $activity = $ini->read('user', 'last_activity', time());
 

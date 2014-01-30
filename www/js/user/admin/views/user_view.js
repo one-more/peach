@@ -51,6 +51,16 @@ var UserView = Backbone.View.extend({
         })
     },
 
+    update_options_page: function(){
+        $.post(
+            'index.php?class=user&controller=options',
+            {},
+            function(data) {
+                $('#user-options-page-form').replaceWith(data);
+            }
+        );
+    },
+
     download_avatar: function() {
         $('.user-avatar-loader').one('change', function(e){
             var file = e.target.files[0];
