@@ -8,22 +8,24 @@
  */
 interface menu_extension_interface extends super_interface {
     /**
-     * @param $arr -> ['position', 'extension', 'controller', 'params']
+     * parameters must be passed in the $_POST array
+     *
+     * mandatory parameters: name, alias, class, controller, extension;
+     * other parameters - layout settings
+     *
      * @return mixed
      */
-    public static  function create_layout($arr);
+    public static  function create_layout();
 
     /**
+     * @param $id
      * @return mixed
      */
-    public static  function get_items();
+    public static function get_layout_params($id);
 
     /**
-     * @param $arr -> ['url', 'params']
-     * @return array in format:
-     * [
-     *     0 => ['position'=>'', 'extension'=>'', 'controller'=>'', 'params'=>'']
-     * ]
+     * @param $link
+     * @return mixed
      */
-    public static function get_page($arr = null);
+    public static function get_page($link);
 }

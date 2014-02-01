@@ -1,0 +1,38 @@
+<div id="login-view">
+    <h3 class="margin-left-2">:alias</h3>
+    <hr>
+
+    <span class="margin-left-2 inline-block">
+    <p>:VIEW_DESC_LABEL <br>
+    :description</p>
+    </span>
+
+    <form method="post" class="ajax margin-left-2 form-inline" action=":action">
+
+        <div class="inline-block">
+            <div class="float-left inline-block">
+                <label class="" for="input_redirect_url">:REDIRECT_URL_LABEL</label>
+            </div>
+            <div class="inline-block margin-left-5 width-25">
+                <input id="input_redirect_url" value="/" type="text"/>
+            </div>
+        </div>
+
+        <fieldset>
+            <legend>:LEGEND</legend>
+
+            %fieldset
+            <label for="input_layout_name">:LAYOUT_NAME_LABEL</label>
+            <input required id="input_layout_name" name="layout_name" type="text"/>
+            <br>
+            <br>
+
+            <label for="input_layout_alias">:LAYOUT_ALIAS_LABEL</label>
+            <input required id="input_layout_alias" name="layout_alias" type="text"/>
+            <br/><br/>
+
+            <button class="btn" type="submit">:BTN_LABEL</button>
+            fieldset%
+        </fieldset>
+    </form>
+</div>

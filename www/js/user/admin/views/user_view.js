@@ -7,7 +7,8 @@ var UserView = Backbone.View.extend({
         'click .view-user-btn'          : 'view_user',
         'click .create-user-btn'        : 'create_user',
         'click .user-delete-btn'        : 'delete_user',
-        'click .user-download-avatar'   : 'download_avatar'
+        'click .user-download-avatar'   : 'download_avatar',
+        'click .user-create-layout-btn' : 'create_layout'
     },
 
     initialize: function() {
@@ -87,6 +88,12 @@ var UserView = Backbone.View.extend({
         })
 
         $('.user-avatar-loader').trigger('click');
+    },
+
+    create_layout: function(e) {
+        var params = $(e.target).data('params');
+
+        App.makeModal('index.php?class=user&controller='+params);
     }
 })
 

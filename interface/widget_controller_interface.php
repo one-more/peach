@@ -8,6 +8,8 @@
  */
 interface widget_controller_interface {
     /**
+     * must return array: alias, name
+     *
      * @return mixed
      */
     public function get_info();

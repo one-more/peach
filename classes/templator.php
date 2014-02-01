@@ -16,6 +16,7 @@ class templator
     public static function prepare($buffer,$params)
 	{
 		$tmp = '';
+        $buffer = preg_replace('/\s+/', ' ', $buffer);
 
         foreach($params as $key=>$value)
 		{			
@@ -27,7 +28,17 @@ class templator
                 $buffer = preg_replace("/:$key/", $tmp, $buffer, 1);
             }
             else {
-                $buffer = preg_replace("/:$key/", $value, $buffer, 1);
+                if(preg_match("/%$key(.*)$key%/m", $buffer)) {
+                    if(empty($value)) {
+                        $buffer = preg_replace(["/%$key/", "/$key%/"], ['', ''], $buffer);
+                    }
+                    else {
+                        $buffer = preg_replace("/%$key(.*)$key%/m", $value, $buffer);
+                    }
+                }
+                else {
+                    $buffer = preg_replace("/:$key/", $value, $buffer, 1);
+                }
             }
 		}
 

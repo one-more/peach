@@ -8,6 +8,8 @@
  */
 interface user_extension_interface extends super_interface {
     /**
+     * must return array: alias, name, [icon], [submenu]
+     *
      * @return mixed
      */
     public static function get_info();
