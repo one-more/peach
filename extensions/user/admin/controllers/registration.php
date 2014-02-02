@@ -26,6 +26,10 @@ class registrationcontroller extends \supercontroller implements \view_controlle
             $params['action'] = '';
         }
 
+        $params['class']        = 'user';
+        $params['controller']   = 'registration';
+        $params['extension']    = \user::get_info()['alias'];
+
         $params['fieldset'] = \helper::get_create_layout_fieldset();
 
         return \templator::getTemplate(

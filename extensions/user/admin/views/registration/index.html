@@ -4,6 +4,20 @@
         <hr>
         <p>:description</p>
 
+        <label class="float-left">:SELECT_FILE_LABEL</label>
+        <a
+                data-root="www/media"
+                data-accept="file"
+                data-filter="text"
+                class="btn margin-left-5 custom-file-select external"
+                >
+            <i class="icon-folder-open"></i>
+            <input name="user_agreement" type="hidden"/>
+        </a>
+
         :fieldset
+        <input value=":class" name="class" type="hidden"/>
+        <input name="controller" value=":controller" type="hidden"/>
+        <input name="extension" value=":extension" type="hidden"/>
     </form>
 </div>

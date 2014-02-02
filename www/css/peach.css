@@ -53,6 +53,10 @@ th {
 .padding-top-5 {
     padding-top: 5%;
 }
+
+.padding-0 {
+    padding: 0 !important;
+}
 /*------------------------------------------------------------------------------------------------*/
 
 /*-------------------------- MARGINS -------------------------------------------------------------*/
@@ -113,6 +117,10 @@ th {
     margin-left: 50%;
     margin-top: 50%;
 }
+
+.margin-0 {
+    margin: 0 !important;
+}
 /*-------------------------------------------------------------------------------------------------*/
 
 html,body {
@@ -143,6 +151,10 @@ html,body {
 
 .width-25 {
     width: 25%;
+}
+
+.width-15 {
+    width: 15%;
 }
 
 .width-20 {
@@ -184,6 +196,19 @@ html,body {
 .width-height-170px {
     width: 170px;
     height: 170px;
+}
+
+.width-height-32px {
+    width: 32px;
+    height: 32px;
+}
+
+.min-width-32px {
+    min-width: 32px;
+}
+
+.min-height-32px {
+    min-height: 32px;
 }
 /*------------------------------------------------------------------------------------------*/
 
@@ -333,4 +358,24 @@ html,body {
 
 .color-white {
     color: #ffffff !important;
+}
+
+/*------------------------------------------ overflows ----------------------------------------------*/
+.overflow-hidden {
+    overflow: hidden !important;
+}
+
+.overflow-y-auto {
+    overflow-y: auto !important;
+}
+/*----------------------------------------------------------------------------------------------------*/
+
+.inline-ul {
+    display: inline-block;
+    list-style: none;
+}
+
+.inline-ul li {
+    display: inline-block;
+    float: left;
 }
