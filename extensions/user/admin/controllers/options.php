@@ -61,12 +61,23 @@ class optionscontroller extends \supercontroller {
 
             \user::write_params($section, $data);
 
+            $lang = \user::read_lang('options_page');
+
             \comet::add_message(
                 [
                     'task'      => 'delegate',
                     'object'    => 'UserView',
                     'method'    => 'update_options_page',
                     'params'    => []
+                ]
+            );
+
+            \comet::add_message(
+                [
+                    'task'      => 'delegate',
+                    'object'    => 'App',
+                    'method'    => 'showNoty',
+                    'params'    => [$lang['OPTIONS_SAVED'], 'success']
                 ]
             );
         }

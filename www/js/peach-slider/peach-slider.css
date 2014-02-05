@@ -1,0 +1,79 @@
+.inline-block {
+    display: inline-block;
+}
+
+.position-relative {
+    position: relative;
+}
+
+.inline-ul {
+    display: inline-block;
+    list-style: none;
+}
+
+.inline-ul li {
+    display: inline-block;
+    float: left;
+}
+
+.width-100 {
+    width: 100%;
+}
+
+.margin-padding-0 {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.arrow {
+    display: table-cell;
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-radius: 100px;
+    background: #eee;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 2;
+    cursor: pointer;
+}
+
+.arrow-left {
+    left: 2%;
+    top: 40%;
+}
+
+.arrow-right {
+    right: 2%;
+    top: 40%;
+}
+
+.dots-container {
+    display: inline-block;
+    min-width: 15%;
+    height: 20px;
+    background: slategray;
+    border-radius: 5px;
+    list-style: none;
+    position: absolute;
+    bottom: 2%;
+    right: 5%;
+}
+
+.dots-container li {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 16px;
+    background: #eee;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.active-dot {
+    background: darkslateblue !important;
+}

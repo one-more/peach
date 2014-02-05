@@ -30,6 +30,10 @@ class logincontroller extends \supercontroller implements \view_controller_inter
             $params['fieldset'] = \templator::get_warning($params['NO_MENU']);
         }
 
+        $params['class']        = 'user';
+        $params['controller']   = 'login';
+        $params['extension']    = \user::get_info()['alias'];
+
         return \templator::getTemplate(
             'index',
             $params,

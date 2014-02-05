@@ -45,8 +45,6 @@ window.UserWidgetView = Backbone.View.extend({
             $(this).detach();
         })
 
-        $('body').append(input);
-
         input.trigger('click');
     },
 

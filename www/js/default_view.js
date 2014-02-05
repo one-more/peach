@@ -14,7 +14,9 @@ window.DefaultView = Backbone.View.extend({
         'click .custom-file-select-open-dir'            : 'file_select_open_dir',
         'click .custom-file-select-back:not(.disabled)' : 'file_select_back',
         'click .custom-file-select-select-file'         : 'file_select_select_file',
-        'click .custom-file-select-submenu-dir'         : 'file_select_submenu_dir'
+        'click .custom-file-select-submenu-dir'         : 'file_select_submenu_dir',
+        'click .custom-file-select-close'               : 'file_select_close',
+        'click .modal-slider'                           : 'make_slider'
     },
 
     initialize: function() {
@@ -172,6 +174,16 @@ window.DefaultView = Backbone.View.extend({
         })
 
         el.children('figcaption').html('').append(btn1).append(btn2);
+    },
+
+    file_select_close: function() {
+         $this.file_select_container.animate({'left' : '0'})
+    },
+
+    make_slider: function(e) {
+        var params = $(e.target).data('params');
+
+        App.makeModal('index.php?class=noop&controller=slider&params='+params);
     }
 })
 

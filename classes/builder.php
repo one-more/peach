@@ -9,6 +9,36 @@
 class builder {
 
     /**
+     *
+     */
+    public static function initialize()
+    {
+        if(!is_dir(SITE_PATH.'www'.DS.'js'.DS.'builder')) {
+            mkdir(SITE_PATH.'www'.DS.'js'.DS.'builder');
+            return;
+        }
+        if(!is_dir(SITE_PATH.'www'.DS.'css'.DS.'builder')) {
+            mkdir(SITE_PATH.'www'.DS.'css'.DS.'builder');
+            return;
+        }
+
+        $js_iterator    = new FilesystemIterator(SITE_PATH.'www'.DS.'js'.DS.'builder');
+        $css_iterator   = new FilesystemIterator(SITE_PATH.'www'.DS.'css'.DS.'builder');
+
+        foreach($js_iterator as $el) {
+            if(time() > filemtime($el) + 3600*24*7) {
+                unlink($el);
+            }
+        }
+
+        foreach($css_iterator as $el) {
+            if(time() > filemtime($el) + 3600*24*7) {
+                unlink($el);
+            }
+        }
+    }
+
+    /**
      * @param $name
      * @param $arr
      * @param bool $tag - if true, returns tag else path

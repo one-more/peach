@@ -181,6 +181,10 @@ html,body {
     width: 270px;
 }
 
+.width-600px {
+    width: 600px;
+}
+
 .height-170px {
     height: 170px;
 }
@@ -191,6 +195,18 @@ html,body {
 
 .height-15 {
     height: 15%;
+}
+
+.max-height-600px {
+    max-height: 600px;
+}
+
+.height-400px {
+    height: 400px;
+}
+
+.height-500px {
+    height: 500px;
 }
 
 .width-height-170px {
@@ -378,4 +394,8 @@ html,body {
 .inline-ul li {
     display: inline-block;
     float: left;
+}
+
+.list-style-none {
+    list-style: none;
 }

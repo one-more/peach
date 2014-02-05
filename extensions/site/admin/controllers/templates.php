@@ -25,14 +25,34 @@ class templatescontroller extends \supercontroller {
 
             $info = $el['name']::get_info();
 
-            $td .= \dom::create_element('td', ['text'=>$info['alias']]);
+            $a = \dom::create_element(
+                'a',
+                [
+                    'text'  => $info['alias'],
+                    'href'  => "/admin/$el[name]/options"
+                ]
+            );
+
+            $td .= \dom::create_element('td', ['text'=>$a]);
 
             $td .= \dom::create_element('td', ['text'=> $info['author']]);
 
-            $img = \dom::create_element('img', [
-                'src'       =>'/media/images/preview.png',
-                'data-full' => $info['preview']
-            ]);
+            if($info['preview']) {
+                $img = \dom::create_element(
+                  'img',
+                    [
+                        'src'           => DS.'media'.DS.'images'.DS.'preview.png',
+                        'class'         => 'modal-slider cursor-pointer',
+                        'data-params'   => $info['preview']
+                    ]
+                );
+            }
+            else
+            {
+                $img = \dom::create_element('img', [
+                    'src'       =>'/media/images/preview.png'
+                ]);
+            }
 
             $td .= \dom::create_element('td', ['text'=>$img]);
 

@@ -23,6 +23,8 @@ class core {
 
         exceptionHandler::initialise();
 
+        builder::initialize();
+
         error::init();
 
         //todo костыль

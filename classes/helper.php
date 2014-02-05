@@ -191,4 +191,29 @@ class helper
             SITE_PATH.'html'
         );
     }
+
+    /**
+     * @param $name
+     * @return string
+     */
+    public static function get_filename($name)
+    {
+        $arr = preg_split('/\./', $name);
+
+        $name = $arr[0];
+
+        $ext = null;
+
+        if(!empty($arr[1]))
+            $ext = $arr[1];
+
+        if(strlen($name) > 7) {
+             $name = substr($name, 0 ,6);
+        }
+
+        if($ext)
+            return $name.'.'.$ext;
+        else
+            return $name;
+    }
 }

@@ -25,7 +25,7 @@ class simple_template implements template_interface{
         return [
             'alias'     => $alias,
             'author'    => 'Nikolaev D.',
-            'preview'   => ''
+            'preview'   => '/media/simple_template/preview.png'
         ];
     }
 }

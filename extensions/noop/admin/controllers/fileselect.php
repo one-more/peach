@@ -46,7 +46,8 @@ class fileselectcontroller extends \supercontroller {
                                         $data['accept_type'] == 'file' ? 'dir' : 'submenu_dir',
                                         [
                                             'path'  => $el->getPathname(),
-                                            'name'  => $el->getFilename()
+                                            'name'  => \helper::get_filename($el->getFilename()),
+                                            'title' => $el->getFilename()
                                         ],
                                         \noop::$path.'admin'.DS.'views'.DS.'fileselect'
                                     )
@@ -63,7 +64,8 @@ class fileselectcontroller extends \supercontroller {
                                             'file',
                                             [
                                                 'path'  => $el->getPathname(),
-                                                'name'  => $el->getFilename()
+                                                'name'  => \helper::get_filename($el->getFilename()),
+                                                'title' => $el->getFilename()
                                             ],
                                             \noop::$path.'admin'.DS.'views'.DS.'fileselect'
                                         )
@@ -84,7 +86,8 @@ class fileselectcontroller extends \supercontroller {
                                         $data['accept_type'] == 'file' ? 'dir' : 'submenu_dir',
                                         [
                                             'path'  => $el->getPathname(),
-                                            'name'  => $el->getFilename()
+                                            'name'  => \helper::get_filename($el->getFilename()),
+                                            'title' => $el->getFilename()
                                         ],
                                         \noop::$path.'admin'.DS.'views'.DS.'fileselect'
                                     )
@@ -101,7 +104,8 @@ class fileselectcontroller extends \supercontroller {
                                             'file',
                                             [
                                                 'path'  => $el->getPathname(),
-                                                'name'  => $el->getFilename()
+                                                'name'  => \helper::get_filename($el->getFilename()),
+                                                'title' => $el->getFilename()
                                             ],
                                             \noop::$path.'admin'.DS.'views'.DS.'fileselect'
                                         )
@@ -123,7 +127,8 @@ class fileselectcontroller extends \supercontroller {
                                         $data['accept_type'] == 'file' ? 'dir' : 'submenu_dir',
                                         [
                                             'path'  => $el->getPathname(),
-                                            'name'  => $el->getFilename()
+                                            'name'  => \helper::get_filename($el->getFilename()),
+                                            'title' => $el->getFilename()
                                         ],
                                         \noop::$path.'admin'.DS.'views'.DS.'fileselect'
                                     )
@@ -139,7 +144,8 @@ class fileselectcontroller extends \supercontroller {
                                         'file',
                                         [
                                             'path'  => $el->getPathname(),
-                                            'name'  => $el->getFilename()
+                                            'name'  => \helper::get_filename($el->getFilename()),
+                                            'title' => $el->getFilename()
                                         ],
                                         \noop::$path.'admin'.DS.'views'.DS.'fileselect'
                                     )

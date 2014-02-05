@@ -309,7 +309,13 @@ _.extend(App, Backbone.Events, {
 
             $('.modal').load(url);
 
-            $('.modal').css({'max-height':$(window).height()*0.85, 'overflow':'auto'})
+            $('.modal').css(
+                {
+                    'max-height'    : $(window).height()*0.85,
+                    'overflow-y'    : 'auto',
+                    'overflow-x'    : 'hidden'
+                }
+            )
         }
     }
 })
