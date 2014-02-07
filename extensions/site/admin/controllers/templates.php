@@ -59,8 +59,10 @@ class templatescontroller extends \supercontroller {
             $src = $el['name'] == $template ? '/media/images/ok.png' : '/media/images/bullet.png';
 
             $img = \dom::create_element('img', [
-                'src'   => $src,
-                'class' => 'choose_template'
+                'src'           => $src,
+                'class'         => 'site_choose_template cursor-pointer '.($el['name'] == $template ?
+                    'selected' : ''),
+                'data-params'   => $el['name']
             ]);
 
             $td .= \dom::create_element('td', ['text'=>$img]);
@@ -75,5 +77,14 @@ class templatescontroller extends \supercontroller {
             $params,
             \site::$path.'admin'.DS.'views'.DS.'templates'
         );
+    }
+
+    /**
+     * @param $name
+     */
+    public function select($name) {
+        if($name) {
+            \site::write_params('options', 'template', $name);
+        }
     }
 }

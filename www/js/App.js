@@ -274,6 +274,7 @@ _.extend(App, Backbone.Events, {
             }
         })
 
+        /*
         //purify outdated hooks
         if(tmp_hooks.length > 0) {
             $.each(App.css_hooks, function(k,v){
@@ -294,6 +295,7 @@ _.extend(App, Backbone.Events, {
                 }
             })
         }
+        */
     },
 
     makeModal: function(url) {
@@ -316,6 +318,27 @@ _.extend(App, Backbone.Events, {
                     'overflow-x'    : 'hidden'
                 }
             )
+        }
+    },
+
+    updatePage: function() {
+        var arr = Backbone.history.fragment.split('/');
+
+        if(arr.length >= 2) {
+            arr.shift();
+            var params = {
+                'class'         : arr.shift()
+            }
+
+            if(arr.length > 0) {
+                params['controller'] = arr.shift()
+            }
+
+            if(arr.length > 0) {
+                params['params'] = arr.shift()
+            }
+
+            $('*[data-widget=2]').load('index.php', params)
         }
     }
 })

@@ -17,6 +17,13 @@ class system {
     ];
 
     /**
+     * @var array
+     */
+    public static $system_site_js = [
+        '<script src="/js/system/site/models/system_model.js"></script>'
+    ];
+
+    /**
      * @return array
      */
     public static function get_languages()

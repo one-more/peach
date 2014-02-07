@@ -25,12 +25,13 @@ class slidercontroller extends \supercontroller {
                 \dom::create_element('script', ['src'  => '/js/peach-slider/start.js'])
             ];
 
-            $params['js']   = \builder::build('peach_slider.js', $params);
+            $params['js']   = \builder::build('peach_slider.js', $params, false);
+
             $params['css']  = \dom::create_element('link', [
                 'rel'   => 'stylesheet',
                 'href'  => '/js/peach-slider/peach-slider.css'
             ]);
-            $params['css'] = \builder::build('peach_slider.css', [$params['css']]);
+            $params['css'] = \builder::build('peach_slider.css', [$params['css']], false);
 
             $img = \dom::create_element(
                 'img',

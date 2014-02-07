@@ -23,7 +23,7 @@ class router {
                         'task'      => 'delegate',
                         'object'    => 'App',
                         'method'    => 'loadPage',
-                        'params'    => ['0' => '/admin']
+                        'params'    => ['/admin']
                     ]
                 );
 

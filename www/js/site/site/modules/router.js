@@ -7,29 +7,31 @@ App.Router = Backbone.Router.extend({
 
         $(document).find('*[data-position]').html('');
 
-        if(SystemModel.get('menu') != -1) {
-            var url = Backbone.history.fragment.split('/');
+        App.modelLoad(SystemModel, function(){
+            if(SystemModel.get('menu') != -1) {
+                var url = Backbone.history.fragment.split('/');
 
-            var link = Backbone.history.fragment;
+                var link = Backbone.history.fragment;
 
-            var params = url[url.length-1];
+                var params = url[url.length-1];
 
-            $.post('index.php', {'class': SystemModel.get('menu') ,'method':'get_page', 'params':link},
-                function(data) {
-                    try {
-                        var json = (typeof data == 'object') ? data : $.parseJSON(data);
+                $.post('index.php', {'class': SystemModel.get('menu') ,'method':'get_page', 'params':link},
+                    function(data) {
+                        try {
+                            var json = (typeof data == 'object') ? data : $.parseJSON(data);
 
-                        $.each(json, function(k,v) {
-                            $('*[data-position='+ v.position+']').load('index.php',
-                                {'class': v.extension, 'controller': v.controller, 'params': params})
-                        })
-                    }
-                    catch(exception) {
-                        App.showNoty('error load page', 'error');
+                            $.each(json, function(k,v) {
+                                $('*[data-position='+ v.position+']').load('index.php',
+                                    {'class': v.extension, 'controller': v.controller, 'params': params})
+                            })
+                        }
+                        catch(exception) {
+                            App.showNoty('error load page', 'error');
 
-                        console.log(exception);
-                    }
-            })
-        }
+                            console.log(exception);
+                        }
+                    })
+            }
+        })
     }
 })

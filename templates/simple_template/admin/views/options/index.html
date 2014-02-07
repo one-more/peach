@@ -1,0 +1,30 @@
+<div class="width-100">
+    <h1 class="margin-left-2 text-color-blue">:HEADER</h1>
+    <hr>
+</div>
+
+<form
+        method="post"
+        class="ajax form-horizontal"
+        action="index.php?class=simple_template&controller=options&task=save"
+        >
+    <div class="control-group">
+        <label class="control-label" for="input_logo_text">:LOGO_TEXT_LABEL</label>
+        <div class="controls width-20">
+            <input id="input_logo_text" value=":logo_text" name="logo_text" type="text"/>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="input_footer_text">:FOOTER_TEXT_LABEL</label>
+        <div class="controls width-20">
+            <input id="input_footer_text" name="footer_text" value=":footer_text" type="text"/>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <div class="controls">
+            <button class="btn" type="submit">:BTN_LABEL</button>
+        </div>
+    </div>
+</form>

@@ -6,7 +6,7 @@
  *
  * @author Nikolaev D.
  */
-class simple_admin_template implements template_interface {
+class simple_admin_template implements admin_template_interface {
     use trait_template;
 
     /**

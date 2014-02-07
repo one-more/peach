@@ -13,7 +13,7 @@ class defaultcontroller extends supercontroller {
      */
     public function display()
     {
-        $params['js'] = array_merge(document::$js_files, \system::$system_js);
+        $params['js'] = array_merge(document::$js_files, \system::$system_site_js);
 
         $params['js'] = array_merge($params['js'], site::$js_files);
 
@@ -31,6 +31,10 @@ class defaultcontroller extends supercontroller {
 
         $params = array_merge($params, simple_template::read_params('options'));
 
-        return templator::getTemplate('index', $params, simple_template::$path.'site'.DS.'views'.DS.'default');
+        return templator::getTemplate(
+            'index',
+            $params,
+            simple_template::$path.'site'.DS.'views'.DS.'default'
+        );
     }
 }

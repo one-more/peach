@@ -6,7 +6,7 @@
  *
  * @author Nikolaev D.
  */
-interface template_interface extends super_interface {
+interface admin_template_interface extends super_interface {
     /**
      * must return array: alias, name, [preview], [icon]
      * @return mixed

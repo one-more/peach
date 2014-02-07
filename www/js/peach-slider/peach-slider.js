@@ -7,7 +7,13 @@
                 circle          : true,
                 fit_height      : true,
                 arrows          : true,
-                dots            : true
+                dots            : true,
+                autoplay        : {
+                    enabled         : false,
+                    button          : true,
+                    duration        : 2000,
+                    progress_bar    : true
+                }
             }
 
             var options = $.extend(defaults, params);
@@ -30,6 +36,13 @@
 
             if(options.height) {
                 wrapper.css('height', options.height);
+
+                _this.children('li').each(function(){
+                    var img = $(this).children(0);
+                    $(this).children(0).ready(function(){
+                        img.css('height',options.height)
+                    })
+                })
             }
 
             _this.wrap(wrapper);
@@ -42,15 +55,19 @@
                 $(this).width(wrapper.width())
                 $(this).children(0).width(wrapper.width())
 
-                if(options.fit_height && $(this).height() > $(window).height()*0.7) {
-                    $(this).children(0).height($(window).height() * 0.7).css('width', '100%')
-                }
+                var img = $(this).children(0);
+                $(this).children(0).ready(function(){
+                    if(!options.height && options.fit_height && $(this).height()>$(window).height()*0.7){
+                        img.height($(window).height() * 0.7)
+                    }
+                })
             })
 
             width = _this.children('li').length * wrapper.width()
 
             _this.width(width);
 
+            //left & right arrows
             if(options.arrows && childs > 1) {
                 var i = $('<i>', {
                     'class' : 'icon-chevron-left'
@@ -75,6 +92,7 @@
                 wrapper.append($('<span>',{'class':'arrow-right'}))
             }
 
+            //dots
             if(options.dots && childs > 1) {
                 var ul = $('<ul>', {
                     'class' : 'dots-container'
@@ -199,6 +217,114 @@
 
                 current_el--;
             })
+
+            //autoplay
+            if(options.autoplay.enabled) {
+
+                //2000 - min duration value
+                if(options.autoplay.duration < 2000) {
+                    options.autoplay.duration = 2000;
+                }
+
+                //play/pause button
+                if(options.autoplay.button) {
+                    var i = $('<i>', {
+                        'class' : 'icon-pause'
+                    })
+
+                    var div = $('<div>', {
+                        'class' : 'peach-play-btn peach-pause',
+                        html    : i
+                    })
+
+                    wrapper.append(div);
+                }
+
+                function play_interval(){
+                    if($('.arrow-left').is('div')) {
+                        $('.arrow-left').trigger('click');
+                    }
+                    else {
+                        clearInterval(interval);
+                    }
+                }
+
+                var interval;
+
+                interval = setInterval(play_interval, options.autoplay.duration)
+
+                wrapper.on('click', '.peach-pause', function(e){
+                    if(e.target.tagName == 'DIV') {
+                        $(e.target).removeClass('peach-pause').addClass('peach-play');
+                        $(e.target).children('i').attr('class', 'icon-play');
+                    }
+                    else {
+                        $(e.target).attr('class', 'icon-play');
+                        $(e.target).parent('div').removeClass('peach-pause').addClass('peach-play');
+                    }
+
+                    clearInterval(interval);
+
+                    if(pb_interval) {
+                        clearInterval(pb_interval);
+                    }
+                })
+
+                wrapper.on('click', '.peach-play', function(e){
+                    if(e.target.tagName == 'DIV') {
+                        $(e.target).removeClass('peach-play').addClass('peach-pause');
+                        $(e.target).children('i').attr('class', 'icon-pause');
+                    }
+                    else {
+                        $(e.target).attr('class', 'icon-pause');
+                        $(e.target).parent('div').removeClass('peach-play').addClass('peach-pause');
+                    }
+
+                    interval = setInterval(play_interval, options.autoplay.duration);
+
+                    if(options.autoplay.progress_bar) {
+                        pb_interval = setInterval(play_pb, options.autoplay.duration);
+                        pb_animate()
+                    }
+                })
+
+                //progress bar
+                if(options.autoplay.progress_bar) {
+                    var pb = $('<div>', {
+                        'class' : 'peach-slider-pb'
+                    })
+                    wrapper.append(pb);
+
+                    //todo bug
+                    _this.children('li:last').children('img').ready(function(){
+                        pb_animate()
+                    })
+
+                    function pb_animate() {
+                        $('.peach-slider-pb').animate(
+                            {'width':'100%'},
+                            options.autoplay.duration,
+                            "linear",
+                            function() {
+                                $('.peach-slider-pb').width(0)
+                            }
+                        );
+                    }
+
+                    function play_pb() {
+                        if($('.peach-slider-pb').is('div')) {
+                            pb_animate();
+                        }
+                        else {
+                            clearInterval(pb_interval)
+                        }
+                    }
+
+                    var pb_interval;
+
+                    pb_interval = setInterval(play_pb, options.autoplay.duration);
+                }
+            }
         })
     }
 })($)

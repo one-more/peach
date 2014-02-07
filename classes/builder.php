@@ -97,7 +97,7 @@ class builder {
                 ['rel'=>'stylesheet',
                     'href'=>'/css/builder/'.$name]);
 
-            return $tag ? $link  : "/css/builder/path";
+            return $tag ? $link  : "/css/builder/$name";
         }
     }
 }

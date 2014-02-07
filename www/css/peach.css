@@ -137,6 +137,7 @@ html,body {
     margin: 0;
     padding: 0;
     min-width: 1200px;
+    font-family: Verdana;
 }
 
 .invisible {
@@ -398,4 +399,8 @@ html,body {
 
 .list-style-none {
     list-style: none;
+}
+
+.text-color-blue {
+    color: #0088cc;
 }

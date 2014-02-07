@@ -77,3 +77,31 @@
 .active-dot {
     background: darkslateblue !important;
 }
+
+.peach-play-btn {
+    display: none;
+    position: absolute;
+    top: 40%;
+    left: 45%;
+    width: 32px;
+    height: 32px;
+    border-radius: 100px;
+    background: #eee;
+    text-align: center;
+    line-height: 2;
+    cursor: pointer;
+}
+
+.peach-slider-wrapper:hover .peach-play-btn {
+    display: inline-block;
+}
+
+.peach-slider-pb {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 5px;
+    background: #b81900;
+}

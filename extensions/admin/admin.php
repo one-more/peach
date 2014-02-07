@@ -72,7 +72,7 @@ class admin {
         $result = [];
 
         foreach($arr as $el) {
-            if($el['type'] == 'site' && new $el['name'] instanceof template_interface) {
+            if($el['type'] == 'site' && new $el['name'] instanceof site_template_interface) {
                 $result[] = $el;
             }
         }
@@ -90,7 +90,7 @@ class admin {
         $result = [];
 
         foreach($arr as $el) {
-            if($el['type'] == 'admin' && new $el['name'] instanceof template_interface) {
+            if($el['type'] == 'admin' && new $el['name'] instanceof admin_template_interface) {
                 $result[] = $el;
             }
         }

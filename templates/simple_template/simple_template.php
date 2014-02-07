@@ -6,7 +6,7 @@
  *
  * @author Nikolaev D.
  */
-class simple_template implements template_interface{
+class simple_template implements site_template_interface{
 
     /**
      * @var string
@@ -14,6 +14,7 @@ class simple_template implements template_interface{
     public static  $path = '../templates/simple_template/';
 
     use trait_template;
+    use trait_site_template;
 
     /**
      * @return array|mixed
