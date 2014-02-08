@@ -17,8 +17,7 @@ App.Router = Backbone.Router.extend({
 
                 var start_extension = TemplateModel.get('start_extension');
 
-                $('*[data-widget="2"]').load('index.php',
-                    {'class':start_extension, 'ajax':'1', 'old_url':location.pathname});
+                App.router.navigate('/admin/'+start_extension, {trigger:true});
             }
         })
     },

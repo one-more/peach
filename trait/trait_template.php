@@ -23,11 +23,18 @@ trait trait_template {
     public static $name = null;
 
     /**
+     * @var
+     */
+    public static $path;
+
+    /**
      * init some static fields
      */
     private static function init()
     {
         static::$name = get_called_class();
+
+        static::$path = SITE_PATH.'templates'.DS.static::$name.DS;
     }
 
     /**

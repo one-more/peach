@@ -73,7 +73,7 @@
                     'class' : 'icon-chevron-left'
                 });
                 var btn = $('<div>', {
-                    'class' : 'arrow arrow-left',
+                    'class' : 'peach-slider-arrow peach-slider-arrow-left',
                     'html'  : i
                 })
                 wrapper.append(btn)
@@ -82,20 +82,20 @@
                     'class' : 'icon-chevron-right'
                 })
                 btn = $('<div>', {
-                    'class' : 'arrow arrow-right',
+                    'class' : 'peach-slider-arrow peach-slider-arrow-right',
                     'html'  : i
                 })
                 wrapper.append(btn);
             }
             else {
-                wrapper.append($('<span>',{'class':'arrow-left'}))
-                wrapper.append($('<span>',{'class':'arrow-right'}))
+                wrapper.append($('<span>',{'class':'peach-slider-arrow-left'}))
+                wrapper.append($('<span>',{'class':'peach-slider-arrow-right'}))
             }
 
             //dots
             if(options.dots && childs > 1) {
                 var ul = $('<ul>', {
-                    'class' : 'dots-container'
+                    'class' : 'peach-slider-dots-container'
                 })
 
                 wrapper.append(ul);
@@ -110,54 +110,61 @@
                     ul.append(li)
                 }
 
-                ul.children().eq(0).addClass('active-dot');
+                ul.children().eq(0).addClass('peach-slider-active-dot');
 
-                wrapper.on('click', '.dots-container li:not(.active-dot)', function(e) {
+                wrapper.on('click', '.peach-slider-dots-container li:not(.peach-slider-active-dot)',
+                    function(e) {
                     var mul     = $(e.target).data('params');
-                    var active  = $('.active-dot').data('params');
+                    var active  = $('.peach-slider-active-dot').data('params');
 
                     if(mul > active)
                         for(var i=active; i<mul; i++) {
-                            $('.arrow-left').trigger('click');
+                            $('.peach-slider-arrow-left').trigger('click');
                         }
                     else {
                         for(var i=mul; i<active; i++) {
-                            $('.arrow-right').trigger('click');
+                            $('.peach-slider-arrow-right').trigger('click');
                         }
                     }
 
-                    $('.active-dot').removeClass('active-dot');
-                    $(e.target).addClass('active-dot');
+                    $('.peach-slider-active-dot').removeClass('peach-slider-active-dot');
+                    $(e.target).addClass('peach-slider-active-dot');
                 })
 
-                wrapper.on('click', '.arrow-left', function(){
-                    var active = wrapper.find('.active-dot').data('params');
+                wrapper.on('click', '.peach-slider-arrow-left', function(){
+                    var active = wrapper.find('.peach-slider-active-dot').data('params');
 
                     if(active+1 < childs) {
-                        wrapper.find('.active-dot').removeClass('active-dot');
-                        wrapper.find('.dots-container').children().eq(active+1).addClass('active-dot');
+                        wrapper.find('.peach-slider-active-dot').removeClass('peach-slider-active-dot');
+                        wrapper.find('.peach-slider-dots-container').children()
+                            .eq(active+1).addClass('peach-slider-active-dot');
                     }
                     else {
-                        wrapper.find('.active-dot').removeClass('active-dot');
-                        wrapper.find('.dots-container').children().eq(0).addClass('active-dot');
+                        wrapper.find('.peach-slider-active-dot')
+                            .removeClass('peach-slider-active-dot');
+                        wrapper.find('.peach-slider-dots-container').children().eq(0)
+                            .addClass('peach-slider-active-dot');
                     }
                 })
 
-                wrapper.on('click', '.arrow-right', function() {
-                    var active = wrapper.find('.active-dot').data('params');
+                wrapper.on('click', '.peach-slider-arrow-right', function() {
+                    var active = wrapper.find('.peach-slider-active-dot').data('params');
 
                     if(active > 0) {
-                        wrapper.find('.active-dot').removeClass('active-dot');
-                        wrapper.find('.dots-container').children().eq(active-1).addClass('active-dot');
+                        wrapper.find('.peach-slider-active-dot')
+                            .removeClass('peach-slider-active-dot');
+                        wrapper.find('.peach-slider-dots-container')
+                            .children().eq(active-1).addClass('peach-slider-active-dot');
                     }
                     else {
-                        wrapper.find('.active-dot').removeClass('active-dot');
-                        wrapper.find('.dots-container').children().eq(childs-1).addClass('active-dot');
+                        wrapper.find('.peach-slider-active-dot').removeClass('peach-slider-active-dot');
+                        wrapper.find('.peach-slider-dots-container').children().eq(childs-1)
+                            .addClass('peach-slider-active-dot');
                     }
                 })
             }
 
-            wrapper.on('click', '.arrow-left', function(){
+            wrapper.on('click', '.peach-slider-arrow-left', function(){
 
                 if(options.circle) {
                     _this.queue(function() {
@@ -170,19 +177,18 @@
                                 var tmp = $(_this.children()[0]).detach();
                                 _this.append(tmp);
                             }
-                        )
-                        _this.dequeue();
+                        ).dequeue();
                     })
                 }
                 else {
                     _this.animate({'left' : _this[0].offsetLeft - wrapper.width()});
 
                     if(current_el+1 == childs) {
-                        $('.arrow-left').css('display', 'none');
+                        $('.peach-slider-arrow-left').css('display', 'none');
                     }
 
-                    if(current_el+1 > 1 && $('.arrow-right').css('display') == 'none') {
-                        $('.arrow-right').css('display', 'table-cell');
+                    if(current_el+1 > 1 && $('.peach-slider-arrow-right').css('display') == 'none') {
+                        $('.peach-slider-arrow-right').css('display', 'table-cell');
                     }
                 }
 
@@ -190,28 +196,34 @@
             })
 
             if(!options.circle && current_el == 1) {
-                $('.arrow-right').css('display', 'none')
+                $('.peach-slider-arrow-right').css('display', 'none')
             }
 
-            wrapper.on('click', '.arrow-right', function(){
+            wrapper.on('click', '.peach-slider-arrow-right', function(){
                 if(options.circle) {
                     _this.queue(function(){
                         var tmp = $(_this.children()[childs-1]).detach();
                         _this.css({'left' : _this[0].offsetLeft - wrapper.width()});
                         _this.prepend(tmp);
-                        _this.animate({'left' : _this[0].offsetLeft + wrapper.width()});
                         _this.dequeue();
-                    })
+                    }).animate(
+                            {'left' : _this[0].offsetLeft + wrapper.width()},
+                            "normal",
+                            "linear",
+                             function() {
+
+                             }
+                        )
                 }
                 else {
                     _this.animate({'left' : _this[0].offsetLeft + wrapper.width()});
 
                     if(current_el-1 == 1) {
-                        $('.arrow-right').css('display', 'none');
+                        $('.peach-slider-arrow-right').css('display', 'none');
                     }
 
-                    if(current_el > 0 && $('.arrow-left').css('display') == 'none') {
-                        $('.arrow-left').css('display', 'table-cell')
+                    if(current_el > 0 && $('.peach-slider-arrow-left').css('display') == 'none') {
+                        $('.peach-slider-arrow-left').css('display', 'table-cell')
                     }
                 }
 
@@ -241,8 +253,8 @@
                 }
 
                 function play_interval(){
-                    if($('.arrow-left').is('div')) {
-                        $('.arrow-left').trigger('click');
+                    if($('.peach-slider-arrow-left').is('div')) {
+                        $('.peach-slider-arrow-left').trigger('click');
                     }
                     else {
                         clearInterval(interval);

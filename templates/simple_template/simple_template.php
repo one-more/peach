@@ -7,12 +7,6 @@
  * @author Nikolaev D.
  */
 class simple_template implements site_template_interface{
-
-    /**
-     * @var string
-     */
-    public static  $path = '../templates/simple_template/';
-
     use trait_template;
     use trait_site_template;
 

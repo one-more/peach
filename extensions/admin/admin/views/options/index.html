@@ -1,0 +1,27 @@
+<div class="width-100">
+    <h1 class="margin-left-2 text-color-blue">:HEADER</h1>
+    <hr/>
+</div>
+<div id="admin-tabs">
+    <ul>
+        <li>
+            <a class="external" href="#options-div">
+                :OPTIONS_TAB_CAPTION
+            </a>
+        </li>
+        <li>
+            <a class="external" href="index.php?class=admin&controller=templates">
+                :TEMPLATES_TAB_CAPTION
+            </a>
+        </li>
+    </ul>
+    <div id="options-div">
+        <label for="select_editor">:SELECT_EDITOR_LABEL</label>
+
+        <select class="admin-editor-select" name="select" id="select_editor">
+            :opts
+        </select>
+    </div>
+</div>
+:css
+:js

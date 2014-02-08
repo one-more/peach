@@ -65,4 +65,25 @@ class defaultcontroller extends supercontroller {
             return $cache;
         }
     }
+
+    /**
+     * @return bool|string
+     */
+    public function get_editors()
+    {
+        if($cache = $this->get_cache_view('editors')) {
+            return $cache;
+        }
+        else {
+            $model = installer::getAdminModel('default');
+
+            $cache = $model->get_all('editors');
+
+            if(is_array($cache)) {
+                $this->set_cache_view('editors', json_encode($cache));
+            }
+
+            return $cache;
+        }
+    }
 }

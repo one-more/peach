@@ -56,7 +56,47 @@ class slidercontroller extends \supercontroller {
             );
         }
         elseif(is_dir($path)) {
-            return 'dir';
+            $params = [
+                \dom::create_element('script', ['src'  => '/js/peach-slider/peach-slider.js']),
+                \dom::create_element('script', ['src'  => '/js/peach-slider/start.js'])
+            ];
+
+            $params['js']   = \builder::build('peach_slider.js', $params, false);
+
+            $params['css']  = \dom::create_element('link', [
+                'rel'   => 'stylesheet',
+                'href'  => '/js/peach-slider/peach-slider.css'
+            ]);
+            $params['css'] = \builder::build('peach_slider.css', [$params['css']], false);
+
+            $iterator = new \FilesystemIterator($path);
+
+            $lis = '';
+
+            foreach($iterator as $el) {
+                $img = \dom::create_element(
+                    'img',
+                    [
+                        'src'   => $imgpath.DS.$el->getFilename()
+                    ]
+                );
+                $li = \dom::create_element(
+                    'li',
+                    [
+                        'text'  => $img
+                    ]
+                );
+
+                $lis .= $li;
+            }
+
+            $params['lis'] = $lis;
+
+            return \templator::getTemplate(
+                'index',
+                $params,
+                \noop::$path.'admin'.DS.'views'.DS.'slider'
+            );
         }
         else {
             $ref = \factory::get_reference('errors')['no_file'];

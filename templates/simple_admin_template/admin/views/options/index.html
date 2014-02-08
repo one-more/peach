@@ -1,0 +1,24 @@
+<div class="width-100">
+    <h1 class="margin-left-2 text-color-blue">:HEADER</h1>
+    <hr/>
+</div>
+<div class="margin-left-2">
+    <label for="start_extension_select">:START_EXTENSION_LABEL</label>
+    <select name="start_extension" id="start_extension_select" class="select-start-extension">
+        :opts
+    </select>
+</div>
+<div class="margin-left-2">
+    <label>:MANAGE_WIDGETS_LABEL</label>
+    <div class="input-prepend input-append">
+        <span class="add-on remove-widget cursor-pointer"><i class="icon-minus"></i></span>
+        <input
+                id="disabledInput"
+                class="count-widgets-input width-10"
+                value=":widgets_count"
+                type="text"
+                disabled
+                />
+        <span class="add-on add-widget cursor-pointer"><i class="icon-plus"></i></span>
+    </div>
+</div>

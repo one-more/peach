@@ -1,5 +1,5 @@
 window.Layout = Backbone.View.extend({
-    el: '#all',
+    el: $(document),
 
     initialize: function() {
         Form.add_success_handler('exit-form', function(data) {
@@ -17,7 +17,7 @@ window.Layout = Backbone.View.extend({
             //todo - compute better size
             var size = Math.floor((width / 5) - (width*0.018));
 
-            var gridster = $('.gridster ul').gridster({
+            Layout.gridster = $('.gridster ul').gridster({
                 widget_margins: [10,10],
                 widget_base_dimensions: [size, size],
                 draggable: {
@@ -28,6 +28,20 @@ window.Layout = Backbone.View.extend({
                 }
             }).data('gridster');
         })
+    },
+
+    events: {
+        'change .select-start-extension'    : 'select_start_extension'
+    },
+
+    select_start_extension: function(e) {
+        var params = $(e.target).val()
+
+        $.post('index.php?class=simple_admin_template&controller=options&task=save',
+            {
+                'params' : {'start_extension' : params}
+            }
+        );
     }
 })
 

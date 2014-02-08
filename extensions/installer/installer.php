@@ -126,6 +126,18 @@ class installer implements widget_extension_interface{
     }
 
     /**
+     * @return array|mixed
+     */
+    public static function get_editors()
+    {
+        $controller = static::getAdminController('default');
+
+        $arr = $controller->exec('get_editors');
+
+        return is_array($arr) ? $arr : json_decode($arr, true);
+    }
+
+    /**
      * @return array
      */
     public static function get_info()

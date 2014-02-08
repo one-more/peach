@@ -4,9 +4,11 @@ var Widgetview = Backbone.View.extend({
     current_widget: -1,
 
     events: {
-        "click .tool-items>a":          "widget_action",
-        "click .widget-extensions a":   "widget_action_2",
-        "click .widget-list a":         "widget_action_3"
+        "click .tool-items>a"           : "widget_action",
+        "click .widget-extensions a"    : "widget_action_2",
+        "click .widget-list a"          : "widget_action_3",
+        'click .remove-widget'          : 'remove_widget',
+        'click .add-widget'             : 'add_widget'
     },
 
     initialize: function() {
@@ -134,6 +136,91 @@ var Widgetview = Backbone.View.extend({
                 $('a[data-widget='+widget+'] i').attr('class', 'icon-trash');
             }
         );
+    },
+
+    remove_widget: function() {
+        var count = $('.count-widgets-input').val();
+
+        if(count == 4 || count < 4) {
+            return;
+        }
+        else {
+            WidgetModel.unset(count);
+            WidgetModel.update()
+
+            Layout.gridster.remove_widget($('*[data-widget='+count+']'));
+
+            $('#widget-options-'+count).next('div').remove();
+            $('#widget-options-'+count).remove();
+            Widgetview.update_grid()
+
+            count--;
+            $('.count-widgets-input').val(count);
+        }
+    },
+
+    add_widget: function() {
+        var count = $('.count-widgets-input').val();
+
+        if(count == 9 || count > 9) {
+            return;
+        }
+        else {
+            count++;
+
+            var opts = $('<div>', {
+                id:         'widget-options-'+count,
+                'class':    'toolbar-icons hide',
+                html: $('<a>',{
+                    'class':        'cursor-pointer',
+                    'data-widget':  count,
+                    html: $('<i>',{'class':'icon-plus'})
+                })
+            })
+
+            var tb = $('<div>',{
+                id:         'widget-toolbar-'+count,
+                'class':    'settings-button',
+                width: '19',
+                'html' :    $('<img>', {
+                    src:'/media/images/icon-cog-small.png'
+                })
+            })
+
+            var span = $('<span>');
+
+            var li = $('<li>', {
+                'data-widget' : count,
+                html : tb
+            });
+
+            li.append(span);
+
+            Layout.gridster.add_widget.apply(Layout.gridster, [li, 1, 1]);
+
+            $('body').append(opts);
+
+            $('#widget-toolbar-'+count).toolbar({
+                content:    '#widget-options-'+count,
+                position:   'right',
+                hideOnClick: true
+            });
+
+            $('.count-widgets-input').val(count)
+
+            WidgetModel.set(count, '-1');
+
+            WidgetModel.update();
+
+            Widgetview.update_grid();
+        }
+    },
+
+    update_grid: function() {
+        $.post('index.php?class=simple_admin_template&task=update_grid',
+            {
+                'params' : Layout.gridster.serialize()
+            })
     }
 })
 

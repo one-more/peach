@@ -16,6 +16,26 @@ var TemplateModel = Backbone.Model.extend({
                 }
             }
         );
+    },
+
+    update: function() {
+        $.post(
+            'index.php',
+            {
+                'class' : 'simple_admin_template',
+                'task'  : 'get_options'
+            },
+            function(data) {
+                try {
+                    TemplateModel.set(data)
+                }
+                catch(exc) {
+                    App.showNoty('cannot update template model', 'error');
+                    console.log(data);
+                    console.log(exc);
+                }
+            }
+        )
     }
 })
 

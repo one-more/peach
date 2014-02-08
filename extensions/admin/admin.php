@@ -31,6 +31,14 @@ class admin {
     public static function get_widgets() {
         $arr = installer::get_extensions();
 
+        $tmp = [];
+
+        foreach($arr as $el) {
+            $tmp[] = $el['name'];
+        }
+
+        $arr = $tmp;
+
         $arr = array_merge($arr, ['user', 'installer']);
 
         $result = [];
@@ -54,7 +62,7 @@ class admin {
         $result = [];
 
         foreach($arr as $el) {
-            if(new $el instanceof user_extension_interface) {
+            if(new $el['name'] instanceof user_extension_interface) {
                 $result[] = $el;
             }
         }
@@ -108,7 +116,25 @@ class admin {
         $result = [];
 
         foreach($arr as $el) {
-            if(new $el instanceof menu_extension_interface) {
+            if(new $el['name'] instanceof menu_extension_interface) {
+                $result[] = $el;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return array
+     */
+    public static function get_editors()
+    {
+        $arr = installer::get_editors();
+
+        $result = [];
+
+        foreach($arr as $el) {
+            if(new $el['name'] instanceof editor_interface) {
                 $result[] = $el;
             }
         }

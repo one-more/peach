@@ -14,7 +14,7 @@ interface site_template_interface extends super_interface {
     public static function get_positions();
 
     /**
-     * must return array: alias, name, [preview], [icon]
+     * must return array: alias, name, [preview - path to image or directory], [icon]
      * @return mixed
      */
     public static function get_info();

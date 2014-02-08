@@ -166,12 +166,24 @@ html,body {
     width: 5%;
 }
 
+.width-10 {
+    width: 10%;
+}
+
 .width-50 {
     width: 50%;
 }
 
 .width-80 {
     width: 80%;
+}
+
+.width-90 {
+    width: 90%;
+}
+
+.width-95 {
+    width: 95%;
 }
 
 .width-170px {

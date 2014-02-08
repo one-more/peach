@@ -19,7 +19,7 @@ class simple_admin_template implements admin_template_interface {
         return [
             'author'    => 'Nikolaev D.',
             'alias'     => $alias,
-            'preview'   => ''
+            'preview'   => DS.'media'.DS.'simple_admin_template'.DS.'preview.png'
         ];
     }
 }
