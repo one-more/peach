@@ -10,6 +10,8 @@ _.extend(App, Backbone.Events, {
 
     css_hooks: [],
 
+    event_handlers: [],
+
     //fires callback when element is loaded
     elementLoad : function(el, callback) {
         var interval = setInterval(function(){
@@ -35,6 +37,84 @@ _.extend(App, Backbone.Events, {
     },
 
     start: function(){
+
+        //modify function [on] just a little
+        $.fn.on = function(types, selector, data, fn, /*INTERNAL*/ one) {
+
+            if(typeof selector == 'string' && typeof types == 'string')
+            {
+                //not to duplicate events handlers
+                var arr = jQuery._data($(this)[0]).events;
+                var hnd = data || fn;
+                var dup = false;
+                if(arr) {
+                    $.each(arr, function(k,v) {
+                        $.each(v, function(k1, v1) {
+                            if(v1.selector == selector &&
+                                v1.handler.toString() == hnd.toString()) {
+                                dup = true;
+                                return;
+                            }
+                        })
+                    })
+                }
+                if(dup) {
+                    return;
+                }
+            }
+
+            var origFn, type;
+
+            // Types can be a map of types/handlers
+            if ( typeof types === "object" ) {
+                // ( types-Object, selector, data )
+                if ( typeof selector !== "string" ) {
+                    // ( types-Object, data )
+                    data = data || selector;
+                    selector = undefined;
+                }
+                for ( type in types ) {
+                    this.on( type, selector, data, types[ type ], one );
+                }
+                return this;
+            }
+
+            if ( data == null && fn == null ) {
+                // ( types, fn )
+                fn = selector;
+                data = selector = undefined;
+            } else if ( fn == null ) {
+                if ( typeof selector === "string" ) {
+                    // ( types, selector, fn )
+                    fn = data;
+                    data = undefined;
+                } else {
+                    // ( types, data, fn )
+                    fn = data;
+                    data = selector;
+                    selector = undefined;
+                }
+            }
+            if ( fn === false ) {
+                fn = returnFalse;
+            } else if ( !fn ) {
+                return this;
+            }
+
+            if ( one === 1 ) {
+                origFn = fn;
+                fn = function( event ) {
+                    // Can use an empty set, since event contains the info
+                    jQuery().off( event );
+                    return origFn.apply( this, arguments );
+                };
+                // Use same guid so caller can remove using origFn
+                fn.guid = origFn.guid || ( origFn.guid = jQuery.guid++ );
+            }
+            return this.each( function() {
+                jQuery.event.add( this, types, fn, data, selector );
+            });
+        }
 
         $.ajaxSetup({
             dataFilter: function(data) {
@@ -249,53 +329,9 @@ _.extend(App, Backbone.Events, {
 
             $(this).remove();
 
-            tmp_hooks.push(src);
+            $.getScript(src);
 
-            if($.inArray(src, App.js_hooks) == -1) {
-                var js = $('<script>', {
-                    'src': src
-                })
-
-                $('body').append(js);
-
-                App.js_hooks.push(src);
-            }
-            else {
-                //todo - not very pretty
-                $.each(App.js_hooks, function(k,v) {
-                    var tmp = $('script[src="'+v+'"]');
-
-                    var src = tmp.attr('src');
-
-                    tmp.remove();
-
-                    $('body').append($('<script>', {'src':src}));
-                })
-            }
         })
-
-        /*
-        //purify outdated hooks
-        if(tmp_hooks.length > 0) {
-            $.each(App.css_hooks, function(k,v){
-                if($.inArray(v, tmp_hooks) == -1) {
-
-                    $('link[href="'+v+'"]').remove();
-
-                    delete App.css_hooks[k];
-                }
-            })
-
-            $.each(App.js_hooks, function(k,v){
-                if($.inArray(v, tmp_hooks) == -1) {
-
-                    $('script[src="'+v+'"]').remove();
-
-                    delete App.js_hooks[k];
-                }
-            })
-        }
-        */
     },
 
     makeModal: function(url) {
