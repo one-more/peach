@@ -4,7 +4,9 @@ window.Layout = Backbone.View.extend({
     initialize: function() {
         Form.add_success_handler('exit-form', function(data) {
             if(data.trim()) {
-                App.showNoty('request error', 'error');
+                var msg = LangModel.get('request_error') ||
+                    'request error';
+                App.showNoty(msg, 'error');
             }
             else {
                 App.loadPage('/admin');

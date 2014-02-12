@@ -105,7 +105,7 @@ class autoloader
         if(!file_exists($file)) {
             file_put_contents('..'.DS.'error.log',date('j.m.Y H:i:s -')." cannot load $file \r\n", FILE_APPEND);
 
-            echo templator::getTemplate('error', ['error-msg'=>'an error occurred'], '..'.DS.'html');
+            //echo templator::getTemplate('error', ['error-msg'=>'an error occurred'], '..'.DS.'html');
 
             return false;
         }

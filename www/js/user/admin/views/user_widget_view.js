@@ -16,7 +16,9 @@ window.UserWidgetView = Backbone.View.extend({
             var file = e.target.files[0];
 
             if(!file.type.match('image.*')) {
-                App.showNoty('selected file is not an image', 'error');
+                var msg = LangModel.get('not_image') ||
+                    'selected file is not an image';
+                App.showNoty(msg, 'error');
                 return;
             }
 

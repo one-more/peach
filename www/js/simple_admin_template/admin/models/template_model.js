@@ -10,7 +10,9 @@ var TemplateModel = Backbone.Model.extend({
                     TemplateModel.set(json);
                 }
                 catch(exception) {
-                    App.showNoty('cannot load  template model', 'error');
+                    var msg = LangModel.get('load_template_model') ||
+                        'cannot load  template model';
+                    App.showNoty(msg, 'error');
 
                     console.log(exception);
                 }
@@ -30,7 +32,9 @@ var TemplateModel = Backbone.Model.extend({
                     TemplateModel.set(data)
                 }
                 catch(exc) {
-                    App.showNoty('cannot update template model', 'error');
+                    var msg = LangModel.get('update_template_model') ||
+                        'cannot update template model';
+                    App.showNoty(msg, 'error');
                     console.log(data);
                     console.log(exc);
                 }

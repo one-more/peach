@@ -10,7 +10,9 @@ var SystemModel = Backbone.Model.extend({
                     SystemModel.set(json);
                 }
                 catch(exc) {
-                    App.showNoty('cannot load system model', 'error');
+                    var msg = LangModel.get('load_system_model') ||
+                        'cannot load system model';
+                    App.showNoty(msg, 'error');
 
                     console.log(exc);
                 }

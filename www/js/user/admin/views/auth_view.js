@@ -17,7 +17,9 @@ window.AuthView = Backbone.View.extend({
                 App.loadPage(data.url);
             }
             else {
-                App.showNoty('request error', 'error');
+                var msg = LangModel.get('request_error') ||
+                    'request error';
+                App.showNoty(msg, 'error');
             }
         })
     }

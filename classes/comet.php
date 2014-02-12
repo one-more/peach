@@ -8,44 +8,103 @@
 class comet {
     /**
      * @param $msg
+     * @param string $type
      */
-    public static function add_message($msg)
+    public static function add_message($msg, $type = 'me_admin')
     {
-        $arr = static::get_array();
+        $ini = factory::getIniServer(SITE_PATH.'resources'.DS.'comet.ini');
+        $msg = json_encode($msg);
 
-        $arr[] = $msg;
-
-        static::save($arr);
+        switch($type) {
+            case 'me_admin':
+                $arr = $ini->readSection('me_admin');
+                $arr[] = $msg;
+                $ini->writeSection('me_admin', $arr);
+                break;
+            case 'me_site':
+                $arr = $ini->readSection('me_site');
+                $arr[] = $msg;
+                $ini->writeSection('me_site', $arr);
+                break;
+            case 'site_users':
+                $arr = $ini->get_all();
+                foreach($arr as $k=>$v) {
+                    if(!in_array($k, ['me_admin', 'me_site'])) {
+                        $arr[$k][] = $msg;
+                    }
+                }
+                $ini->write_all($arr);
+                break;
+            default:
+                $type = preg_replace('/\./', '_', $type);
+                $arr = $ini->readSection($type);
+                $arr[] = $msg;
+                $ini->writeSection($type, $arr);
+                break;
+        }
+        $ini->updateFile();
     }
 
     /**
+     * @param $ip
+     * @param $mode
      * @return mixed
      */
-    public static function get_array()
+    public static function get_array($ip, $mode)
     {
-        if(!file_exists(SITE_PATH.'resources')) {
-            mkdir(SITE_PATH.'resources');
+        $my_ip = user::get_ip();
+
+        $ini = factory::getIniServer(SITE_PATH.'resources'.DS.'comet.ini');
+
+        if($my_ip == $ip) {
+            if($mode == 'admin') {
+                $arr = $ini->readSection('me_admin');
+            }
+            else {
+                $arr = $ini->readSection('me_site');
+            }
         }
-        if(!file_exists(SITE_PATH.'resources'.DS.'comet.db')) {
-            file_put_contents(SITE_PATH.'resources'.DS.'comet.db', '');
+        else {
+            $ip = preg_replace('/\./', '_', $ip);
+
+            $arr =  $ini->readSection($ip);
         }
 
-        return json_decode(file_get_contents(SITE_PATH.'resources'.DS.'comet.db'), true);
+        $ret = [];
+        foreach($arr as $el) {
+            $el = stripslashes($el);
+            $el = preg_replace('/\s/', '_space_', $el);
+            $el = preg_replace('/([\/ \w]+)/', '"$1"', $el);
+            $el = preg_replace('/_space_/', ' ', $el);
+            $el = preg_replace('/\//', '\/', $el);
+            $ret[] = json_decode($el, true);
+        }
+
+        return $ret;
     }
 
     /**
-     * @param $arr
+     * @param $ip
+     * @param $mode
      */
-    private static function save($arr)
+    public static function clear_array($ip, $mode)
     {
-        file_put_contents(SITE_PATH.'resources'.DS.'comet.db', json_encode($arr));
-    }
+        $my_ip = user::get_ip();
+        $ini = factory::getIniServer(SITE_PATH.'resources'.DS.'comet.ini');
 
-    /**
-     * clears file comet.db
-     */
-    public static function clear_array()
-    {
-        static::save([]);
+        if($my_ip == $ip) {
+            if($mode == 'admin') {
+                $ini->writeSection('me_admin', []);
+            }
+            else {
+                $ini->writeSection('me_site', []);
+            }
+        }
+        else {
+            $ip = preg_replace('/\./', '_', $ip);
+
+            $ini->writeSection($ip, []);
+        }
+        $ini->updateFile();
     }
 }

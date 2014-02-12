@@ -13,4 +13,11 @@ interface user_extension_interface extends super_interface {
      * @return mixed
      */
     public static function get_info();
+
+    /**
+     * need to compare versions during installation
+     *
+     * @return mixed
+     */
+    public static function get_version();
 }

@@ -31,7 +31,10 @@ App.Router = Backbone.Router.extend({
             $('*[data-widget="2"]').load('index.php',{'class':AdminModel.get('menu')});
         }
         else {
-            App.showNoty('no menu available, please install menu', 'alert');
+            var msg = LangModel.get('no_menu') ||
+                'no menu available, please install menu';
+            App.showNoty(msg, 'alert');
+            history.back();
         }
     },
 

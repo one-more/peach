@@ -121,6 +121,11 @@ th {
 .margin-0 {
     margin: 0 !important;
 }
+
+.margin-padding-0 {
+    margin: 0!important;
+    padding: 0!important;
+}
 /*-------------------------------------------------------------------------------------------------*/
 
 html,body {
@@ -208,6 +213,14 @@ html,body {
 
 .height-15 {
     height: 15%;
+}
+
+.height-100 {
+    height: 100%;
+}
+
+.height-80 {
+    height: 80%;
 }
 
 .max-height-600px {
@@ -416,3 +429,13 @@ html,body {
 .text-color-blue {
     color: #0088cc;
 }
+
+/*------------------------------ bg -----------------------------------------------------------------*/
+.bg-blue {
+    background: deepskyblue;
+}
+
+.bg-green {
+    background: limegreen;
+}
+/*---------------------------------------------------------------------------------------------------*/

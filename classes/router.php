@@ -16,18 +16,20 @@ class router {
         if(core::$mode == 'admin' && !empty($_REQUEST['ajax']) && !user::is_auth()) {
 
             //todo - костыль
-            if(empty($_REQUEST['task']) || $_REQUEST['task'] != 'auth') {
+            if(!in_array($_REQUEST['class'], ['noop'])) {
+                if(empty($_REQUEST['task']) || $_REQUEST['task'] != 'auth') {
 
-                comet::add_message(
-                    [
-                        'task'      => 'delegate',
-                        'object'    => 'App',
-                        'method'    => 'loadPage',
-                        'params'    => ['/admin']
-                    ]
-                );
+                    comet::add_message(
+                        [
+                            'task'      => 'delegate',
+                            'object'    => 'App',
+                            'method'    => 'loadPage',
+                            'params'    => ['/admin']
+                        ]
+                    );
 
-                return;
+                    return;
+                }
             }
         }
 
@@ -41,6 +43,18 @@ class router {
 
         $default = array_merge($default, $_REQUEST);
 
-        $default['class']::start();
+        if(class_exists($default['class']))
+            $default['class']::start();
+        else {
+            $ref = factory::get_reference('errors')['no_extension'];
+
+            echo templator::get_warning($ref).dom::create_element(
+                    'img',
+                    [
+                        'class' => 'width-100 height-80',
+                        'src'   => '/media/images/404.jpg'
+                    ]
+                );
+        }
     }
 }

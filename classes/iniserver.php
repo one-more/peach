@@ -53,6 +53,10 @@ class iniServer {
             $this->arr[$section] = $value;
         }
     }
+    function write_all($arr)
+    {
+        $this->arr = $arr;
+    }
     function eraseSection($section){
         if (isset($this->arr[$section]))
             unset($this->arr[$section]);
@@ -71,6 +75,10 @@ class iniServer {
             return $array;
         }
         return array();
+    }
+    function get_all()
+    {
+        return $this->arr;
     }
     function updateFile(){
         $result = '';

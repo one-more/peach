@@ -60,15 +60,24 @@ class authcontroller extends \supercontroller {
 
             $interval = $ini->read('options', 'exit_time', 15);
 
-            $activity = $ini->read('user', 'last_activity', time());
+            $activity = !empty($_SESSION['last_activity']) ?
+                        $_SESSION['last_activity'] : time();
 
             if((time() - $activity) > 60*$interval) {
                 unset($_SESSION['user']);
             }
             else {
-                $ini->write('user', 'last_activity', time());
 
-                $ini->updateFile();
+               $_SESSION['last_activity'] = time();
+
+                file_put_contents(
+                    \user::$path.'my_cookies',
+                    json_encode(
+                        [
+                            'my_ip' => getenv('REMOTE_ADDR')
+                        ]
+                    )
+                );
             }
         }
 
@@ -100,6 +109,7 @@ class authcontroller extends \supercontroller {
                 $ini = \factory::getIniServer(\user::$path.'user.ini');
 
                 $url = $ini->read('auth', 'redirect_url', '/');
+                $interval = $ini->read('user', 'exit_time', 15);
 
                 $_SESSION['user'] = $error;
 
@@ -109,11 +119,18 @@ class authcontroller extends \supercontroller {
 
                 $this->set_cache_view('user_'.$error, json_encode($user));
 
-                $ini = \factory::getIniServer(\user::$path.'user.ini');
+                $_SESSION['last_activity']  = time();
+                $_SESSION['token']          = crypt(time().getenv('REMOTE_ADDR').$user['login'],
+                    'the best ever');
 
-                $ini->write('user', 'last_activity', time());
-
-                $ini->updateFile();
+                file_put_contents(
+                    \user::$path.'my_cookies',
+                    json_encode(
+                        [
+                            'my_ip' => getenv('REMOTE_ADDR')
+                        ]
+                    )
+                );
 
                 return ['error' => '', 'url' => $url];
             }

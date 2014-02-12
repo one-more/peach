@@ -1,17 +1,38 @@
 <?php
 require_once '../classes/defines.php';
-require_once SITE_PATH.'classes'.DS.'comet.php';
+require_once SITE_PATH.'classes'.DS.'autoloader.php';
+
+spl_autoload_register(['autoloader','load']);
+spl_autoload_register(['autoloader', 'loadTrait']);
+spl_autoload_register(['autoloader','loadInterface']);
+spl_autoload_register(['autoloader','loadTemplate']);
+spl_autoload_register(['autoloader','loadEditor']);
+spl_autoload_register(['autoloader','loadExtension']);
+exceptionHandler::initialise();
 
 set_time_limit(0);
 
-ob_implicit_flush();
+ob_implicit_flush(true);
+
+$ip = getenv('REMOTE_ADDR');
+
+if(!is_file(SITE_PATH.'resources'.DS.'comet.ini')) {
+    file_put_contents(SITE_PATH.'resources'.DS.'comet.ini', '');
+}
+
+if(time() > (filemtime(SITE_PATH.'resources'.DS.'comet.ini') + 3600*48)) {
+    file_put_contents(SITE_PATH.'resources'.DS.'comet.ini', '');
+    error::log('clear comet.ini');
+}
+
+$mode = preg_split('/\//', $_REQUEST['old_url'])[1];
 
 $sleep = 1;
 
 $start = time() + 90;
 
 while($start > time()) {
-    $arr = comet::get_array();
+    $arr = comet::get_array($ip, $mode);
 
     if(count($arr) > 0) {
         break;
@@ -20,10 +41,10 @@ while($start > time()) {
     sleep($sleep);
 }
 
-if(count(comet::get_array()) > 0) {
-    echo json_encode(['task'=>'handle', 'msgs' => comet::get_array()]);
+if(count(comet::get_array($ip, $mode)) > 0) {
+    echo json_encode(['task'=>'handle', 'msgs' => comet::get_array($ip, $mode)]);
 
-    comet::clear_array();
+    comet::clear_array($ip, $mode);
 }
 else {
     echo json_encode(['task'=>'reload']);

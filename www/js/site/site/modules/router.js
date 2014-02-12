@@ -26,7 +26,10 @@ App.Router = Backbone.Router.extend({
                             })
                         }
                         catch(exception) {
-                            App.showNoty('error load page', 'error');
+                            var msg = LangModel.get('load_page_err') ||
+                                'error load page';
+
+                            App.showNoty(msg, 'error');
 
                             console.log(exception);
                         }

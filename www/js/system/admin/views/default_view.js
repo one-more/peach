@@ -21,10 +21,14 @@ var SystemDefaultView = Backbone.View.extend({
 
                 $('.lang-select').append(option);
 
-                App.showNoty('language added successfully', 'success');
+                var msg = LangModel.get('add_lang') ||
+                    'language added successfully';
+                App.showNoty(msg, 'success');
             }
             else {
-                App.showNoty('cannot add language', 'error');
+                var msg = LangModel.get('cannot_add_lang') ||
+                    'cannot add language';
+                App.showNoty(msg, 'error');
                 console.log(data);
             }
         })
@@ -38,7 +42,9 @@ var SystemDefaultView = Backbone.View.extend({
             {'class':'system', 'controller':'lang', 'task':'change', 'params':params},
             function(data) {
                 if(data.trim()) {
-                    App.showNoty('cannot change language', 'error');
+                    var msg = LangModel.get('cannot_change_lang') ||
+                        'cannot change language';
+                    App.showNoty(msg, 'error');
                 }
                 else {
                     App.loadPage('/'+Backbone.history.fragment);

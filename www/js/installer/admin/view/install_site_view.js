@@ -73,7 +73,9 @@ window.InstallSiteView = Backbone.View.extend({
 
         Form.add_success_handler('install-site-form', function(data){
             if(typeof data != 'object') {
-                App.showNoty('an error occurred', 'error');
+                var msg = LangModel.get('error_occurred') ||
+                    'an error occurred';
+                App.showNoty(msg, 'error');
             }
             else {
                 App.goto('installer/done');
@@ -81,7 +83,8 @@ window.InstallSiteView = Backbone.View.extend({
         })
 
         Form.add_error_handler('install-site-form', function(){
-            App.showNoty('wrong data', 'error');
+            var msg = LangModel.get('wrong_data') || 'wrong data';
+            App.showNoty(msg, 'error');
         })
     },
 

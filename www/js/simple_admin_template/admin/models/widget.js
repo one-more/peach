@@ -12,7 +12,9 @@ var WidgetModel = Backbone.Model.extend({
                     App.trigger('widgetmodel:loaded');
                 }
                 catch(exception) {
-                    App.showNoty('cannot load widget model', 'error');
+                    var msg = LangModel.get('load_widget_model') ||
+                        'cannot load widget model';
+                    App.showNoty(msg, 'error');
                     console.log(exception);
                 }
             }
@@ -25,7 +27,9 @@ var WidgetModel = Backbone.Model.extend({
             {'class':'simple_admin_template', 'task':'update_widgets', 'params': this.toJSON()},
             function(data) {
                 if(data.trim()) {
-                    App.showNoty('failed to update the widget model', 'error');
+                    var msg = LangModel.get('update_widget_model') ||
+                        'failed to update the widget model';
+                    App.showNoty(msg, 'error');
                     console.log(data);
                 }
             }

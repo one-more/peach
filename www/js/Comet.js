@@ -27,7 +27,9 @@ App.module('Comet', function(Comet){
                 console.log('comet error');
                 console.log(text);
                 console.log(thrown);
-                App.showNoty('request to comet daemon returned an error', 'error');
+                var msg = LangModel.get('comet_request_err') ||
+                    'request to comet daemon returned an error';
+                App.showNoty(msg, 'error');
             }
         })
     };
@@ -48,7 +50,9 @@ App.module('Comet', function(Comet){
             })
         }
         catch(exception) {
-            App.showNoty('comet handler exception', 'error');
+            var msg = LangModel.get('comet_handler_exc') ||
+                'comet handler has thrown an exception';
+            App.showNoty(msg, 'error');
             console.log(exception);
             console.log(msgs);
         }

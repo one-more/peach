@@ -108,4 +108,51 @@ class user implements widget_extension_interface {
 
         return ['alias'=>$alias, 'icon'=>null, 'submenu'=>null];
     }
+
+    /**
+     * @return array|bool|string
+     */
+    public static function get_ip()
+    {
+        $ini = factory::getIniServer(static::$path.'user.ini');
+
+        $interval = $ini->read('user', 'exit_time', 15);
+
+        if(!static::$path) {
+            static::$path = SITE_PATH.'extensions'.DS.'user'.DS;
+        }
+
+        if(file_exists(static::$path.'my_cookies')) {
+
+            if(time() > (filemtime(static::$path.'my_cookies') + 60*$interval)) {
+                $arr = json_decode(file_get_contents(static::$path.'my_cookies'), true);
+
+                unlink(static::$path.'my_cookies');
+
+                return $arr['my_ip'];
+            }
+            else {
+                $arr = json_decode(file_get_contents(static::$path.'my_cookies'), true);
+
+                return $arr['my_ip'];
+            }
+        }
+        else {
+
+            return false;
+        }
+    }
+
+    /**
+     * @return array|bool|string
+     */
+    public static function get_token()
+    {
+        if(static::is_auth()) {
+            return $_SESSION['token'];
+        }
+        else {
+            return false;
+        }
+    }
 }
