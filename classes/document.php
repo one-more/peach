@@ -20,7 +20,6 @@ class document {
      * @var array of js files to add
      */
     public static  $js_files = [
-		'<script src="/js/ajaxupload.3.5.js"></script>',
 		'<script src="/js/json2.js"></script>',
 		'<script src="/js/jquery-2.0.3.min.js"></script>',
 		'<script src="/js/underscore-min.js"></script>',
