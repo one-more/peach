@@ -7,12 +7,17 @@
  * @author Nikolaev D.
  */
 class installer implements widget_extension_interface{
-    use trait_widget_extension;
+    use trait_widget_extension, trait_cache;
 
 	/**
 	 * @var string - path to root of extension
 	 */
 	public static $path = "../extensions/installer/";
+
+    /**
+     * @var string
+     */
+    public static $cache_path = '../extensions/installer/admin/cache/';
 
 	/**
 	 * @var array of controllers
@@ -23,6 +28,20 @@ class installer implements widget_extension_interface{
 	 * @var array of models
 	 */
 	public static $models = [];
+
+    /**
+     *
+     */
+    public static function init()
+    {
+        if(!file_exists(SITE_PATH.'extensions'.DS.'installer'.DS.'auto_install')) {
+            mkdir(SITE_PATH.'extensions'.DS.'installer'.DS.'auto_install');
+        }
+
+        if(!file_exists(static::$cache_path)) {
+            mkdir(static::$cache_path);
+        }
+    }
 
     /**
      * @param $name - name of the controller
@@ -71,6 +90,8 @@ class installer implements widget_extension_interface{
      */
     public static function start()
     {
+        static::init();
+
         if(!empty($_REQUEST['method']))  {
             $defaults = [
                 'params'    => ''
@@ -106,6 +127,8 @@ class installer implements widget_extension_interface{
      */
     public static function get_extensions()
     {
+        static::init();
+
         $controller = static::getAdminController('default');
 
         $arr = $controller->exec('get_extensions');
@@ -118,6 +141,8 @@ class installer implements widget_extension_interface{
      */
     public static function get_templates()
     {
+        static::init();
+
         $controller = static::getAdminController('default');
 
         $arr = $controller->exec('get_templates');
@@ -130,6 +155,8 @@ class installer implements widget_extension_interface{
      */
     public static function get_editors()
     {
+        static::init();
+
         $controller = static::getAdminController('default');
 
         $arr = $controller->exec('get_editors');
@@ -147,5 +174,10 @@ class installer implements widget_extension_interface{
         $alias = $controller->getLang('info')['alias'];
 
         return ['alias'=>$alias, 'icon'=>null, 'submenu'=>null];
+    }
+
+    public static function delete()
+    {
+
     }
 }

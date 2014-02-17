@@ -51,4 +51,29 @@ class system {
     {
         return static::read_params('options')['menu'];
     }
+
+    /**
+     * @return string
+     */
+    public static function get_version()
+    {
+        return '1.5';
+    }
+
+    /**
+     * @param $type
+     * @param $version
+     * @return bool
+     */
+    public static function accept_cms_version($type, $version)
+    {
+        switch($type) {
+            case 'extension':
+                return true;
+                break;
+            case 'template':
+                return true;
+                break;
+        }
+    }
 }

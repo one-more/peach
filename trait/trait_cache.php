@@ -25,14 +25,19 @@ trait trait_cache {
     /**
      * clear cache files
      */
-    public function clear_cache()
+    public static  function clear_cache($now = false)
     {
         static::check_dir();
 
         $iterator = new FilesystemIterator(static::$cache_path);
 
         foreach($iterator as $el) {
-            if(time() > filemtime($el) + 3600*24*7) {
+            if(!$now) {
+                if(time() > filemtime($el) + 3600*24*7) {
+                    unlink($el);
+                }
+            }
+            else {
                 unlink($el);
             }
         }

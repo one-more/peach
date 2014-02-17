@@ -36,7 +36,8 @@ class document {
         '<script src="/js/noty/layouts/center.js"></script>',
         '<script src="/js/noty/themes/default.js"></script>',
         '<script src="/js/Comet.js"></script>',
-        '<script src="/js/lang_model.js"></script>'
+        '<script src="/js/lang_model.js"></script>',
+        '<script src="/js/peach_upload.js"></script>'
 	];
 
     /**

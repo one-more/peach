@@ -11,4 +11,9 @@ interface super_interface {
      * @return mixed
      */
     public static function start();
+
+    /**
+     * @return mixed
+     */
+    public static function delete();
 }

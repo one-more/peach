@@ -155,4 +155,9 @@ class user implements widget_extension_interface {
             return false;
         }
     }
+
+    public static function delete()
+    {
+
+    }
 }

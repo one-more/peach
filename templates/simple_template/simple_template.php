@@ -23,4 +23,9 @@ class simple_template implements site_template_interface{
             'preview'   => '/media/simple_template/preview.png'
         ];
     }
+
+    public static function delete()
+    {
+
+    }
 }

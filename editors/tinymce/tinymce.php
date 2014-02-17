@@ -28,4 +28,9 @@ class tinymce implements editor_interface {
     {
         return [];
     }
+
+    public static function delete()
+    {
+
+    }
 }

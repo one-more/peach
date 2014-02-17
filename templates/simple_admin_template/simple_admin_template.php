@@ -22,4 +22,9 @@ class simple_admin_template implements admin_template_interface {
             'preview'   => DS.'media'.DS.'simple_admin_template'.DS.'preview.png'
         ];
     }
+
+    public static function delete()
+    {
+
+    }
 }

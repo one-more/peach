@@ -28,4 +28,9 @@ class ckeditor implements editor_interface {
     {
         return [];
     }
+
+    public static function delete()
+    {
+
+    }
 }

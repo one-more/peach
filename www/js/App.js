@@ -125,8 +125,9 @@ _.extend(App, Backbone.Events, {
                     return data;
                 }
             },
-            error: function() {
+            error: function(xhr, status, text) {
                 App.showNoty('request error', 'error');
+                console.log(text);
             },
             complete: function() {
                 App.trigger('dom:loaded');
