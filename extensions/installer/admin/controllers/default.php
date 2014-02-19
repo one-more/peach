@@ -86,4 +86,25 @@ class defaultcontroller extends supercontroller {
             return $cache;
         }
     }
+
+    /**
+     * @return bool|string
+     */
+    public function get_daemons()
+    {
+        if($cache = $this->get_cache_view('daemons')) {
+            return $cache;
+        }
+        else {
+            $model = installer::getAdminModel('default');
+
+            $cache = $model->get_daemons();
+
+            if(is_array($cache)) {
+                $this->set_cache_view('daemons', json_encode($cache));
+            }
+
+            return $cache;
+        }
+    }
 }

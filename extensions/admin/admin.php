@@ -141,4 +141,68 @@ class admin {
 
         return $result;
     }
+
+    /**
+     * @return array
+     */
+    public static function get_site_daemons()
+    {
+        $arr = installer::get_daemons();
+
+        $result = [];
+
+        foreach($arr as $el) {
+            if(new $el['name'] instanceof daemon_extension_interface &&
+                $el['type'] == 'site') {
+                $result[] = $el;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return array
+     */
+    public static function get_admin_daemons()
+    {
+        $arr = installer::get_daemons();
+
+        $result = [];
+
+        foreach($arr as $el) {
+            if(new $el['name'] instanceof daemon_extension_interface &&
+                $el['type'] == 'admin') {
+                $result[] = $el;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return array
+     */
+    public static function get_daemons()
+    {
+        $arr = installer::get_daemons();
+
+        $result = [];
+
+        foreach($arr as $el) {
+            if(new $el['name'] instanceof daemon_extension_interface) {
+                $result[] = $el;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function get_template()
+    {
+        return static::read_params('options')['template'];
+    }
 }

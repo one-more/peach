@@ -25,35 +25,21 @@ class helper
      */
     public static function remDir($path)
 	{
-		if(file_exists($path)&& is_dir($path))
-		{
-			$dirhandle = opendir($path);
-			while(false !== ($file = readdir($dirhandle)))
-			{
-				if($file != '.' && $file != '..')
-				{
-					$tmppath = $path.'/'.$file;
-					chmod($tmppath,0777);
-					if(is_dir($tmppath))
-					{
-						self::remDir($tmppath);
-					}
-					else
-					{
-						if(file_exists($tmppath))
-						{
-							unlink($tmppath);
-						}
-					}
-				}
-			}
-			
-			closedir($dirhandle);
-			if(file_exists($path))
-			{
-				rmdir($path);
-			}
-		}	
+        if(file_exists($path) || is_dir($path)) {
+            $iterator = new FilesystemIterator($path);
+
+            foreach($iterator as $el) {
+                if(is_dir($el)) {
+                    static::remDir($el);
+                }
+                else {
+                    unlink($el);
+                }
+            }
+            if(file_exists($path)) {
+                rmdir($path);
+            }
+        }
 	}
 
     /**

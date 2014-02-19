@@ -18,6 +18,11 @@ interface menu_extension_interface extends super_interface {
     public static  function create_layout();
 
     /**
+     * @return mixed
+     */
+    public static function get_create_layout_html();
+
+    /**
      * @param $id
      * @return mixed
      */
@@ -28,4 +33,9 @@ interface menu_extension_interface extends super_interface {
      * @return mixed
      */
     public static function get_page($link);
+
+    /**
+     * @return mixed
+     */
+    public static function get_version();
 }

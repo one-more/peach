@@ -165,6 +165,20 @@ class installer implements widget_extension_interface{
     }
 
     /**
+     * @return array|mixed
+     */
+    public static function get_daemons()
+    {
+        static::init();
+
+        $controller = static::getAdminController('default');
+
+        $arr = $controller->exec('get_daemons');
+
+        return is_array($arr) ? $arr : json_decode($arr, true);
+    }
+
+    /**
      * @return array
      */
     public static function get_info()

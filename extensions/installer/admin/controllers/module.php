@@ -98,6 +98,14 @@ class modulecontroller extends supercontroller{
                             throw new Exception('class does not exists');
                         }
                         break;
+                    case 'view':
+                        if(class_exists($info['for'])) {
+                            require $file;
+                        }
+                        else {
+                            throw new Exception('class does not exists');
+                        }
+                        break;
                     default:
                         throw new Exception('unknown type');
                         break;

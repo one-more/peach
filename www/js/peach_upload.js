@@ -86,6 +86,7 @@
 					if(typeof ff == 'function') {
 						if(!ff(v)) {
 							ret = false;
+                            return false;
 						}
 					}
 				

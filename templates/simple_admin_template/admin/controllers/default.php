@@ -59,8 +59,8 @@ class defaultcontroller extends supercontroller {
 
             foreach($user_extensions as $el) {
                 $a = dom::create_element('a', [
-                    'href'  => '/admin/'.$el,
-                    'text'  => $el::get_info()['alias']
+                    'href'  => '/admin/'.$el['name'],
+                    'text'  => $el['name']::get_info()['alias']
                 ]);
 
                 $li .= dom::create_element('li', [

@@ -24,4 +24,12 @@ class site {
 
         return $ini->read('language', 'current', false);
 	}
+
+    /**
+     * @return mixed
+     */
+    public static function get_template()
+    {
+        return static::read_params('options')['template'];
+    }
 }

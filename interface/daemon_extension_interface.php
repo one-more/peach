@@ -17,4 +17,9 @@ interface daemon_extension_interface extends super_interface {
      * @return mixed
      */
     public static function get_info();
+
+    /**
+     * @return mixed
+     */
+    public static function get_version();
 }
