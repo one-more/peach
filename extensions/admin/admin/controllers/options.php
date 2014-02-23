@@ -34,6 +34,21 @@ class optionscontroller extends \supercontroller {
         );
         $params['js'] = \builder::build('default_admin.js', $params['js']);
 
+        $params['opts'] = $this->get_editors();
+
+        return \templator::getTemplate(
+            'index',
+            $params,
+            \admin::$path.'admin'.DS.'views'.DS.'options'
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function get_editors()
+    {
+        $params = \admin::read_params('options');
         $arr = \admin::get_editors();
 
         $opts = '';
@@ -41,7 +56,7 @@ class optionscontroller extends \supercontroller {
         foreach($arr as $el) {
             if($el['name'] == $params['editor']) {
                 $opt = \dom::create_element(
-                  'option',
+                    'option',
                     [
                         'selected'  => '',
                         'value'     => $el['name'],
@@ -61,13 +76,7 @@ class optionscontroller extends \supercontroller {
             $opts .= $opt;
         }
 
-        $params['opts'] = $opts;
-
-        return \templator::getTemplate(
-            'index',
-            $params,
-            \admin::$path.'admin'.DS.'views'.DS.'options'
-        );
+        return $opts;
     }
 
     /**

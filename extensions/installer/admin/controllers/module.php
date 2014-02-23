@@ -13,10 +13,15 @@ class modulecontroller extends supercontroller{
     public function load()
     {
         foreach($_FILES as $el) {
-            $path = SITE_PATH.'extensions'.DS.'installer'.DS.'auto_install'.DS.$el['name'];
-            move_uploaded_file($el['tmp_name'], $path);
-            $this->install($path);
+            if($el['type'] == 'application/x-php') {
+                $path = SITE_PATH.'extensions'.DS.'installer'.DS.'auto_install'.DS.$el['name'];
+                move_uploaded_file($el['tmp_name'], $path);
+                $this->install($path);
+            }
         }
+
+        //delete all files from folder auto_install
+        $this->clear();
     }
 
     /**
@@ -111,7 +116,6 @@ class modulecontroller extends supercontroller{
                         break;
                 }
                 installer::clear_cache(true);
-                $this->clear();
             }
             else {
                 throw new Exception('wrong ini file');

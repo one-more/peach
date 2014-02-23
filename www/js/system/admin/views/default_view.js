@@ -24,6 +24,8 @@ var SystemDefaultView = Backbone.View.extend({
                 var msg = LangModel.get('add_lang') ||
                     'language added successfully';
                 App.showNoty(msg, 'success');
+
+                App.trigger('language:added');
             }
             else {
                 var msg = LangModel.get('cannot_add_lang') ||
@@ -31,6 +33,19 @@ var SystemDefaultView = Backbone.View.extend({
                 App.showNoty(msg, 'error');
                 console.log(data);
             }
+        })
+
+        App.on('module:installed module:deleted', function(){
+            $.post(
+                'index.php',
+                {
+                    'class'         : 'system',
+                    'controller'    : 'menu'
+                },
+                function(data) {
+                    $('.system-menu-select-page').replaceWith(data);
+                }
+            )
         })
     },
 

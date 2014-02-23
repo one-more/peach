@@ -30,6 +30,20 @@ window.Layout = Backbone.View.extend({
                 }
             }).data('gridster');
         })
+
+        App.on('module:installed module:deleted', function(){
+            $.post(
+                'index.php',
+                {
+                    'class'         : 'simple_admin_template',
+                    'controller'    : 'default',
+                    'task'          : 'get_menu'
+                },
+                function(data) {
+                    $('.dropdown-menu').html(data);
+                }
+            )
+        })
     },
 
     events: {

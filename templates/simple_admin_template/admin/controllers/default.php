@@ -51,7 +51,26 @@ class defaultcontroller extends supercontroller {
 
         $params['grid'] = $this->get_grid();
 
-        $user_extensions = \admin::get_user_extensions();
+        $params['user_extensions_list'] = $this->get_menu();
+
+        return templator::getTemplate(
+            'index',
+            $params,
+            '..'.DS.'templates'.DS.'simple_admin_template'.DS.'admin'.DS.'views'.DS.'default'
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function get_menu()
+    {
+        $params = simple_admin_template::get_lang('main_page');
+
+        $user_extensions = array_merge(
+            \admin::get_user_extensions(),
+            \admin::get_daemons()
+        );
 
         if(count($user_extensions) > 0) {
 
@@ -68,19 +87,13 @@ class defaultcontroller extends supercontroller {
                 ]);
             }
 
-            $params['user_extensions_list'] = $li;
+            return $li;
         }
         else {
-            $params['user_extensions_list'] = dom::create_element('li', [
+            return dom::create_element('li', [
                 'text'=> $params['NO_EXTENSIONS']
             ]);
         }
-
-        return templator::getTemplate(
-            'index',
-            $params,
-            '..'.DS.'templates'.DS.'simple_admin_template'.DS.'admin'.DS.'views'.DS.'default'
-        );
     }
 
     /**

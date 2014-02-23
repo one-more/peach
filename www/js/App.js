@@ -202,9 +202,11 @@ _.extend(App, Backbone.Events, {
         })
 
         $(document).on('click', 'a[href]:not(.disabled, .external)', function(e){
-            e.preventDefault();
+            if(App.router) {
+                e.preventDefault();
 
-            App.router.navigate($(this).attr('href'), {trigger:true});
+                App.router.navigate($(this).attr('href'), {trigger:true});
+            }
         })
 
         App.on('dom:loaded', function(){
@@ -377,6 +379,41 @@ _.extend(App, Backbone.Events, {
 
             $('*[data-widget=2]').load('index.php', params)
         }
+    },
+
+    setCookie: function(name, value, exp, path, domain, secure){
+        var cookie_str = name+"="+escape(value);
+
+        if(exp) {
+            cookie_str += "; expires="+exp.toUTCString();
+        }
+
+        if(path) {
+            cookie_str += "; path="+escape(path);
+        }
+
+        if(domain) {
+            cookie_str += "; domain="+escape(domain);
+        }
+
+        if(secure) {
+            cookie_str += "; secure";
+        }
+
+        document.cookie = cookie_str;
+    },
+
+    deleteCookie: function(name) {
+        document.cookie = name+"=; expires=-1";
+    },
+
+    getCookie: function(cookie_name) {
+        var results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)' );
+
+        if ( results )
+            return ( unescape ( results[2] ) );
+        else
+            return null;
     }
 })
 

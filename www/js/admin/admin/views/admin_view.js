@@ -3,6 +3,31 @@ window.AdminView = Backbone.View.extend({
 
     initialize: function() {
         $('#admin-tabs').tabs();
+
+        App.on('module:installed module:deleted', function(){
+            $.post(
+                'index.php',
+                {
+                    'class'         : 'admin',
+                    'controller'    : 'templates'
+                },
+                function(data) {
+                    $('.admin-templates-table').replaceWith(data);
+                }
+            )
+
+            $.post(
+                'index.php',
+                {
+                    'class'         : 'admin',
+                    'controller'    : 'options',
+                    'task'          : 'get_editors'
+                },
+                function(data) {
+                    $('.admin-editor-select').html(data);
+                }
+            )
+        })
     },
 
     events: {
@@ -29,7 +54,13 @@ window.AdminView = Backbone.View.extend({
             removeClass('selected');
             $(e.target).attr('src', '/media/images/ok.png').addClass('selected');
 
-            $.post('index.php?class=admin&controller=templates&task=select_template&params='+params);
+            $.post(
+                'index.php?class=admin&controller=templates&task=select_template&params='+params,
+                {},
+                function(data) {
+                    App.loadPage('/admin');
+                }
+            );
         }
     }
 })

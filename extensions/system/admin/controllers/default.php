@@ -38,6 +38,48 @@ class defaultcontroller extends \supercontroller {
      */
     public function get_options()
     {
+        $arr = \admin::get_menu_extensions();
+
+        $opts = \system::read_params('options');
+
+        $menu_changed = false;
+
+        if(count($arr) > 0 && $opts['menu'] == -1) {
+            $menu = $arr[0]['name'];
+
+            \system::write_params('options', 'menu', $menu);
+
+            $menu_changed = true;
+        }
+
+        if(count($arr) == 0 && $opts['menu'] != -1) {
+            \system::write_params('options', 'menu', -1);
+
+            $menu_changed = true;
+        }
+
+        if($menu_changed) {
+            \comet::add_message(
+                [
+                    'task'      => 'delegate',
+                    'object'    => 'SystemModel',
+                    'method'    => 'initialize',
+                    'params'    => []
+                ],
+                'me_site'
+            );
+
+            \comet::add_message(
+                [
+                    'task'      => 'delegate',
+                    'object'    => 'SystemModel',
+                    'method'    => 'initialize',
+                    'params'    => []
+                ],
+                'site_users'
+            );
+        }
+
         return \system::read_params('options');
     }
 

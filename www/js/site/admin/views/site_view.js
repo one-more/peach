@@ -6,6 +6,19 @@ var SiteView = Backbone.View.extend({
         App.elementLoad('#site-tabs', function(){
             $('#site-tabs').tabs({});
         })
+
+        App.on('module:installed module:deleted', function(){
+            $.post(
+                'index.php',
+                {
+                    'class'         : 'site',
+                    'controller'    : 'templates',
+                },
+                function(data) {
+                    $('.site-templates-table').replaceWith(data);
+                }
+            )
+        })
     },
 
     events: {

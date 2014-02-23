@@ -18,6 +18,10 @@ var SystemModel = Backbone.Model.extend({
                 }
             }
         );
+
+        App.on('module:installed module:deleted', function(){
+            SystemModel.initialize();
+        })
     },
 
     update: function() {

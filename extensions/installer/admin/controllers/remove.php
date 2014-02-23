@@ -30,7 +30,7 @@ class removecontroller extends supercontroller {
 
         $arr = admin::get_daemons();
 
-        $i = 1;
+        $j = 1;
 
         foreach($arr as $el) {
 
@@ -39,7 +39,7 @@ class removecontroller extends supercontroller {
             $td = dom::create_element(
                 'td',
                 [
-                    'text'  => $i
+                    'text'  => $j
                 ]
             );
             $tr .= $td;
@@ -76,8 +76,13 @@ class removecontroller extends supercontroller {
             );
             $tr .= $td;
 
-            $trs .= $tr;
-            $i++;
+            $trs .= dom::create_element(
+                'tr',
+                [
+                    'text' => $tr
+                ]
+            );
+            $j++;
         }
 
         $arr = admin::get_editors();
@@ -89,7 +94,7 @@ class removecontroller extends supercontroller {
                 $td = dom::create_element(
                     'td',
                     [
-                        'text'  => $i
+                        'text'  => $j
                     ]
                 );
                 $tr .= $td;
@@ -126,8 +131,13 @@ class removecontroller extends supercontroller {
                 );
                 $tr .= $td;
 
-                $trs .= $tr;
-                $i++;
+                $trs .= dom::create_element(
+                    'tr',
+                    [
+                        'text' => $tr
+                    ]
+                );
+                $j++;
             }
         }
 
@@ -140,7 +150,7 @@ class removecontroller extends supercontroller {
             $td = dom::create_element(
                 'td',
                 [
-                    'text'  => $i
+                    'text'  => $j
                 ]
             );
             $tr .= $td;
@@ -178,8 +188,13 @@ class removecontroller extends supercontroller {
             );
             $tr .= $td;
 
-            $trs .= $tr;
-            $i++;
+            $trs .= dom::create_element(
+                'tr',
+                [
+                    'text' => $tr
+                ]
+            );
+            $j++;
         }
 
         $at = admin::get_admin_templates();
@@ -195,7 +210,7 @@ class removecontroller extends supercontroller {
                 $td = dom::create_element(
                     'td',
                     [
-                        'text'  => $i
+                        'text'  => $j
                     ]
                 );
                 $tr .= $td;
@@ -234,8 +249,13 @@ class removecontroller extends supercontroller {
                 );
                 $tr .= $td;
 
-                $trs .= $tr;
-                $i++;
+                $trs .= dom::create_element(
+                    'tr',
+                    [
+                        'text' => $tr
+                    ]
+                );
+                $j++;
             }
         }
 

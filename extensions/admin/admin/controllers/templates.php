@@ -58,9 +58,9 @@ class templatescontroller extends \supercontroller {
             $img = \dom::create_element(
                 'img',
                 [
-                    'class'         => $info['preview']? 'cursor-pointer modal-slider' : '',
+                    'class'         => !empty($info['preview'])? 'cursor-pointer modal-slider' : '',
                     'src'           => DS.'media'.DS.'images'.DS.'preview.png',
-                    'data-params'   => $info['preview']? $info['preview'] : ''
+                    'data-params'   => !empty($info['preview'])? $info['preview'] : ''
                 ]
             );
             $td = \dom::create_element(
@@ -89,7 +89,12 @@ class templatescontroller extends \supercontroller {
             );
             $tr .= $td;
 
-            $trs .= $tr;
+            $trs .= \dom::create_element(
+                'tr',
+                [
+                    'text' => $tr
+                ]
+            );
         }
 
         $params['trs'] = $trs;

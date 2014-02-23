@@ -37,7 +37,7 @@ class templatescontroller extends \supercontroller {
 
             $td .= \dom::create_element('td', ['text'=> $info['author']]);
 
-            if($info['preview']) {
+            if(!empty($info['preview'])) {
                 $img = \dom::create_element(
                   'img',
                     [
@@ -85,6 +85,26 @@ class templatescontroller extends \supercontroller {
     public function select($name) {
         if($name) {
             \site::write_params('options', 'template', $name);
+
+            \comet::add_message(
+                [
+                    'task'      => 'delegate',
+                    'object'    => 'App',
+                    'method'    => 'loadPage',
+                    'params'    => ['/']
+                ],
+                'site_users'
+            );
+
+            \comet::add_message(
+                [
+                    'task'      => 'delegate',
+                    'object'    => 'App',
+                    'method'    => 'loadPage',
+                    'params'    => ['/']
+                ],
+                'me_site'
+            );
         }
     }
 }
