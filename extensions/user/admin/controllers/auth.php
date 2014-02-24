@@ -71,7 +71,7 @@ class authcontroller extends \supercontroller {
                $_SESSION['last_activity'] = time();
 
                 file_put_contents(
-                    \user::$path.'my_cookies',
+                    \user::$path.$_COOKIE['PHPSESSID'],
                     json_encode(
                         [
                             'my_ip' => getenv('REMOTE_ADDR')
@@ -109,7 +109,6 @@ class authcontroller extends \supercontroller {
                 $ini = \factory::getIniServer(\user::$path.'user.ini');
 
                 $url = $ini->read('auth', 'redirect_url', '/');
-                $interval = $ini->read('user', 'exit_time', 15);
 
                 $_SESSION['user'] = $error;
 
@@ -124,7 +123,7 @@ class authcontroller extends \supercontroller {
                     'the best ever');
 
                 file_put_contents(
-                    \user::$path.'my_cookies',
+                    \user::$path.$_COOKIE['PHPSESSID'],
                     json_encode(
                         [
                             'my_ip' => getenv('REMOTE_ADDR')
@@ -146,5 +145,7 @@ class authcontroller extends \supercontroller {
     public function leave()
     {
         unset($_SESSION['user']);
+
+        unlink(\user::$path.$_COOKIE['PHPSESSID']);
     }
 }

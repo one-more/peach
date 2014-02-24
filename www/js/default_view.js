@@ -150,7 +150,12 @@ window.DefaultView = Backbone.View.extend({
         var path = el.data('path');
 
         if($this.file_select_container) {
-            $this.file_select_container.animate({'left' : '0'})
+            $this.file_select_container.animate({'left' : '0'}).queue(function(next){
+                var html = $this.file_select_container.children().eq(0).html();
+                $('.modal').html(html);
+
+                next();
+            })
         }
 
         $('a.custom-file-select.current').children('input').val(path);
@@ -177,7 +182,12 @@ window.DefaultView = Backbone.View.extend({
     },
 
     file_select_close: function() {
-         $this.file_select_container.animate({'left' : '0'})
+         $this.file_select_container.animate({'left' : '0'}).queue(function(next){
+             var html = $this.file_select_container.children().eq(0).html();
+             $('.modal').html(html);
+
+             next();
+         })
     },
 
     make_slider: function(e) {

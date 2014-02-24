@@ -122,17 +122,17 @@ class user implements widget_extension_interface {
             static::$path = SITE_PATH.'extensions'.DS.'user'.DS;
         }
 
-        if(file_exists(static::$path.'my_cookies')) {
+        if(file_exists(static::$path.$_COOKIE['PHPSESSID'])) {
 
-            if(time() > (filemtime(static::$path.'my_cookies') + 60*$interval)) {
-                $arr = json_decode(file_get_contents(static::$path.'my_cookies'), true);
+            if(time() > (filemtime(static::$path.$_COOKIE['PHPSESSID']) + 60*$interval)) {
+                $arr = json_decode(file_get_contents(static::$path.$_COOKIE['PHPSESSID']), true);
 
-                unlink(static::$path.'my_cookies');
+                unlink(static::$path.$_COOKIE['PHPSESSID']);
 
                 return $arr['my_ip'];
             }
             else {
-                $arr = json_decode(file_get_contents(static::$path.'my_cookies'), true);
+                $arr = json_decode(file_get_contents(static::$path.$_COOKIE['PHPSESSID']), true);
 
                 return $arr['my_ip'];
             }

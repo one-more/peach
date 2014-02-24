@@ -201,7 +201,7 @@ class removecontroller extends supercontroller {
         $st = admin::get_site_templates();
         $arr = array_merge($at, $st);
         $ct = [
-            admin::get_template(), site::get_template()
+            'simple_admin_template', 'simple_template'
         ];
 
         foreach($arr as $el) {

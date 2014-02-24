@@ -57,4 +57,6 @@ App.module('Comet', function(Comet){
             console.log(msgs);
         }
     }
+
+    window.Comet = Comet;
 })

@@ -55,17 +55,27 @@ class fileselectcontroller extends \supercontroller {
                         );
                     }
                     else {
-                        if(in_array($el->getExtension(), $exts)) {
+                        if(in_array(strtolower($el->getExtension()), $exts)) {
                             $lis .= \dom::create_element(
                                 'li',
                                 [
-                                    'class' => 'width-15 margin-0 padding-0 text-center',
+                                    'class' => 'max-width-15 height-111px margin-bottom-left-1
+                                                    padding-0 text-center',
                                     'text'  => \templator::getTemplate(
                                             'file',
                                             [
-                                                'path'  => $el->getPathname(),
+                                                'path'  => str_replace(
+                                                    SITE_PATH.'www',
+                                                    '',
+                                                    $el->getPathname()
+                                                ),
                                                 'name'  => \helper::get_filename($el->getFilename()),
-                                                'title' => $el->getFilename()
+                                                'title' => $el->getFilename(),
+                                                'src'   => str_replace(
+                                                    SITE_PATH.'www',
+                                                    '',
+                                                    $el->getPathname()
+                                                )
                                             ],
                                             \noop::$path.'admin'.DS.'views'.DS.'fileselect'
                                         )
@@ -105,7 +115,8 @@ class fileselectcontroller extends \supercontroller {
                                             [
                                                 'path'  => $el->getPathname(),
                                                 'name'  => \helper::get_filename($el->getFilename()),
-                                                'title' => $el->getFilename()
+                                                'title' => $el->getFilename(),
+                                                'src'   => ''
                                             ],
                                             \noop::$path.'admin'.DS.'views'.DS.'fileselect'
                                         )
@@ -117,12 +128,14 @@ class fileselectcontroller extends \supercontroller {
                 break;
             case 'all':
             default:
+                $exts = ['png', 'jpg', 'jpeg', 'ico', 'gif', 'bmp'];
                 foreach($iterator as $el) {
                     if($el->isDir()) {
                         $lis .= \dom::create_element(
                             'li',
                             [
-                                'class' => 'width-15 margin-0 padding-0 text-center',
+                                'class' => 'height-111px width-15
+                                margin-bottom-left-1 padding-0 text-center',
                                 'text'  => \templator::getTemplate(
                                         $data['accept_type'] == 'file' ? 'dir' : 'submenu_dir',
                                         [
@@ -135,17 +148,46 @@ class fileselectcontroller extends \supercontroller {
                             ]
                         );
                     }
+                    elseif(in_array(strtolower($el->getExtension()), $exts)) {
+                        $lis .= \dom::create_element(
+                            'li',
+                            [
+                                'class' => 'max-width-15 height-111px margin-bottom-left-1
+                                                    padding-0 text-center',
+                                'text'  => \templator::getTemplate(
+                                        'file',
+                                        [
+                                            'path'  => str_replace(
+                                                SITE_PATH.'www',
+                                                '',
+                                                $el->getPathname()
+                                            ),
+                                            'name'  => \helper::get_filename($el->getFilename()),
+                                            'title' => $el->getFilename(),
+                                            'src'   => str_replace(
+                                                SITE_PATH.'www',
+                                                '',
+                                                $el->getPathname()
+                                            )
+                                        ],
+                                        \noop::$path.'admin'.DS.'views'.DS.'fileselect'
+                                    )
+                            ]
+                        );
+                    }
                     else {
                         $lis .= \dom::create_element(
                             'li',
                             [
-                                'class' => 'width-15 margin-0 padding-0 text-center',
+                                'class' => 'height-111px width-15
+                                margin-bottom-left-1 padding-0 text-center',
                                 'text'  => \templator::getTemplate(
                                         'file',
                                         [
                                             'path'  => $el->getPathname(),
                                             'name'  => \helper::get_filename($el->getFilename()),
-                                            'title' => $el->getFilename()
+                                            'title' => $el->getFilename(),
+                                            'src'   => ''
                                         ],
                                         \noop::$path.'admin'.DS.'views'.DS.'fileselect'
                                     )

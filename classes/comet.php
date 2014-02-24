@@ -14,17 +14,19 @@ class comet {
     {
         $ini = factory::getIniServer(SITE_PATH.'resources'.DS.'comet.ini');
         $msg = json_encode($msg);
+        $ip = user::get_ip();
+        $ip = preg_replace('/\./', '_', $ip);
 
         switch($type) {
             case 'me_admin':
-                $arr = $ini->readSection('me_admin');
+                $arr = $ini->readSection('me_admin_'.$ip);
                 $arr[] = $msg;
-                $ini->writeSection('me_admin', $arr);
+                $ini->writeSection('me_admin_'.$ip, $arr);
                 break;
             case 'me_site':
-                $arr = $ini->readSection('me_site');
+                $arr = $ini->readSection('me_site_'.$ip);
                 $arr[] = $msg;
-                $ini->writeSection('me_site', $arr);
+                $ini->writeSection('me_site_'.$ip, $arr);
                 break;
             case 'site_users':
                 $arr = $ini->get_all();
@@ -53,15 +55,16 @@ class comet {
     public static function get_array($ip, $mode)
     {
         $my_ip = user::get_ip();
+        $preg_ip = preg_replace('/\./', '_', $my_ip);
 
         $ini = factory::getIniServer(SITE_PATH.'resources'.DS.'comet.ini');
 
         if($my_ip == $ip) {
             if($mode == 'admin') {
-                $arr = $ini->readSection('me_admin');
+                $arr = $ini->readSection('me_admin_'.$preg_ip);
             }
             else {
-                $arr = $ini->readSection('me_site');
+                $arr = $ini->readSection('me_site_'.$preg_ip);
             }
         }
         else {
@@ -91,13 +94,14 @@ class comet {
     {
         $my_ip = user::get_ip();
         $ini = factory::getIniServer(SITE_PATH.'resources'.DS.'comet.ini');
+        $preg_ip = preg_replace('/\./', '_', $my_ip);
 
         if($my_ip == $ip) {
             if($mode == 'admin') {
-                $ini->writeSection('me_admin', []);
+                $ini->writeSection('me_admin_'.$preg_ip, []);
             }
             else {
-                $ini->writeSection('me_site', []);
+                $ini->writeSection('me_site_'.$preg_ip, []);
             }
         }
         else {
