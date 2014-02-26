@@ -25,6 +25,23 @@ if(time() > (filemtime(SITE_PATH.'resources'.DS.'comet.ini') + 3600*48)) {
     error::log('clear comet.ini');
 }
 
+if(!file_exists(SITE_PATH.'resources'.DS.'comet-threads.ini')) {
+    file_put_contents(SITE_PATH.'resources'.DS.'comet-threads.ini', '');
+}
+
+if(time() > (filemtime(SITE_PATH.'resources'.DS.'comet-threads.ini') + 3600*48)) {
+    file_put_contents(SITE_PATH.'resources'.DS.'comet-threads.ini', '');
+    error::log('clear comet-threads.ini');
+}
+
+$ini = factory::getIniServer(SITE_PATH.'resources'.DS.'comet-threads.ini');
+
+$tid = md5(time().rand(0,50000));
+
+$ini->write('tid', $ip, $tid);
+
+$ini->updateFile();
+
 $mode = preg_split('/\//', $_REQUEST['old_url'])[1];
 
 $mode = $mode == 'admin' ? 'admin' : 'site';
@@ -44,6 +61,12 @@ while($start > time()) {
     }
 
     sleep($sleep);
+}
+
+$ini = factory::getIniServer(SITE_PATH.'resources'.DS.'comet-threads.ini');
+$ctid = $ini->read('tid', $ip);
+if($ctid != $tid) {
+    die();
 }
 
 if(count(comet::get_array($ip, $mode)) > 0) {

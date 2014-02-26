@@ -278,7 +278,7 @@ trait trait_extension {
     {
         static::init();
 
-        $cur = site::getLang();
+        $cur = system::get_current_lang();
 
         $path1 = '..'.DS.'lang'.DS.static::$name.DS.core::$mode.DS.$cur.'.ini';
         $path2 = '..'.DS.'lang'.DS.static::$name.DS.core::$mode.DS.$default.'.ini';

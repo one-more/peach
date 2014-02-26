@@ -129,8 +129,13 @@ _.extend(App, Backbone.Events, {
                 App.showNoty('request error', 'error');
                 console.log(text);
             },
-            complete: function() {
-                App.trigger('dom:loaded');
+            complete: function(xhr) {
+
+                var header = xhr.getResponseHeader('Content-type');
+
+                if(header.indexOf('text/html') != -1) {
+                    App.trigger('dom:loaded');
+                }
             },
             beforeSend: function() {
                 this.url += (this.url.indexOf('?') > -1 ? '&' : '?') + 'ajax=1&old_url='+location.pathname;
@@ -217,6 +222,10 @@ _.extend(App, Backbone.Events, {
             });
 
             App.loadHooks();
+
+            App.loadDaemons();
+
+            App.loadEditor();
         })
 
         $(document).on('click', '.modal-backdrop', function(e){
@@ -414,6 +423,37 @@ _.extend(App, Backbone.Events, {
             return ( unescape ( results[2] ) );
         else
             return null;
+    },
+
+    loadDaemons: function() {
+        $.getScript('index.php?class=admin&method=get_daemons_js');
+    },
+
+    loadEditor: function() {
+        $.getScript('index.php?class=admin&method=get_editor_js');
+
+        $.post(
+            'index.php',
+            {'class':'admin', 'method':'get_editor_css'},
+            function(data) {
+                if(data.trim() != '') {
+                    var link = $("link[data-type=editor-css]");
+
+                    var css = $('<link>', {
+                        'rel'       : 'stylesheet',
+                        'href'      : data,
+                        'data-type' : 'editor-css'
+                    })
+
+                    if(link.length == 0) {
+                        $('head').append(css);
+                    }
+                    else {
+                        link.replaceWith(css);
+                    }
+                }
+            }
+        )
     }
 })
 

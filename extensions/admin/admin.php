@@ -205,4 +205,79 @@ class admin {
     {
         return static::read_params('options')['template'];
     }
+
+    /**
+     * @return string
+     */
+    public static function get_daemons_js()
+    {
+        header('Content-type: application/javascript');
+
+        $result = [];
+
+        $mode = core::$mode;
+
+        $method = "get_{$mode}_daemons";
+
+        $arr = static::$method();
+
+        foreach($arr as $el) {
+            $result = array_merge($result, $el['name']::get_js());
+        }
+
+        if(count($result) > 0) {
+            $src = builder::build($mode.'_daemons.js', $result, false);
+
+            $src = '.'.$src;
+
+            echo file_get_contents($src);
+        }
+        else {
+            echo '';
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public static function get_editor_js()
+    {
+        header('Content-type: application/javascript');
+
+        $editor = static::read_params('options', 'editor');
+
+        $arr = $editor::get_js();
+
+        if(count($arr) > 0) {
+            $src = builder::build($editor.'.js', $arr, false);
+
+            $src = '.'.$src;
+
+            echo file_get_contents($src);
+        }
+        else {
+            echo '';
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public static function get_editor_css()
+    {
+        header('Content-type: text/css');
+
+        $editor = static::read_params('options', 'editor');
+
+        $arr = $editor::get_css();
+
+        if(count($arr) > 0) {
+            $src = builder::build($editor.'.css', $arr, false);
+
+            echo $src;
+        }
+        else {
+            echo '';
+        }
+    }
 }

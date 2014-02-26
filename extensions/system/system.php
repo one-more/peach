@@ -39,9 +39,17 @@ class system {
      */
     public static function get_current_lang()
     {
-        $ini = factory::getIniServer();
+        if(!empty($_COOKIE['admin_lang']) && core::$mode == 'admin') {
+            return $_COOKIE['admin_lang'];
+        }
+        elseif(!empty($_COOKIE['site_lang']) && core::$mode == 'site') {
+            return $_COOKIE['site_lang'];
+        }
+        else {
+            $ini = factory::getIniServer();
 
-        return $ini->read('language', 'current', false);
+            return $ini->read('language', 'current', false);
+        }
     }
 
     /**

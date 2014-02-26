@@ -159,7 +159,7 @@ trait trait_template {
     {
         static::init();
 
-        $lang2 = site::getLang();
+        $lang2 = system::get_current_lang();
 
         $path  = SITE_PATH.'lang'.DS.static::$name.DS.core::$mode.DS.$lang2.'.ini';
         $path2 = SITE_PATH.'lang'.DS.static::$name.DS.core::$mode.DS.$lang.'.ini';

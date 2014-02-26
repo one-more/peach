@@ -55,7 +55,7 @@ trait trait_extension_controller {
 	 * @return null
 	 */
 	public function getLang($page, $default = 'en-EN') {
-		$lang = site::getLang();
+		$lang = system::get_current_lang();
 
 		$path = '..'.DS.'lang'.DS.$this->extension.DS.core::$mode.DS.$lang.'.ini';
 		$path2 = '..'.DS.'lang'.DS.$this->extension.DS.core::$mode.DS.$default.'.ini';

@@ -1,5 +1,5 @@
-App.on('dom:loaded', function(){
+$(function(){
     tinymce.init({
-        selector: '.editor'
+        selector: '.peach-editor'
     })
 })

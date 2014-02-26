@@ -17,15 +17,6 @@ class site {
     ];
 
     /**
-     * @return string
-     */
-    public static  function getLang() {
-		$ini = factory::getIniServer(SITE_PATH.'configuration.ini');
-
-        return $ini->read('language', 'current', false);
-	}
-
-    /**
      * @return mixed
      */
     public static function get_template()

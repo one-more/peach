@@ -38,8 +38,8 @@
                 wrapper.css('height', options.height);
 
                 _this.children('li').each(function(){
-                    var img = $(this).children(0);
-                    $(this).children(0).ready(function(){
+                    var img = $(this).children('img');
+                    $(this).children('img').ready(function(){
                         img.css('height',options.height)
                     })
                 })
@@ -53,10 +53,10 @@
 
             _this.children('li').each(function(){
                 $(this).width(wrapper.width())
-                $(this).children(0).width(wrapper.width())
+                $(this).children('img').width(wrapper.width())
 
-                var img = $(this).children(0);
-                $(this).children(0).ready(function(){
+                var img = $(this).children('img');
+                $(this).children('img').ready(function(){
                     if(!options.height && options.fit_height && $(this).height()>$(window).height()*0.7){
                         img.height($(window).height() * 0.7)
                     }
