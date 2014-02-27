@@ -130,11 +130,14 @@ _.extend(App, Backbone.Events, {
                 console.log(text);
             },
             complete: function(xhr) {
-
                 var header = xhr.getResponseHeader('Content-type');
 
                 if(header.indexOf('text/html') != -1) {
-                    App.trigger('dom:loaded');
+                    var text = xhr.responseText;
+
+                    if(text.match(/<.*>/)) {
+                        App.trigger('dom:loaded');
+                    }
                 }
             },
             beforeSend: function() {
@@ -391,18 +394,18 @@ _.extend(App, Backbone.Events, {
     },
 
     setCookie: function(name, value, exp, path, domain, secure){
-        var cookie_str = name+"="+escape(value);
+        var cookie_str = name+"="+encodeURIComponent(value);
 
         if(exp) {
             cookie_str += "; expires="+exp.toUTCString();
         }
 
         if(path) {
-            cookie_str += "; path="+escape(path);
+            cookie_str += "; path="+encodeURIComponent(path);
         }
 
         if(domain) {
-            cookie_str += "; domain="+escape(domain);
+            cookie_str += "; domain="+encodeURIComponent(domain);
         }
 
         if(secure) {
@@ -420,7 +423,7 @@ _.extend(App, Backbone.Events, {
         var results = document.cookie.match ( '(^|;) ?' + cookie_name + '=([^;]*)(;|$)' );
 
         if ( results )
-            return ( unescape ( results[2] ) );
+            return ( decodeURIComponent( results[2] ) );
         else
             return null;
     },

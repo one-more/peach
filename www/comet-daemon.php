@@ -69,6 +69,8 @@ if($ctid != $tid) {
     die();
 }
 
+header('Content-type: text/plain');
+
 if(count(comet::get_array($ip, $mode)) > 0) {
     echo json_encode(['task'=>'handle', 'msgs' => comet::get_array($ip, $mode)]);
 

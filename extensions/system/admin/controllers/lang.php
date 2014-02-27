@@ -38,11 +38,13 @@ class langcontroller extends \supercontroller {
 
         $arr = $this->get_list();
 
+        $cur_lang = \system::get_current_lang(true);
+
         foreach($arr as $el) {
 
             $attrs = ['value'=>$el['key'], 'text'=>$el['alias']];
 
-            if($el['key'] == \system::get_current_lang()) {
+            if($el['key'] == $cur_lang) {
                 $attrs['selected'] = '';
             }
 

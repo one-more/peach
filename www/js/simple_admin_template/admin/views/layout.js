@@ -44,10 +44,24 @@ window.Layout = Backbone.View.extend({
                 }
             )
         })
+
+        App.on('language:added', function(){
+            $.post(
+                'index.php',
+                {
+                    'class'     : 'simple_admin_template',
+                    'task'      : 'get_lang_select'
+                },
+                function(data) {
+                    $('.sat-select-lang-select').replaceWith(data);
+                }
+            )
+        })
     },
 
     events: {
-        'change .select-start-extension'    : 'select_start_extension'
+        'change .select-start-extension'    : 'select_start_extension',
+        'change .sat-select-lang-select'    : 'select_lang'
     },
 
     select_start_extension: function(e) {
@@ -58,6 +72,24 @@ window.Layout = Backbone.View.extend({
                 'params' : {'start_extension' : params}
             }
         );
+    },
+
+    select_lang: function(e) {
+        var el = $(e.target);
+
+        var val = el.val();
+
+        var date = new Date();
+
+        var y = date.getFullYear();
+
+        date.setFullYear(y+100);
+
+        App.deleteCookie('admin_lang')
+
+        App.setCookie('admin_lang', val, date);
+
+        App.loadPage(location.href);
     }
 })
 

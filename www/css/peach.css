@@ -64,6 +64,10 @@ th {
     margin-top: 10%;
 }
 
+.margin-top_-1 {
+    margin-top: -1%;
+}
+
 .no-margin {
     margin: 0 !important;
 }

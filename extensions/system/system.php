@@ -35,20 +35,28 @@ class system {
     }
 
     /**
+     * @param bool $file
      * @return string
      */
-    public static function get_current_lang()
+    public static function get_current_lang($file=false)
     {
-        if(!empty($_COOKIE['admin_lang']) && core::$mode == 'admin') {
-            return $_COOKIE['admin_lang'];
-        }
-        elseif(!empty($_COOKIE['site_lang']) && core::$mode == 'site') {
-            return $_COOKIE['site_lang'];
-        }
-        else {
+        if($file) {
             $ini = factory::getIniServer();
 
             return $ini->read('language', 'current', false);
+        }
+        else {
+            if(!empty($_COOKIE['admin_lang']) && core::$mode == 'admin') {
+                return $_COOKIE['admin_lang'];
+            }
+            elseif(!empty($_COOKIE['site_lang']) && core::$mode == 'site') {
+                return $_COOKIE['site_lang'];
+            }
+            else {
+                $ini = factory::getIniServer();
+
+                return $ini->read('language', 'current', false);
+            }
         }
     }
 

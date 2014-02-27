@@ -53,6 +53,8 @@ class defaultcontroller extends supercontroller {
 
         $params['user_extensions_list'] = $this->get_menu();
 
+        $params['lang_select'] = $this->get_lang_select();
+
         return templator::getTemplate(
             'index',
             $params,
@@ -94,6 +96,48 @@ class defaultcontroller extends supercontroller {
                 'text'=> $params['NO_EXTENSIONS']
             ]);
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function get_lang_select()
+    {
+        $arr = \system::get_languages();
+
+        $opt = '';
+
+        $cur = \system::get_current_lang();
+
+        foreach($arr as $el) {
+            if($el['key'] == $cur) {
+                $opt .= dom::create_element(
+                  'option',
+                    [
+                        'value'     => $el['key'],
+                        'text'      => $el['alias'],
+                        'selected'  => ''
+                    ]
+                );
+            }
+            else {
+                $opt .= dom::create_element(
+                    'option',
+                    [
+                        'value' => $el['key'],
+                        'text'  => $el['alias']
+                    ]
+                );
+            }
+        }
+
+        return dom::create_element(
+            'select',
+            [
+                'class' => 'sat-select-lang-select',
+                'text'  => $opt
+            ]
+        );
     }
 
     /**
