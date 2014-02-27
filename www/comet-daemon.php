@@ -63,13 +63,13 @@ while($start > time()) {
     sleep($sleep);
 }
 
+header('Content-type: text/plain');
+
 $ini = factory::getIniServer(SITE_PATH.'resources'.DS.'comet-threads.ini');
 $ctid = $ini->read('tid', $ip);
 if($ctid != $tid) {
-    die();
+    die('');
 }
-
-header('Content-type: text/plain');
 
 if(count(comet::get_array($ip, $mode)) > 0) {
     echo json_encode(['task'=>'handle', 'msgs' => comet::get_array($ip, $mode)]);
