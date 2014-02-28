@@ -12,6 +12,30 @@ var Widgetview = Backbone.View.extend({
     },
 
     initialize: function() {
+
+        App.on('language:selected', function(){
+            var widgets = WidgetModel.attributes;
+
+            $.each(widgets, function(k,v){
+                if(v != -1) {
+                    var arr = v.split(' ');
+
+                    Widgetview
+                        .$el
+                        .find('*[data-widget='+k+"]")
+                        .children('span')
+                        .load(
+                            'index.php',
+                            {
+                                'class'     :arr[0],
+                                'method'    :'get_widget',
+                                'params'    :arr[1]
+                            }
+                        );
+                }
+            })
+        })
+
         App.on('widgetmodel:loaded', function(){
 
             var widgets = WidgetModel.attributes;

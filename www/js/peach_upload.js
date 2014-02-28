@@ -55,10 +55,11 @@
 				},false)
 			}
 
-			$(this).on('click', function(e){
+			$(this).on('click', function(){
 				var input = $('<input>', {
 					'type'		: 'file',
-					'multiple'	: options.multiple				
+					'multiple'	: options.multiple,
+                    'style'     : 'position:fixed; top:-800%'
 				})
 				
 				input.on('change', function(e){
@@ -70,12 +71,14 @@
 						send();
 					}					
 				})
-
-				input.css('display', 'none');
 					
 				$('body').append(input); 
 				
-				input.trigger('click');				
+				input.trigger('click');
+
+                setTimeout(function(){
+                    input.detach()
+                }, 60000 * 5);
 			}) 
 
 			function iterate() {

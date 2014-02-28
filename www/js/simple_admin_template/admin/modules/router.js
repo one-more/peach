@@ -1,6 +1,10 @@
 App.Router = Backbone.Router.extend({
     initialize: function() {
+        App.on('language:selected', function(){
+            $('.navbar').load('index.php .navbar');
 
+            App.router.actionOther();
+        })
     },
 
     routes : {

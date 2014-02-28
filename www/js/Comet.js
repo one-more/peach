@@ -7,6 +7,7 @@ App.module('Comet', function(Comet){
         $.ajax({
             'url'       : '/comet-daemon.php',
             'type'      : 'post',
+            cache       : 'false',
             success     : function(data) {
                 data = (typeof data == 'object')? data : $.parseJSON(data);
 
@@ -24,12 +25,22 @@ App.module('Comet', function(Comet){
                 }
             },
             error       : function(xhr, text, thrown) {
-                console.log('comet error');
-                console.log(text);
-                console.log(thrown);
-                var msg = LangModel.get('comet_request_err') ||
-                    'request to comet daemon returned an error';
-                App.showNoty(msg, 'error');
+                //todo - bug
+                if(xhr.status != 404) {
+                    console.log('comet error');
+                    console.log(text);
+                    console.log(xhr);
+                    console.log(thrown);
+                    var msg = LangModel.get('comet_request_err') ||
+                        'request to comet daemon returned an error';
+                    App.showNoty(msg, 'error');
+                }
+                else {
+                    console.log('comet error 404');
+                    console.log(xhr);
+                    console.log(text);
+                    console.log(thrown);
+                }
             }
         })
     };

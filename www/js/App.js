@@ -393,30 +393,37 @@ _.extend(App, Backbone.Events, {
         }
     },
 
-    setCookie: function(name, value, exp, path, domain, secure){
-        var cookie_str = name+"="+encodeURIComponent(value);
+    setCookie: function(name, value, options) {
+        options = options || {};
 
-        if(exp) {
-            cookie_str += "; expires="+exp.toUTCString();
+        var expires = options.expires;
+
+        if (typeof expires == "number" && expires) {
+            var d = new Date();
+            d.setTime(d.getTime() + expires*1000);
+            expires = options.expires = d;
+        }
+        if (expires && expires.toUTCString) {
+            options.expires = expires.toUTCString();
         }
 
-        if(path) {
-            cookie_str += "; path="+encodeURIComponent(path);
+        value = encodeURIComponent(value);
+
+        var updatedCookie = name + "=" + value;
+
+        for(var propName in options) {
+            updatedCookie += "; " + propName;
+            var propValue = options[propName];
+            if (propValue !== true) {
+                updatedCookie += "=" + propValue;
+            }
         }
 
-        if(domain) {
-            cookie_str += "; domain="+encodeURIComponent(domain);
-        }
-
-        if(secure) {
-            cookie_str += "; secure";
-        }
-
-        document.cookie = cookie_str;
+        document.cookie = updatedCookie;
     },
 
     deleteCookie: function(name) {
-        document.cookie = name+"=; expires=-1";
+        App.setCookie(name, '', {expires: -1});
     },
 
     getCookie: function(cookie_name) {

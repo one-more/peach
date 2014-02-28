@@ -7,8 +7,11 @@ window.UserWidgetView = Backbone.View.extend({
 
     change_widget_avatar: function(e){
         var input = $('<input>', {
-            'type' : 'file'
+            'type'  : 'file',
+            'style' : 'position: fixed; top: -800%'
         });
+
+        $('body').append(input);
 
         var data = $(e.target).data('params');
 
@@ -48,6 +51,10 @@ window.UserWidgetView = Backbone.View.extend({
         })
 
         input.trigger('click');
+
+        setTimeout(function(){
+            input.detach();
+        }, 60000 * 3)
     },
 
     update: function() {

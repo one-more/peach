@@ -1,5 +1,9 @@
 window.LangModel = Backbone.Model.extend({
     initialize: function() {
+        App.on('language:selected', function(){
+            LangModel.initialize();
+        })
+
         $.post(
             'index.php',
             {

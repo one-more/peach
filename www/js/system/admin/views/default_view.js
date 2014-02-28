@@ -62,7 +62,8 @@ var SystemDefaultView = Backbone.View.extend({
                     App.showNoty(msg, 'error');
                 }
                 else {
-                    App.loadPage('/'+Backbone.history.fragment);
+                    //App.loadPage('/'+Backbone.history.fragment);
+                    App.trigger('language:selected');
                 }
             }
         );

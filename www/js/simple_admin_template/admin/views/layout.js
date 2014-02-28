@@ -85,11 +85,9 @@ window.Layout = Backbone.View.extend({
 
         date.setFullYear(y+100);
 
-        App.deleteCookie('admin_lang')
+        App.setCookie('admin_lang', val, {expires: date, path: '/'});
 
-        App.setCookie('admin_lang', val, date);
-
-        App.loadPage(location.href);
+        App.trigger('language:selected');
     }
 })
 
