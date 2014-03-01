@@ -38,4 +38,9 @@ interface menu_extension_interface extends super_interface {
      * @return mixed
      */
     public static function get_version();
+
+    /**
+     * @return array ['alias', 'name', [icon], [submenu]]
+     */
+    public static function get_info();
 }

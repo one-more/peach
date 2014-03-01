@@ -131,6 +131,11 @@ class authcontroller extends \supercontroller {
                     )
                 );
 
+                $sec = $ini->readSection('session_files');
+                $sec[] = \user::$path.$_COOKIE['PHPSESSID'];
+                $ini->writeSection('session_files', $sec);
+                $ini->updateFile();
+
                 return ['error' => '', 'url' => $url];
             }
         }
@@ -144,8 +149,16 @@ class authcontroller extends \supercontroller {
      */
     public function leave()
     {
+        $arr = \user::read_params('session_files');
+
         unset($_SESSION['user']);
 
-        unlink(\user::$path.$_COOKIE['PHPSESSID']);
+        foreach($arr as $el) {
+            if(file_exists($el)) {
+                unlink($el);
+            }
+        }
+
+        \user::write_params('session_files', []);
     }
 }

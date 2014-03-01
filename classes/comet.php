@@ -13,7 +13,7 @@ class comet {
     public static function add_message($msg, $type = 'me_admin')
     {
         $ini = factory::getIniServer(SITE_PATH.'resources'.DS.'comet.ini');
-        $msg = json_encode($msg);
+        $msg = base64_encode(json_encode($msg));
         $ip = user::get_ip();
         $ip = preg_replace('/\./', '_', $ip);
 
@@ -75,12 +75,7 @@ class comet {
 
         $ret = [];
         foreach($arr as $el) {
-            $el = stripslashes($el);
-            $el = preg_replace('/\s/', '_space_', $el);
-            $el = preg_replace('/([\/ \w]+)/', '"$1"', $el);
-            $el = preg_replace('/_space_/', ' ', $el);
-            $el = preg_replace('/\//', '\/', $el);
-            $ret[] = json_decode($el, true);
+            $ret[] = json_decode(base64_decode($el), true);
         }
 
         return $ret;

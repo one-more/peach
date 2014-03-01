@@ -221,6 +221,10 @@ class admin {
 
         $arr = static::$method();
 
+        if(core::$mode == 'admin') {
+            $arr = array_merge($arr, [ ['name' => 'link_corrector'] ]);
+        }
+
         foreach($arr as $el) {
             $result = array_merge($result, $el['name']::get_js());
         }
