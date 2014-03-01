@@ -65,6 +65,10 @@ trait trait_extension {
         if(!file_exists(static::$cache_path)) {
             mkdir(static::$cache_path);
         }
+
+        if(!file_exists(static::$path.DS.static::$name.'.ini')) {
+            file_put_contents(static::$path.DS.static::$name.'.ini', '');
+        }
     }
 
     /**

@@ -12,16 +12,23 @@ class modulecontroller extends supercontroller{
      */
     public function load()
     {
-        foreach($_FILES as $el) {
-            if($el['type'] == 'application/x-php') {
-                $path = SITE_PATH.'extensions'.DS.'installer'.DS.'auto_install'.DS.$el['name'];
-                move_uploaded_file($el['tmp_name'], $path);
-                $this->install($path);
+        $this->clear();
+
+        try {
+            foreach($_FILES as $el) {
+                if($el['type'] == 'application/x-php') {
+                    $path = SITE_PATH.'extensions'.DS.'installer'.DS.'auto_install'.DS.$el['name'];
+                    move_uploaded_file($el['tmp_name'], $path);
+                    $this->install($path);
+                }
             }
         }
+        catch(Exception $e) {
+            //delete all files from folder auto_install
+            $this->clear();
 
-        //delete all files from folder auto_install
-        $this->clear();
+            throw new Exception($e->getMessage());
+        }
     }
 
     /**

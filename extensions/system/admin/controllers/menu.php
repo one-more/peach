@@ -24,11 +24,11 @@ class menucontroller extends \supercontroller {
             $menu = \system::get_menu();
 
             foreach($arr as $el) {
-                $alias = $el::get_info()['alias'];
+                $alias = $el['name']::get_info()['alias'];
 
                 $attrs =  [
                     'value' => $alias,
-                    'text'  => $el
+                    'text'  => $el['name']
                 ];
 
                 if($el == $menu) {
