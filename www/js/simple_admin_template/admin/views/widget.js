@@ -61,7 +61,9 @@ var Widgetview = Backbone.View.extend({
                     })
                 })
 
-                var span = $('<span>');
+                var span = $('<span>', {
+                    'id' : 'widget-span'
+                });
 
                 Widgetview.$el.find('*[data-widget='+k+"]").html(tb).append(span);
 

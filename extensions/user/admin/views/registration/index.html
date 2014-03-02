@@ -1,6 +1,6 @@
 <div class="registration_view">
-    <form class="ajax from-inline margin-left-2" action=":action">
-        <h3>:name</h3>
+    <form method="post" class="ajax from-inline margin-left-2" action=":action">
+        <h3>:alias</h3>
         <hr>
         <p>:description</p>
 
@@ -15,7 +15,7 @@
             <input name="user_agreement" type="hidden"/>
         </a>
 
-        :fieldset
+        :menu_html
         <input value=":class" name="class" type="hidden"/>
         <input name="controller" value=":controller" type="hidden"/>
         <input name="extension" value=":extension" type="hidden"/>

@@ -9,12 +9,13 @@
 
     <form method="post" class="ajax margin-left-2 form-inline" action=":action">
 
-        <div class="inline-block">
-            <div class="float-left inline-block">
-                <label class="" for="input_redirect_url">:REDIRECT_URL_LABEL</label>
+        <div class="inline-block width-100">
+
+            <div class="float-left inline-block width-40">
+                <label for="reg_url_input">:REGISTRATION_URL_LABEL</label>
             </div>
-            <div class="inline-block margin-left-5 width-25">
-                <input id="input_redirect_url" value="/" type="text"/>
+            <div class="inline-block margin-left-5 width-25 clearfix">
+                <input id="reg_url_input" value="/registration" required type="text"/>
             </div>
         </div>
 
@@ -22,21 +23,6 @@
         <input name="extension" value=":extension" type="hidden"/>
         <input name="controller" value=":controller" type="hidden"/>
 
-        <fieldset>
-            <legend>:LEGEND</legend>
-
-            %fieldset
-            <label for="input_layout_name">:LAYOUT_NAME_LABEL</label>
-            <input required id="input_layout_name" name="layout_name" type="text"/>
-            <br>
-            <br>
-
-            <label for="input_layout_alias">:LAYOUT_ALIAS_LABEL</label>
-            <input required id="input_layout_alias" name="layout_alias" type="text"/>
-            <br/><br/>
-
-            <button class="btn" type="submit">:BTN_LABEL</button>
-            fieldset%
-        </fieldset>
+        :menu_html
     </form>
 </div>

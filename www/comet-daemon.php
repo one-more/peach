@@ -16,11 +16,13 @@ ob_implicit_flush(true);
 
 $ip = getenv('REMOTE_ADDR');
 
+clearstatcache();
+
 if(!is_file(SITE_PATH.'resources'.DS.'comet.ini')) {
     file_put_contents(SITE_PATH.'resources'.DS.'comet.ini', '');
 }
 
-if(time() > (filemtime(SITE_PATH.'resources'.DS.'comet.ini') + 3600*48)) {
+if(filesize(SITE_PATH.'resources'.DS.'comet.ini') > 4000000) {
     file_put_contents(SITE_PATH.'resources'.DS.'comet.ini', '');
     error::log('clear comet.ini');
 }
@@ -29,7 +31,7 @@ if(!file_exists(SITE_PATH.'resources'.DS.'comet-threads.ini')) {
     file_put_contents(SITE_PATH.'resources'.DS.'comet-threads.ini', '');
 }
 
-if(time() > (filemtime(SITE_PATH.'resources'.DS.'comet-threads.ini') + 3600*48)) {
+if(filesize(SITE_PATH.'resources'.DS.'comet-threads.ini') > 4000000) {
     file_put_contents(SITE_PATH.'resources'.DS.'comet-threads.ini', '');
     error::log('clear comet-threads.ini');
 }

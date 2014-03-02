@@ -1,0 +1,42 @@
+<fieldset>
+    <legend>:LEGEND</legend>
+
+    <div class="display-inline-block pull-left width-50">
+        <label class="width-50" for="positions_select">:POSITIONS_LABEL</label>
+        <select name="position" id="positions_select">
+            :positions
+        </select>
+
+        <div class="control-group">
+            <label class="control-label width-50" for="alias_input">:ALIAS_LABEL</label>
+            <div class="controls">
+                <input id="alias_input" name="alias" type="text"/>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label width-50" for="name_input">:NAME_LABEL</label>
+            <div class="controls">
+                <input id="name_input" name="name" type="text"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix display-inline-block margin-left-45">
+
+        <label for="url_input">:URL_LABEL</label>
+        <div class="input-append">
+            <input class="width-60" id="url_input" name="add-url-input" type="text"/>
+            <span class="add-url-btn add-on cursor-pointer bg-green">:ADD</span>
+        </div>
+
+        <div class="url-box">
+            <input name="select-all-url-input" type="checkbox"/>
+            <br>
+            :urls
+        </div>
+    </div>
+
+    <button class="btn" type="submit">:BTN_LABEL</button>
+</fieldset>
+<span class="js-hook">/js/menu/admin/views/links_view.js</span>

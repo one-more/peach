@@ -114,28 +114,15 @@ class user implements widget_extension_interface {
      */
     public static function get_ip()
     {
-        $ini = factory::getIniServer(static::$path.'user.ini');
-
-        $interval = $ini->read('user', 'exit_time', 15);
-
         if(!static::$path) {
             static::$path = SITE_PATH.'extensions'.DS.'user'.DS;
         }
 
         if(file_exists(static::$path.$_COOKIE['PHPSESSID'])) {
 
-            if(time() > (filemtime(static::$path.$_COOKIE['PHPSESSID']) + 60*$interval)) {
-                $arr = json_decode(file_get_contents(static::$path.$_COOKIE['PHPSESSID']), true);
+            $arr = json_decode(file_get_contents(static::$path.$_COOKIE['PHPSESSID']), true);
 
-                unlink(static::$path.$_COOKIE['PHPSESSID']);
-
-                return $arr['my_ip'];
-            }
-            else {
-                $arr = json_decode(file_get_contents(static::$path.$_COOKIE['PHPSESSID']), true);
-
-                return $arr['my_ip'];
-            }
+            return $arr['my_ip'];
         }
         else {
 

@@ -7,37 +7,72 @@
 class menu implements menu_extension_interface {
 	use trait_extension;
 
-	public static function create_layout()
+    /**
+     * @return mixed|void
+     */
+    public static function create_layout()
 	{
 		
 	}
 
-	public static function get_create_layout_html()
+    /**
+     * @return mixed
+     */
+    public static function get_create_layout_html()
+	{
+		$controller = static::get_admin_controller('layouts');
+
+        return $controller->get_create_layout_html();
+	}
+
+    /**
+     * @param $id
+     * @return mixed|void
+     */
+    public static function get_layout_params($id)
 	{
 		
 	}
 
-	public static function get_layout_params($id)
+    /**
+     * @param $id
+     * @return mixed|void
+     */
+    public static function get_page($id)
 	{
 		
 	}
 
-	public static function get_page($id)
-	{
-		
-	}
+    /**
+     * @return mixed
+     */
+    public static function get_urls()
+    {
+        $controller = static::get_admin_controller('links');
 
-	public static function get_version()
+        return $controller->get_urls();
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public static function get_version()
 	{
 		return '1.0';
 	}
 
-	public static function get_info()
+    /**
+     * @return array
+     */
+    public static function get_info()
 	{
 		return static::read_lang('info');	
 	}
 
-	public static function delete()
+    /**
+     * @return mixed|void
+     */
+    public static function delete()
 	{
 		$model = static::get_admin_model('default');
 		$sql = helper::getSql(SITE_PATH.'extensions'.DS.'menu'.DS.'admin'.DS.'resources'.DS.'uninstall.sql');
@@ -53,7 +88,10 @@ class menu implements menu_extension_interface {
 		helper::remDir(SITE_PATH.'extensions'.DS.'menu');
 	}
 
-	public function install()
+    /**
+     *
+     */
+    public function install()
 	{
 		$model = static::get_admin_model('default');
 		$sql = helper::getSql(SITE_PATH.'extensions'.DS.'menu'.DS.'admin'.DS.'resources'.DS.'install.sql');

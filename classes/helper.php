@@ -98,7 +98,7 @@ class helper
             return $arr;
         }
         else {
-            return htmlentities(trim($arr));
+            return htmlspecialchars(htmlentities(trim($arr)));
         }
     }
 
@@ -155,27 +155,6 @@ class helper
         }
 
         return $result;
-    }
-
-    /**
-     * @return mixed|string
-     */
-    public static function get_create_layout_fieldset()
-    {
-        $params = factory::get_reference('create_layout_fieldset');
-
-        if(system::get_menu() && system::get_menu() != -1) {
-            $params['fieldset'] = '';
-        }
-        else {
-            $params['fieldset'] = templator::get_warning($params['NO_MENU']);
-        }
-
-        return templator::getTemplate(
-            'create_layout_fieldset',
-            $params,
-            SITE_PATH.'html'
-        );
     }
 
     /**

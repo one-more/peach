@@ -104,6 +104,18 @@ th {
     margin-left: 5%;
 }
 
+.margin-left-45 {
+    margin-left: 45%;
+}
+
+.margin-5px {
+    margin: 5px;
+}
+
+.margin-2px {
+    margin: 2px;
+}
+
 .margin-left-20 {
     margin-left: 20%;
 }
@@ -182,6 +194,14 @@ html,body {
 
 .width-5 {
     width: 5%;
+}
+
+.width-60 {
+    width: 60%;
+}
+
+.width-40 {
+    width: 40%;
 }
 
 .width-10 {
@@ -477,14 +497,14 @@ html,body {
 
 /*------------------------------ bg -----------------------------------------------------------------*/
 .bg-blue {
-    background: deepskyblue;
+    background: deepskyblue !important;
 }
 
 .bg-green {
-    background: limegreen;
+    background: lawngreen !important;
 }
 
 .bg-purple {
-    background: purple;
+    background: purple !important;
 }
 /*---------------------------------------------------------------------------------------------------*/

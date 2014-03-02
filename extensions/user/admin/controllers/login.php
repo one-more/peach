@@ -20,9 +20,9 @@ class logincontroller extends \supercontroller implements \view_controller_inter
         $params = \user::read_lang('login_view');
 
         if(\system::get_menu() && \system::get_menu() != -1) {
-            $params['action'] = 'index.php?class='.\system::get_menu().'&method=create_layout';
-
-            $params['fieldset'] = '';
+            $menu = \system::get_menu();
+            $params['menu_html'] = $menu::get_create_layout_html();
+            $params['action'] = 'index.php?class='.$menu.'&method=create_layout';
         }
         else {
             $params['action'] = '';

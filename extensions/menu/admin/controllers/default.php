@@ -28,7 +28,7 @@ class defaultcontroller extends \supercontroller {
         $params['js'] = \builder::build('menu_admin_default.js', $params['js'], false);
 
         return \templator::getTemplate(
-            'index.html',
+            'index',
             $params,
             \menu::$path.'admin'.DS.'views'.DS.'default'
         );

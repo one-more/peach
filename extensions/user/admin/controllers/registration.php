@@ -20,17 +20,20 @@ class registrationcontroller extends \supercontroller implements \view_controlle
         $params = \user::read_lang('registration_view');
 
         if(\system::get_menu() && \system::get_menu() != -1) {
-            $params['action'] = 'index.php?class='.system::get_menu().'&method=create_layout';
+            $menu = \system::get_menu();
+            $params['action'] = 'index.php?class='.$menu.'&method=create_layout';
+            $params['menu_html'] = $menu::get_create_layout_html();
         }
         else {
             $params['action'] = '';
+            $params['menu_html'] = \templator::get_warning(
+                \factory::get_reference('create_layout_fieldset')['NO_MENU']
+            );
         }
 
         $params['class']        = 'user';
         $params['controller']   = 'registration';
         $params['extension']    = \user::get_info()['alias'];
-
-        $params['fieldset'] = \helper::get_create_layout_fieldset();
 
         return \templator::getTemplate(
             'index',

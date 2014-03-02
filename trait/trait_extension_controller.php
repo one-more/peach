@@ -2,6 +2,8 @@
 /**
  * Trait contains basic methods for extension controllers
  *
+ * requires static fields _extension, _cache_path
+ *
  * Class trait_extension_controller
  *
  * @author Nikolaev D

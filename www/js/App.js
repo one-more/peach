@@ -13,7 +13,9 @@ _.extend(App, Backbone.Events, {
     event_handlers: [],
 
     //fires callback when element is loaded
-    elementLoad : function(el, callback) {
+    elementLoad : function(el, callback, limit) {
+        var i = 0;
+
         var interval = setInterval(function(){
             if($('*').is(el)) {
                 if(typeof callback == 'function') {
@@ -21,6 +23,12 @@ _.extend(App, Backbone.Events, {
                 }
                 clearInterval(interval);
             }
+
+            if(limit && i > limit) {
+                clearInterval(interval);
+            }
+
+            i++;
         }, 50);
     },
 
@@ -319,34 +327,37 @@ _.extend(App, Backbone.Events, {
 
         var tmp_hooks = [];
 
-        $('body').find('*.css-hook').each(function(){
-            var href = $(this).text();
+        App.elementLoad('*.js-hook', function() {
+            $('*.js-hook').each(function(){
+                var src = $(this).text();
 
-            $(this).remove();
+                $(this).remove();
 
-            tmp_hooks.push(href);
+                $.getScript(src);
 
-            if($.inArray(href, App.css_hooks) == -1) {
-                var css = $('<link>', {
-                    'rel':  'stylesheet',
-                    'href': href
-                })
+            })
+        }, 300)
 
-                $('head').append(css);
+        App.elementLoad('*.css-hook', function(){
+            $('*.css-hook').each(function(){
+                var href = $(this).text();
 
-                App.css_hooks.push(href);
-            }
-        })
+                $(this).remove();
 
+                tmp_hooks.push(href);
 
-        $('body').find('*.js-hook').each(function(){
-            var src = $(this).text();
+                if($.inArray(href, App.css_hooks) == -1) {
+                    var css = $('<link>', {
+                        'rel':  'stylesheet',
+                        'href': href
+                    })
 
-            $(this).remove();
+                    $('head').append(css);
 
-            $.getScript(src);
-
-        })
+                    App.css_hooks.push(href);
+                }
+            })
+        }, 300)
     },
 
     makeModal: function(url) {

@@ -37,6 +37,11 @@ interface menu_extension_interface extends super_interface {
     /**
      * @return mixed
      */
+    public static function get_urls();
+
+    /**
+     * @return mixed
+     */
     public static function get_version();
 
     /**
