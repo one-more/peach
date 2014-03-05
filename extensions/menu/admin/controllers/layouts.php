@@ -74,4 +74,67 @@ class layoutscontroller extends \supercontroller {
             \menu::$path.'admin'.DS.'views'.DS.'layouts'
         );
     }
+
+    public function create_layout()
+    {
+        if($_POST) {
+            $hidden = ['extension', 'class_name', 'controller'];
+            $lang = \menu::read_lang('layouts_page');
+
+            $error_msg = false;
+
+            foreach($hidden as $el) {
+                if(empty($_POST[$el])) {
+                    $error_msg = 'some of fields [extension, class_name, controller] are
+                        empty';
+                }
+            }
+
+            \error::log($error_msg);
+
+            if(!$error_msg && empty($_POST['url'])) {
+                $error_msg = $lang['select_url'];
+            }
+
+            $default = [
+                'name'          => '',
+                'alias'         => '',
+                'extension'     => '',
+                'class'         => '',
+                'controller'    => '',
+                'position'      => '',
+                'url'           => ''
+            ];
+
+            if(!$error_msg) {
+                $data = array_merge($default, $_POST);
+
+                $model = menu::get_admin_model('layouts');
+
+                $error_msg = $model->create_layout($data);
+
+                if(is_array($error_msg)) {
+                    return json_encode(['error' => $error_msg]);
+                }
+            }
+            else {
+                \comet::add_message([
+                    'task'      => 'delegate',
+                    'object'    => 'App',
+                    'method'    => 'showNoty',
+                    'params'    => [$error_msg, 'error']
+                ]);
+            }
+        }
+        else {
+            comet::add_message(
+                [
+                    'task'      => 'delegate',
+                    'object'    => 'App',
+                    'method'    => 'showNoty',
+                    'params'    => ['post array is empty', 'error']
+                ]
+            );
+        }
+    }
 }

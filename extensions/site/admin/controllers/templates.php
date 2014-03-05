@@ -95,16 +95,6 @@ class templatescontroller extends \supercontroller {
                 ],
                 'site_users'
             );
-
-            \comet::add_message(
-                [
-                    'task'      => 'delegate',
-                    'object'    => 'App',
-                    'method'    => 'loadPage',
-                    'params'    => ['/']
-                ],
-                'me_site'
-            );
         }
     }
 }

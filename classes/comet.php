@@ -31,7 +31,7 @@ class comet {
             case 'site_users':
                 $arr = $ini->get_all();
                 foreach($arr as $k=>$v) {
-                    if(!in_array($k, ['me_admin', 'me_site'])) {
+                    if(!in_array($k, ['me_admin_'.$ip])) {
                         $arr[$k][] = $msg;
                     }
                 }

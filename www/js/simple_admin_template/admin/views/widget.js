@@ -213,7 +213,9 @@ var Widgetview = Backbone.View.extend({
                 })
             })
 
-            var span = $('<span>');
+            var span = $('<span>', {
+                'id'    : 'widget-span'
+            });
 
             var li = $('<li>', {
                 'data-widget' : count,

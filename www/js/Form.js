@@ -86,7 +86,8 @@ App.module('Form', function(Form){
                 }
                 else {
 
-                    $form.find('input').val('');
+                    if(params.autoclean)
+                        $form.find('input').val('');
 
                     Form.success($form, data);
                 }
@@ -101,10 +102,15 @@ App.module('Form', function(Form){
     Form.initialize = function(){
         $(document).on('submit', 'form.ajax', function(e){
             e.preventDefault();
+            e.stopPropagation();
 
-            var params = $(this).data('params') || {};
+            var params = $(this).data('params');
 
-            Form.send($(this), params);
+            if(params) {
+                params = eval(params);
+            }
+
+            Form.send($(this), params || {});
         })
     };
 

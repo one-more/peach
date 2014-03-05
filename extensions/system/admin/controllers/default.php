@@ -59,15 +59,6 @@ class defaultcontroller extends \supercontroller {
         }
 
         if($menu_changed) {
-            \comet::add_message(
-                [
-                    'task'      => 'delegate',
-                    'object'    => 'SystemModel',
-                    'method'    => 'initialize',
-                    'params'    => []
-                ],
-                'me_site'
-            );
 
             \comet::add_message(
                 [

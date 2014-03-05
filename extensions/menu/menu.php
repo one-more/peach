@@ -12,7 +12,9 @@ class menu implements menu_extension_interface {
      */
     public static function create_layout()
 	{
-		
+		$controller = static::get_admin_controller('layouts');
+
+        return $controller->create_layout();
 	}
 
     /**
@@ -40,7 +42,7 @@ class menu implements menu_extension_interface {
      */
     public static function get_page($id)
 	{
-		
+		echo json_encode([]);
 	}
 
     /**

@@ -18,13 +18,13 @@ class optionscontroller extends \supercontroller {
         $params = \simple_admin_template::get_lang('options_page');
         $params = array_merge($params, \simple_admin_template::read_params('options'));
 
-        $arr = \admin::get_user_extensions();
+        $arr = array_merge(\admin::get_user_extensions(), \admin::get_menu_extensions());
         $tmp = [];
         foreach($arr as $el) {
             $tmp[] = $el['name'];
         }
 
-        $arr = array_merge($arr, ['user', 'system', 'documentation', 'site']);
+        $arr = array_merge($tmp, ['user', 'system', 'documentation', 'site']);
         $opts = '';
 
         foreach($arr as $el) {
