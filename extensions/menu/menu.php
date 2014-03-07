@@ -14,7 +14,7 @@ class menu implements menu_extension_interface {
 	{
 		$controller = static::get_admin_controller('layouts');
 
-        return $controller->create_layout();
+        echo $controller->create_layout();
 	}
 
     /**

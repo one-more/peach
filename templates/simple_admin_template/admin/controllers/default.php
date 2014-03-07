@@ -71,7 +71,8 @@ class defaultcontroller extends supercontroller {
 
         $user_extensions = array_merge(
             \admin::get_user_extensions(),
-            \admin::get_daemons()
+            \admin::get_daemons(),
+            \admin::get_menu_extensions()
         );
 
         if(count($user_extensions) > 0) {

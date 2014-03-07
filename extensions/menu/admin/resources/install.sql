@@ -12,7 +12,6 @@ create table if not exists `layout_url` (
 create table if not exists `layout` (
 	`id`			serial primary key,
 	`name`			varchar(255) not null,
-	`alias`			varchar(255) not null,
 	`extension`		varchar(255) not null,
 	`class`			varchar(255) not null,
 	`controller`	varchar(255) not null,
@@ -27,14 +26,12 @@ create table if not exists `layout_params` (
 
 create table if not exists `menus` (
 	`id`		serial primary key,
-	`name`		varchar (255) not null,
-	`alias`		varchar(255) not null		 
+	`name`		varchar (255) not null
 );
 
 create table if not exists `menu_items` (
 	`id`		serial primary key,
 	`name`		varchar(255) not null,
-	`alias`		varchar(255) not null,
 	`url`		varchar(255) not null,
 	`menu`		bigint not null,
 	`parent`	bigint	

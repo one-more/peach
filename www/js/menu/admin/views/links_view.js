@@ -91,7 +91,8 @@ var LinksView = Backbone.View.extend({
                 'type'      : 'checkbox',
                 'name'      : 'url[]',
                 'value'     : el.text(),
-                'class'     : 'hide'
+                'class'     : 'hide',
+                'checked'   : 'true'
             })
 
             $('.url-box').append(chbx);
