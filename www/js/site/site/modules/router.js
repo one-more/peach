@@ -5,25 +5,54 @@ App.Router = Backbone.Router.extend({
 
     actionPage: function() {
 
-        $(document).find('*[data-position]').html('');
-
         App.modelLoad(SystemModel, function(){
             if(SystemModel.get('menu') != -1) {
-                var url = Backbone.history.fragment.split('/');
+                var url = location.pathname.split('/');
 
-                var link = Backbone.history.fragment;
+                var link = location.pathname;
 
                 var params = url[url.length-1];
 
-                $.post('index.php', {'class': SystemModel.get('menu') ,'method':'get_page', 'params':link},
+                $.post(
+                    'index.php',
+                    {
+                        'class': SystemModel.get('menu'),
+                        'method':'get_page',
+                        'params':link
+                    },
                     function(data) {
                         try {
-                            var json = (typeof data == 'object') ? data : $.parseJSON(data);
+                            var json = (typeof data == 'object') ? data :
+                                $.parseJSON(data);
 
-                            $.each(json, function(k,v) {
-                                $('*[data-position='+ v.position+']').load('index.php',
-                                    {'class': v.extension, 'controller': v.controller, 'params': params})
-                            })
+                            if(json.length > 0) {
+
+                                $('*[data-position]').each(function(){
+                                    $(this).html('');
+                                })
+
+
+                                $.each(json, function(k,v) {
+                                    params['id'] = v.id;
+
+                                    $('*[data-position="'+ v.position+'"]')
+                                        .load(
+                                            'index.php',
+                                            {
+                                                'class'         : v.class,
+                                                'controller'    : v.controller,
+                                                'params'        : {
+                                                    'id'        : v.id,
+                                                    'params'    : params
+                                                }
+                                            }
+                                        )
+                                })
+                            }
+                            else {
+                                App.trigger('page:not_found');
+                            }
+
                         }
                         catch(exception) {
                             var msg = LangModel.get('load_page_err') ||
@@ -36,5 +65,9 @@ App.Router = Backbone.Router.extend({
                     })
             }
         })
+    },
+
+    reload: function() {
+        App.router.actionPage();
     }
 })

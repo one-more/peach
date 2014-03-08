@@ -36,17 +36,17 @@ if(filesize(SITE_PATH.'resources'.DS.'comet-threads.ini') > 4000000) {
     error::log('clear comet-threads.ini');
 }
 
+$mode = preg_split('/\//', $_REQUEST['old_url'])[1];
+
+$mode = $mode == 'admin' ? 'admin' : 'site';
+
 $ini = factory::getIniServer(SITE_PATH.'resources'.DS.'comet-threads.ini');
 
 $tid = md5(time().rand(0,50000));
 
-$ini->write('tid', $ip, $tid);
+$ini->write('tid', $ip.'_'.$mode, $tid);
 
 $ini->updateFile();
-
-$mode = preg_split('/\//', $_REQUEST['old_url'])[1];
-
-$mode = $mode == 'admin' ? 'admin' : 'site';
 
 //write user`s ip into the ini file
 comet::clear_array($ip, $mode);
@@ -68,7 +68,7 @@ while($start > time()) {
 header('Content-type: text/plain');
 
 $ini = factory::getIniServer(SITE_PATH.'resources'.DS.'comet-threads.ini');
-$ctid = $ini->read('tid', $ip);
+$ctid = $ini->read('tid', $ip.'_'.$mode);
 
 if($ctid != $tid) {
     die(json_encode(['task'=>'reload']));

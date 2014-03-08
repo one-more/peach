@@ -404,4 +404,26 @@ class layoutscontroller extends \supercontroller {
             );
         }
     }
+
+    /**
+     * @param $url
+     * @return mixed
+     */
+    public function get_page($url)
+    {
+        $model = \menu::get_admin_model('layouts');
+
+        return $model->get_page($url);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function get_layout_params($id)
+    {
+        $model = \menu::get_admin_model('layouts');
+
+        return $model->get_layout_params($id);
+    }
 }

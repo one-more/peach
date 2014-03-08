@@ -33,16 +33,22 @@ class menu implements menu_extension_interface {
      */
     public static function get_layout_params($id)
 	{
-		
+		$controller = static::get_admin_controller('layouts');
+
+        return $controller->get_layout_params($id);
 	}
 
     /**
-     * @param $id
+     * @param $link
      * @return mixed|void
      */
-    public static function get_page($id)
+    public static function get_page($link)
 	{
-		echo json_encode([]);
+		$controller = static::get_admin_controller('layouts');
+
+        $arr = $controller->exec('get_page', $link);
+
+        echo is_array($arr) ? json_encode($arr) : $arr;
 	}
 
     /**

@@ -475,6 +475,12 @@ _.extend(App, Backbone.Events, {
                 }
             }
         )
+    },
+
+    reload: function() {
+        if(App.router.reload) {
+            App.router.reload();
+        }
     }
 })
 

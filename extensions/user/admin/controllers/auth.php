@@ -161,4 +161,12 @@ class authcontroller extends \supercontroller {
 
         \user::write_params('session_files', []);
     }
+
+    /**
+     * @return mixed
+     */
+    public function get_id()
+    {
+        return $_SESSION['user'];
+    }
 }

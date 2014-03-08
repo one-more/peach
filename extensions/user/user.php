@@ -37,7 +37,7 @@ class user implements widget_extension_interface {
             return false;
         }
         else {
-            return $controller->exec('get', $id == null ? $_SESSION['user'] : $id);
+            return $controller->exec('get', $id == null ? static::get_id() : $id);
         }
     }
 
@@ -46,7 +46,11 @@ class user implements widget_extension_interface {
      */
     public static function get_id()
     {
-        return static::is_auth() ? $_SESSION['user'] : false;
+        $mode = core::$mode;
+        $method = "get_{$mode}_controller";
+        $controller = static::$method('auth');
+
+        return $controller->get_id();
     }
 
     /**
@@ -74,7 +78,11 @@ class user implements widget_extension_interface {
      */
     public static function is_auth()
     {
-        $controller = static::get_admin_controller('auth');
+        $mode = core::$mode;
+
+        $method = "get_{$mode}_controller";
+
+        $controller = static::$method('auth');
 
         return $controller->is_auth();
     }
@@ -118,9 +126,17 @@ class user implements widget_extension_interface {
             static::$path = SITE_PATH.'extensions'.DS.'user'.DS;
         }
 
-        if(file_exists(static::$path.$_COOKIE['PHPSESSID'])) {
+        $admin_file     = static::$path.$_COOKIE['PHPSESSID'];
+        $site_file      = static::$path.'site_'.$_COOKIE['PHPSESSID'];
 
-            $arr = json_decode(file_get_contents(static::$path.$_COOKIE['PHPSESSID']), true);
+        if(file_exists($admin_file)) {
+
+            $arr = json_decode(file_get_contents($admin_file), true);
+
+            return $arr['my_ip'];
+        }
+        elseif(file_exists($site_file)) {
+            $arr = json_decode(file_get_contents($site_file), true);
 
             return $arr['my_ip'];
         }

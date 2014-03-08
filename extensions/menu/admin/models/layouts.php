@@ -362,4 +362,75 @@ class layoutsmodel extends \superModel {
 
         return $arr;
     }
+
+    public function get_page($url)
+    {
+        $links = \menu::get_urls();
+        $needle = false;
+        $tmp = [];
+        foreach($links as $el) {
+            $tmp[] = $el['url'];
+        }
+        $links = $tmp;
+
+        if(strlen($url) > 1 && $url[strlen($url)-1] == '/') {
+            $url[strlen($url)-1] = "";
+        }
+
+        if(array_search($url, $links) !== false) {
+            $needle = $url;
+        }
+        else {
+            $parts = explode('/', $url);
+            for($i = count($parts); $i>2; $i--) {
+                $parts[$i-1] = '*';
+
+                if(array_search(implode('/', $parts), $links) !== false) {
+                    $needle = $url;
+
+                    break;
+                }
+            }
+        }
+
+        if($needle !== false) {
+            $sth = $this->_db->prepare(
+                "
+                    SELECT `layout`.`id`, `class`, `controller`, `position`
+                    FROM `layout_url`
+                    LEFT JOIN `layout`
+                    ON `layout_url`.`layout` = `layout`.`id`
+                    WHERE `layout_url`.`url` =
+                    (SELECT `id` FROM `url` WHERE `url` = ?)
+                "
+            );
+            $sth->bindParam(1, $needle);
+            $sth->execute();
+
+            return $sth->fetchAll();
+        }
+        else {
+            return [];
+        }
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function get_layout_params($id)
+    {
+        $sth = $this->_db->prepare(
+            "
+                SELECT * FROM `layout_params`
+                WHERE `layout` = ?
+            "
+        );
+        $sth->bindParam(1, $id);
+        $sth->execute();
+
+        $sth = $sth->fetch();
+
+        return json_decode($sth['params'], true);
+    }
 }

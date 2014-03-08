@@ -63,7 +63,7 @@ class usercontroller extends \supercontroller {
     public function is_super_admin()
     {
         if(\user::is_auth()) {
-            $user = $this->get($_SESSION['user']);
+            $user = $this->get(\user::get_id());
 
             return $user['user']['credentials'] == 'SUPER_ADMIN';
         }
@@ -78,7 +78,7 @@ class usercontroller extends \supercontroller {
     public function is_admin()
     {
         if(\user::is_auth()) {
-            $user = $this->get($_SESSION['user']);
+            $user = $this->get(\user::get_id());
 
             return  $user['user']['credentials'] == 'ADMIN' ||
                     $user['user']['credentials'] == 'SUPER_ADMIN';

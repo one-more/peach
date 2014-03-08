@@ -204,6 +204,10 @@ html,body {
     width: 40%;
 }
 
+.width-100px {
+    width: 100px;
+}
+
 .width-10 {
     width: 10%;
 }
@@ -508,3 +512,7 @@ html,body {
     background: purple !important;
 }
 /*---------------------------------------------------------------------------------------------------*/
+
+.line-height-1 {
+    line-height: 1;
+}
