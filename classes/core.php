@@ -39,10 +39,11 @@ class core {
             $extension = '';
         }
 
-        $class = !empty($_REQUEST['class'])? $_REQUEST['class'] : '';
-
-        if(in_array($extension, ['admin', 'installer']) || in_array($class, ['admin', 'installer'])) {
+        if($extension == 'admin') {
             static::$mode = 'admin';
+        }
+        else {
+            static::$mode = 'site';
         }
 
         //install site

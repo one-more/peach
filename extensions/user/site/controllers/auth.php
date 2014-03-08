@@ -75,7 +75,7 @@ class authcontroller extends \supercontroller {
 
             $file = \user::$path.'site_'.$_COOKIE['PHPSESSID'];
             $sf = \user::read_params('user_session_file');
-            if(file_exists($sf[0])) {
+            if(!empty($sf[0]) && file_exists($sf[0])) {
                 unlink($sf[0]);
             }
 
@@ -92,7 +92,7 @@ class authcontroller extends \supercontroller {
                     'method'    => 'reload',
                     'params'    => []
                 ],
-                getenv('REMOTE_ADDR')
+                'me_site'
             );
         }
         else {
@@ -123,7 +123,7 @@ class authcontroller extends \supercontroller {
 
         $sf = \user::read_params('user_session_file');
 
-        if(file_exists($sf[0])) {
+        if(!empty($sf[0]) && file_exists($sf[0])) {
             unlink($sf[0]);
         }
 

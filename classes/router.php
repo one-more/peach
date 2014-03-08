@@ -13,22 +13,25 @@ class router {
     public static function route() {
 
         //if the user`s session is ended and started ajax request
-        if(core::$mode == 'admin' && !empty($_REQUEST['ajax']) && !user::is_auth()) {
+        if(!empty($_REQUEST['ajax'])) {
 
-            //todo - костыль
-            if(!in_array($_REQUEST['class'], ['noop'])) {
-                if(empty($_REQUEST['task']) || $_REQUEST['task'] != 'auth') {
+            if(core::$mode == 'admin' && !user::is_auth()) {
 
-                    comet::add_message(
-                        [
-                            'task'      => 'delegate',
-                            'object'    => 'App',
-                            'method'    => 'loadPage',
-                            'params'    => ['/admin']
-                        ]
-                    );
+                //todo - костыль
+                if(!in_array($_REQUEST['class'], ['noop'])) {
+                    if(empty($_REQUEST['task']) || $_REQUEST['task'] != 'auth') {
 
-                    return;
+                        comet::add_message(
+                            [
+                                'task'      => 'delegate',
+                                'object'    => 'App',
+                                'method'    => 'loadPage',
+                                'params'    => ['/admin']
+                            ]
+                        );
+
+                        return;
+                    }
                 }
             }
         }

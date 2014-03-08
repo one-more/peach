@@ -23,9 +23,14 @@ class defaultcontroller extends \supercontroller {
      */
     public function display()
     {
-        $template = \admin::read_params('options')['template'];
+        if(!\user::is_auth() || !\user::is_admin()) {
+            \user::auth('/admin');
+        }
+        else {
+            $template = \admin::read_params('options')['template'];
 
-        $template::start();
+            $template::start();
+        }
     }
 
     /**

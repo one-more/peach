@@ -139,7 +139,6 @@ _.extend(App, Backbone.Events, {
             },
             complete: function(xhr) {
                 var header = xhr.getResponseHeader('Content-type');
-
                 if(header && header.indexOf('text/html') != -1) {
                     var text = xhr.responseText;
 

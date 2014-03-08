@@ -17,12 +17,7 @@ class admin {
      */
     public static function start()
     {
-        if(!user::is_auth() || !user::is_admin()) {
-            user::auth('/admin');
-        }
-        else {
-            static::trait_start();
-        }
+        static::trait_start();
     }
 
     /**
