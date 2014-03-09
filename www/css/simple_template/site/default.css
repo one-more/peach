@@ -54,3 +54,7 @@
     display: inline-block;
     width: 65%;
 }
+
+div[data-position=login]:empty {
+    display: none;
+}

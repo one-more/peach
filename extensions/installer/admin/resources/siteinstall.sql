@@ -5,12 +5,12 @@ create table if not exists `languages` (
 );
 
 create table if not exists `en-EN` (
-  `key`   varchar (255) key ,
+  `key`   varchar (255) primary key unique ,
   `value` text
 );
 
 create table if not exists `ru-RU` (
-  `key`   varchar (255) key ,
+  `key`   varchar (255) primary key unique ,
   `value` text
 );
 

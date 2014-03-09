@@ -205,9 +205,14 @@ class layoutsmodel extends \superModel {
             }
 
             $sth = $this->_db->prepare(
-                "UPDATE `{$lang}` SET `value` = ? where `key` = '{$alias_key}'"
+                "
+                  INSERT INTO `{$lang}` SET
+                   `key`    = '{$alias_key}',
+                   `value`  = :alias
+                  ON DUPLICATE KEY UPDATE `value` = :alias
+                "
             );
-            $sth->bindParam(1, $data['alias']);
+            $sth->bindParam(':alias', $data['alias']);
             $sth->execute();
 
             $sth = $this->_db->prepare(

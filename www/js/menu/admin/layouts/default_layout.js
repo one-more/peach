@@ -9,7 +9,10 @@ var MenuView = Backbone.View.extend({
 
     events: {
         'click .delete-layout-icon' : 'delete_layout',
-        'click .edit-layout-icon'   : 'edit_layout'
+        'click .edit-layout-icon'   : 'edit_layout',
+        'click .create-menu-item'   : 'create_menu',
+        'click .edit-menu-icon'     : 'edit_menu',
+        'click .delete-menu-icon'   : 'delete_menu'
     },
 
     delete_layout: function(e) {
@@ -66,6 +69,67 @@ var MenuView = Backbone.View.extend({
                 $('.layouts-table').replaceWith(data);
             }
         )
+    },
+
+    create_menu: function() {
+        App.makeModal('index.php?class=menu&controller=menus&task=create')
+    },
+
+    update_menus_table: function()
+    {
+        $.post(
+            'index.php',
+            {
+                'class'         : 'menu',
+                'controller'    : 'menus'
+            },
+            function(data) {
+                $('.menus-table').replaceWith(data);
+            }
+        )
+    },
+
+    edit_menu: function(e) {
+        var el      = $(e.target);
+        var params  = el.data('params');
+
+        App.makeModal(
+            'index.php?class=menu&controller=menus&task=edit&params='+params
+        )
+    },
+
+    delete_menu: function(e) {
+        var el      = $(e.target);
+        var params  = el.data('params');
+
+        var msg = LangModel.get('delete_menu') || 'delete menu?';
+
+        App.confirm(msg, function(){
+            $.post(
+                'index.php',
+                {
+                    'class'         : 'menu',
+                    'controller'    : 'menus',
+                    'task'          : 'delete',
+                    'params'        : params
+                },
+                function(data) {
+                    if(!data.trim()) {
+                        var msg = LangModel.get('menu_deleted') ||
+                            'menu deleted';
+
+                        App.showNoty(msg, 'success');
+
+                        MenuView.update_menus_table();
+                    }
+                    else {
+                        var msg = LangModel.get('error_delete_menu') ||
+                            'an error occurred during delete menu'
+                        App.showNoty(msg, 'error');
+                    }
+                }
+            )
+        })
     }
 })
 

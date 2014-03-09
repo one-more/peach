@@ -126,16 +126,20 @@ class user implements widget_extension_interface {
             static::$path = SITE_PATH.'extensions'.DS.'user'.DS;
         }
 
+        $mode = preg_split('/\//', $_REQUEST['old_url'])[1];
+
+        $mode = $mode == 'admin' ? 'admin' : 'site';
+
         $admin_file     = static::$path.$_COOKIE['PHPSESSID'];
         $site_file      = static::$path.'site_'.$_COOKIE['PHPSESSID'];
 
-        if(file_exists($admin_file)) {
+        if(file_exists($admin_file) && $mode == 'admin') {
 
             $arr = json_decode(file_get_contents($admin_file), true);
 
             return $arr['my_ip'];
         }
-        elseif(file_exists($site_file)) {
+        elseif(file_exists($site_file) && $mode == 'site') {
             $arr = json_decode(file_get_contents($site_file), true);
 
             return $arr['my_ip'];

@@ -83,7 +83,7 @@ class usermodel extends \superModel {
             }
             elseif($type == 'edit') {
                 $checks = [
-                    'login'     => 'not_empty',
+                    'login'     => ['not_empty', 'unique_user'],
                     'email'     => 'email',
                     'password'  => ['not_empty', 'password']
                 ];
@@ -288,8 +288,6 @@ class usermodel extends \superModel {
      */
     public static function valid_unique_user($value)
     {
-        static::$reference['user_exists'] = \user::read_lang('references')['user_exists'];
-
         $model = \user::get_admin_model('user');
 
         if($user = $model->get_by_login($value)) {

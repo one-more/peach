@@ -31,7 +31,7 @@ class comet {
             case 'site_users':
                 $arr = $ini->get_all();
                 foreach($arr as $k=>$v) {
-                    if(!in_array($k, ['me_admin_'.$ip])) {
+                    if(!preg_match('/.*_admin/', $k)) {
                         $arr[$k][] = $msg;
                     }
                 }
@@ -39,6 +39,8 @@ class comet {
                 break;
             default:
                 $type = preg_replace('/\./', '_', $type);
+                $mode = core::$mode;
+                $type .= '_'.$mode;
                 $arr = $ini->readSection($type);
                 $arr[] = $msg;
                 $ini->writeSection($type, $arr);
@@ -70,7 +72,7 @@ class comet {
         else {
             $ip = preg_replace('/\./', '_', $ip);
 
-            $arr =  $ini->readSection($ip);
+            $arr =  $ini->readSection($ip."_{$mode}");
         }
 
         $ret = [];
@@ -102,7 +104,7 @@ class comet {
         else {
             $ip = preg_replace('/\./', '_', $ip);
 
-            $ini->writeSection($ip, []);
+            $ini->writeSection($ip."_{$mode}", []);
         }
         $ini->updateFile();
     }

@@ -1,0 +1,37 @@
+<form
+        class="ajax form-horizontal"
+        id="user-reg-form"
+        method="post"
+        action="index.php?class=user&controller=registration&task=register"
+        >
+    <div class="control-group">
+        <label class="control-label" for="login_input">
+            :LOGIN_LABEL&nbsp;<sup class="color-red">*</sup>
+        </label>
+        <div class="controls width-25">
+            <input id="login_input" name="login" type="text"/>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="password_input">
+            :PASSWORD_LABEL&nbsp;<sup class="color-red">*</sup>
+        </label>
+        <div class="controls width-25">
+            <input id="password_input" name="password" type="password"/>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="email_input">email</label>
+        <div class="controls width-25">
+            <input id="email_input" name="email" type="text"/>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <div class="controls width-40">
+            <button class="btn" type="submit">:BTN_LABEL</button>
+        </div>
+    </div>
+</form>

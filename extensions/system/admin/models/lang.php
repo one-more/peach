@@ -32,8 +32,9 @@ class langmodel extends \superModel {
 
                 $sth->execute();
 
-                $this->_db->query("create table if not exists `$key`(
-                    `key` varchar(255) not null key,
+                $this->_db->query("
+                     CREATE TABLE IF NOT EXISTS `{$key}`(
+                    `key` varchar(255) not null primary key unique ,
                     `value` text
                 )");
             }
