@@ -132,8 +132,24 @@ class menusmodel extends \superModel {
         );
         $sth->bindParam(':param', $param);
         $sth->execute();
+        $obj = $sth->fetch();
 
-        return $sth->fetch();
+        if($obj) {
+            $lang   = \system::get_current_lang();
+            $name   = $obj['name'];
+            $key    = "menu_{$name}_alias";
+
+            $sth = $this->_db->query(
+                "
+                    SELECT `value` FROM `{$lang}`
+                    WHERE `key` = '{$key}'
+                "
+            );
+            $sth = $sth->fetch();
+            $obj['alias'] = $sth['value'];
+        }
+
+        return $obj;
     }
 
     /**

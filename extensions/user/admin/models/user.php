@@ -83,7 +83,8 @@ class usermodel extends \superModel {
             }
             elseif($type == 'edit') {
                 $checks = [
-                    'login'     => ['not_empty', 'unique_user'],
+                    'login'     => ($old_user['user']['login'] == $merged_array['login'])?
+                            'not_empty' : ['not_empty', 'unique_user'],
                     'email'     => 'email',
                     'password'  => ['not_empty', 'password']
                 ];

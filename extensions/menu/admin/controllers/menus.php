@@ -67,7 +67,12 @@ class menuscontroller extends \supercontroller {
                 );
                 $tr .= $td;
 
-                $trs .= $tr;
+                $trs .= \dom::create_element(
+                    'tr',
+                    [
+                        'text'  => $tr
+                    ]
+                );
             }
 
             $params['trs'] = $trs;
@@ -183,6 +188,10 @@ class menuscontroller extends \supercontroller {
         else {
             $params = \menu::read_lang('menus_page');
             $params['id'] = $id;
+
+            $model = \menu::get_admin_model('menus');
+            $obj = $model->get($id);
+            $params['alias'] = $obj['alias'];
 
             return \templator::getTemplate(
                 'edit',

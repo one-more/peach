@@ -84,12 +84,14 @@ class layoutsmodel extends \superModel {
 
             $sth = $this->_db->prepare(
                 "INSERT INTO `{$lang}` SET
-                    `key`   = ?,
-                    `value` = ?
+                    `key`   = :key,
+                    `value` = :alias
+                    ON DUPLICATE KEY UPDATE
+                    `value` = :alias
                 "
             );
-            $sth->bindParam(1, $alias_key, \PDO::PARAM_STR);
-            $sth->bindParam(2, $data['alias'], \PDO::PARAM_STR);
+            $sth->bindParam(':key', $alias_key, \PDO::PARAM_STR);
+            $sth->bindParam(':alias', $data['alias'], \PDO::PARAM_STR);
             $sth->execute();
 
             $sth = $this->_db->prepare(

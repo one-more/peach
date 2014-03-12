@@ -14,9 +14,10 @@ var LinksView = Backbone.View.extend({
     },
 
     add_url: function() {
-        var link = $('input[name=add-url-input]').val();
 
-        var input = $('input[name=add-url-input]');
+        var input = $('input[name=add-url-input]:not(:empty_val)');
+
+        var link = input.val() || '';
 
         if(link.trim() == '') {
             var msg = LangModel.get('not_empty') || 'field cannot be empty';
@@ -51,7 +52,10 @@ var LinksView = Backbone.View.extend({
                                 'type'  : 'checkbox'
                             })
 
-                            $('.url-box').text('').append(chbx).append('<br>')
+                            if(!$('.url-box').hasClass('single-select'))
+                                $('.url-box').text('').append(chbx).append('<br>')
+                            else
+                                $('.url-box').text('')
                         }
 
                         $('.url-box').append(span);
@@ -77,25 +81,57 @@ var LinksView = Backbone.View.extend({
     },
 
     select_url: function(e) {
-        var el = $(e.target);
+        var el  = $(e.target);
+        var box = $('.url-box');
 
-        if(el.hasClass('label-info')) {
-            el.removeClass('label-info');
+        if(box.hasClass('single-select')) {
+            var chbx = $('input[name=url]');
 
-            $('input[value="'+el.text()+'"]').remove();
+            if(chbx.length == 0) {
+                chbx = $('<input>', {
+                    'type'      : 'checkbox',
+                    'name'      : 'url',
+                    'class'     : 'hide',
+                    'value'     : el.text(),
+                    'checked'   : 'true'
+                })
+
+                box.append(chbx);
+            }
+            else {
+                chbx.val(el.text());
+            }
+
+            if(el.hasClass('label-info')) {
+                el.removeClass('label-info');
+
+                chbx.remove();
+            }
+            else {
+                $('span.label-info').removeClass('label-info');
+
+                el.addClass('label-info');
+            }
         }
         else {
-            el.addClass('label-info');
+            if(el.hasClass('label-info')) {
+                el.removeClass('label-info');
 
-            var chbx = $('<input>', {
-                'type'      : 'checkbox',
-                'name'      : 'url[]',
-                'value'     : el.text(),
-                'class'     : 'hide',
-                'checked'   : 'true'
-            })
+                $('input[value="'+el.text()+'"]').remove();
+            }
+            else {
+                el.addClass('label-info');
 
-            $('.url-box').append(chbx);
+                var chbx = $('<input>', {
+                    'type'      : 'checkbox',
+                    'name'      : 'url[]',
+                    'value'     : el.text(),
+                    'class'     : 'hide',
+                    'checked'   : 'true'
+                })
+
+                $('.url-box').append(chbx);
+            }
         }
     },
 

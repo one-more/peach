@@ -8,11 +8,16 @@ var MenuView = Backbone.View.extend({
     el : $(document),
 
     events: {
-        'click .delete-layout-icon' : 'delete_layout',
-        'click .edit-layout-icon'   : 'edit_layout',
-        'click .create-menu-item'   : 'create_menu',
-        'click .edit-menu-icon'     : 'edit_menu',
-        'click .delete-menu-icon'   : 'delete_menu'
+        'click .delete-layout-icon'     : 'delete_layout',
+        'click .edit-layout-icon'       : 'edit_layout',
+        'click .create-menu-item'       : 'create_menu',
+        'click .edit-menu-icon'         : 'edit_menu',
+        'click .delete-menu-icon'       : 'delete_menu',
+        'click .create-menu-item-item'  : 'create_menu_item',
+        'click .edit-menu-item-icon'    : 'edit_menu_item',
+        'click .delete-menu-item-icon'  : 'delete_menu_item',
+        'change .menu-item-menu-select' : 'change_menu_items_list',
+        'click .menu-items-filter>span' : 'filter_items_table'
     },
 
     delete_layout: function(e) {
@@ -130,6 +135,108 @@ var MenuView = Backbone.View.extend({
                 }
             )
         })
+    },
+
+    create_menu_item: function() {
+        App.makeModal('index.php?class=menu&controller=items&task=create')
+    },
+
+    update_items_table: function(id) {
+        var params = id ? id : null;
+
+        $.post(
+            'index.php',
+            {
+                'class'         : 'menu',
+                'controller'    : 'items',
+                'params'        : params
+            },
+            function(data) {
+
+                if(!id) {
+                    var obj     = $(data);
+                    data    = obj.filter('table');
+                }
+
+                $('.menu-items-table').replaceWith(data);
+            }
+        )
+    },
+
+    delete_menu_item: function(e) {
+        var el      = $(e.target);
+        var params  = el.data('params');
+        var msg = LangModel.get('delete_menu_item') || 'delete menu item?';
+
+        App.confirm(msg, function(){
+            $.post(
+                'index.php',
+                {
+                    'class'         : 'menu',
+                    'controller'    : 'items',
+                    'task'          : 'delete',
+                    'params'        : params
+                },
+                function(data) {
+                    if(data.trim()) {
+                        msg = LangModel.get('error_delete_menu_item') ||
+                            'an error occurred during delete menu item';
+                        App.showNoty(msg, 'error');
+                    }
+                    else {
+                        msg = LangModel.get('menu_item_deleted') ||
+                            'menu item deleted successfully';
+
+                        App.showNoty(msg, 'success');
+
+                        el.parents('tr').remove();
+                    }
+                }
+            )
+        })
+    },
+
+    change_menu_items_list: function(e) {
+        var el      = $(e.target);
+        var params  =  el.val()
+
+        $.post(
+            'index.php',
+            {
+                'class'         : 'menu',
+                'controller'    : 'items',
+                'task'          : 'get_items_list',
+                'params'        : params
+            },
+            function(data) {
+                $('.menu-item-parent-select').replaceWith(data);
+            }
+        )
+    },
+
+    edit_menu_item: function(e) {
+        var el      = $(e.target);
+        var params  = el.data('params');
+
+        App.makeModal('index.php?class=menu&controller=items&task=edit&params='+params)
+    },
+
+    filter_items_table: function(e) {
+        var el      = $(e.target);
+        var params  =  el.data('params');
+
+        if(el.hasClass('label-info')) {
+            MenuView.update_items_table();
+
+            el.removeClass('label-info');
+        }
+        else {
+            $('.menu-items-filter span').removeClass('label-info');
+
+            el.addClass('label-info');
+
+            MenuView.update_items_table(params);
+        }
     }
 })
 

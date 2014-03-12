@@ -203,6 +203,16 @@ _.extend(App, Backbone.Events, {
         this.registerEvents();
 
         App.trigger('document:ready');
+
+        //add custom jq selector
+        $.expr[':'].empty_val = function(obj) {
+            if($(obj).val().trim() == '') {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     },
 
     registerEvents: function() {
