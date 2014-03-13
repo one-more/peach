@@ -17,7 +17,8 @@ var MenuView = Backbone.View.extend({
         'click .edit-menu-item-icon'    : 'edit_menu_item',
         'click .delete-menu-item-icon'  : 'delete_menu_item',
         'change .menu-item-menu-select' : 'change_menu_items_list',
-        'click .menu-items-filter>span' : 'filter_items_table'
+        'click .menu-items-filter>span' : 'filter_items_table',
+        'click .menu-create-layout-btn' : 'create_layout'
     },
 
     delete_layout: function(e) {
@@ -237,6 +238,13 @@ var MenuView = Backbone.View.extend({
 
             MenuView.update_items_table(params);
         }
+    },
+
+    create_layout: function(e) {
+        var el          = $(e.target);
+        var controller  = el.data('params');
+
+        App.makeModal('index.php?class=menu&controller='+controller);
     }
 })
 

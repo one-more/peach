@@ -82,7 +82,7 @@ var LinksView = Backbone.View.extend({
 
     select_url: function(e) {
         var el  = $(e.target);
-        var box = $('.url-box');
+        var box = $('.url-box:last');
 
         if(box.hasClass('single-select')) {
             var chbx = $('input[name=url]');

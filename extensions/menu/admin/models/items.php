@@ -177,6 +177,11 @@ class itemsmodel extends \superModel {
             return $this->_db->lastInsertId();
         }
         else {
+
+            if($data['parent'] == $data['id']) {
+                $data['parent'] = '0';
+            }
+
             $sth = $this->_db->prepare(
                 "
                     UPDATE `menu_items` SET

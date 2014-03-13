@@ -54,7 +54,7 @@ class itemscontroller extends \supercontroller {
             $td = \dom::create_element(
                 'td',
                 [
-                    'text'  => $el['menu_alias']
+                    'text'  => empty($el['menu_alias']) ? '' : $el['menu_alias']
                 ]
             );
             $tr .= $td;
@@ -158,6 +158,10 @@ class itemscontroller extends \supercontroller {
             if($el['id'] == $id) {
                 $mmel = $el;
             }
+        }
+
+        if(!$mmel) {
+            $mmel = $mmarr[0];
         }
 
         $opt = \dom::create_element(
@@ -318,6 +322,12 @@ class itemscontroller extends \supercontroller {
         else {
             $params = \menu::read_lang('items_page');
 
+            $model = \menu::get_admin_model('menus');
+            $menus = $model->get_menus();
+            if(count($menus) == 0) {
+                return \templator::get_warning($params['no_menus']);
+            }
+
             $params['menus']            = $this->get_menus_list();
             $params['menu_items_list']  = $this->get_items_list(null);
 
@@ -430,6 +440,12 @@ class itemscontroller extends \supercontroller {
         else {
             $params = \menu::read_lang('items_page');
             $model = \menu::get_admin_model('items');
+
+            $mm     = \menu::get_admin_model('menus');
+            $menus  = $mm->get_menus();
+            if(count($menus) == 0) {
+                return \templator::get_warning($params['no_menus']);
+            }
 
             $obj = $model->get($id);
 

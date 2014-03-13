@@ -90,8 +90,8 @@ class menu implements menu_extension_interface {
 		}
 
 		helper::remDir(SITE_PATH.'lang'.DS.'menu');
-		helper::remDir(SITE_PATH.'js'.DS.'menu');
-		helper::remDir(SITE_PATH.'css'.DS.'menu');
+		helper::remDir(SITE_PATH.'www'.DS.'js'.DS.'menu');
+		helper::remDir(SITE_PATH.'www'.DS.'css'.DS.'menu');
 		helper::remDir(SITE_PATH.'media'.DS.'menu');
 		helper::remDir(SITE_PATH.'extensions'.DS.'menu');
 	}

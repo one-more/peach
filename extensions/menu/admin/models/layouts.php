@@ -163,7 +163,7 @@ class layoutsmodel extends \superModel {
             /*----------------------*/
 
             $sth = $this->_db->prepare(
-                "SELECT `url`.`url` FROM `layout_url`
+                "SELECT DISTINCT `url`.`url` FROM `layout_url`
                 LEFT JOIN `url` ON `url`.`id` = `layout_url`.`url`
                 WHERE `layout_url`.`layout` = ?"
             );
@@ -370,7 +370,7 @@ class layoutsmodel extends \superModel {
         return $arr;
     }
 
-    public function get_page($url)
+    public function get_page($url, $direct = true)
     {
         $links = \menu::get_urls();
         $needle = false;
@@ -384,7 +384,7 @@ class layoutsmodel extends \superModel {
             $url[strlen($url)-1] = "";
         }
 
-        if(array_search($url, $links) !== false) {
+        if(array_search($url, $links) !== false && $direct) {
             $needle = $url;
         }
         else {
@@ -392,8 +392,8 @@ class layoutsmodel extends \superModel {
             for($i = count($parts); $i>2; $i--) {
                 $parts[$i-1] = '*';
 
-                if(array_search(implode('/', $parts), $links) !== false) {
-                    $needle = $url;
+                if(array_search($impl = implode('/', $parts), $links) !== false) {
+                    $needle = $impl;
 
                     break;
                 }
@@ -414,7 +414,14 @@ class layoutsmodel extends \superModel {
             $sth->bindParam(1, $needle);
             $sth->execute();
 
-            return $sth->fetchAll();
+            $res = $sth->fetchAll();
+
+            if(empty($res) && $direct) {
+                return $this->get_page($url, false);
+            }
+            else{
+                return $res;
+            }
         }
         else {
             return [];
