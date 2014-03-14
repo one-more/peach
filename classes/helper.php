@@ -43,6 +43,26 @@ class helper
 	}
 
     /**
+     * @param $source
+     * @param $dest
+     */
+    public static function copy_dir($source, $dest)
+    {
+        $dir = basename($source);
+        mkdir($dest.DS.$dir);
+        $iterator = new FilesystemIterator($source);
+
+        foreach($iterator as $el) {
+            if($el->isDir()) {
+                static::copy_dir($el, $dest.DS.$dir);
+            }
+            else {
+                copy($el, $dest.DS.$dir.DS.$el->getBaseName());
+            }
+        }
+    }
+
+    /**
      * @param $total
      * @param $perpage
      * @return null|string

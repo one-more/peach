@@ -107,5 +107,22 @@ class menu implements menu_extension_interface {
 		foreach($sql as $el) {
 			$model->execute($el);
 		}
+
+		$ini 	= factory::getIniServer	(
+				SITE_PATH.'extensions'.DS.'menu'.DS.'admin'.DS.'resources'.DS.'lang_model.ini'
+				);
+		$ref 	= factory::getIniServer(SITE_PATH.'lang'.DS.'references'.DS.'en-EN.ini');
+		$arr1 	= $ini->readSection('en-EN');
+		$arr2	= $ref->readSection('lang_model');
+		$arr2	= array_merge($arr2, $arr1);
+		$ref->writeSection('lang_model', $arr2);
+		$ref->updateFile();
+
+		$arr1	= $ini->readSection('ru-RU');
+		$ref	= factory::getIniServer(SITE_PATH.'lang'.DS.'references'.DS.'ru-RU.ini');
+		$arr2	= $ref->readSection('lang_model');
+		$arr2	= array_merge($arr2, $arr1);
+		$ref->writeSection('lang_model', $arr2);
+		$ref->updateFile();
 	}
 } 

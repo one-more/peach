@@ -54,7 +54,7 @@ class router {
             echo templator::get_warning($ref).dom::create_element(
                     'img',
                     [
-                        'class' => 'width-100 height-80',
+                        'class' => 'width-100 adapt-height',
                         'src'   => '/media/images/404.jpg'
                     ]
                 );

@@ -38,7 +38,7 @@ App.Router = Backbone.Router.extend({
             var msg = LangModel.get('no_menu') ||
                 'no menu available, please install menu';
             App.showNoty(msg, 'alert');
-            history.back();
+            App.router.actionOther();
         }
     },
 

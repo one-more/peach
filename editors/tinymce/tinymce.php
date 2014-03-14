@@ -16,7 +16,6 @@ class tinymce implements editor_interface {
     {
         return [
             '<script src="/js/tinymce/tinymce.min.js"></script>',
-            '<script src="/js/tinymce/jquery.tinymce.min.js"></script>',
             '<script src="/js/tinymce/start.js"></script>'
         ];
     }

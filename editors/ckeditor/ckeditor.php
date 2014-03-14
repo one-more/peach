@@ -15,9 +15,9 @@ class ckeditor implements editor_interface {
     public static function get_js()
     {
         return [
-            '<script src="/js/ckeditor/ckeditor.js"></script>',
-            '<script src="/js/ckeditor/adapters/jquery.js"></script>',
-            '<script src="/js/ckedtor/start.js"></script>'
+            //'<script src="/js/ckeditor/ckeditor.js"></script>',
+            //'<script src="/js/ckeditor/adapters/jquery.js"></script>',
+            '<script src="/js/ckeditor/start.js"></script>'
         ];
     }
 

@@ -227,7 +227,7 @@ _.extend(App, Backbone.Events, {
         })
 
         $(document).on('click', 'a[href]:not(.disabled, .external)', function(e){
-            if(App.router) {
+            if(App.router && $(this).attr('href').indexOf('javascript') == -1) {
                 e.preventDefault();
 
                 App.router.navigate($(this).attr('href'), {trigger:true});

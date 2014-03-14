@@ -21,6 +21,10 @@ window.DefaultView = Backbone.View.extend({
 
     initialize: function() {
         $this = this;
+
+        App.on('dom:loaded', function(){
+            DefaultView.adapt_height()
+        })
     },
 
     open_file_select: function(e) {
@@ -194,6 +198,23 @@ window.DefaultView = Backbone.View.extend({
         var params = $(e.target).data('params');
 
         App.makeModal('index.php?class=noop&controller=slider&params='+params);
+    },
+
+    adapt_height: function() {
+
+        $('.adapt-height').each(function() {
+            var el  = $(this);
+            var par = el.parent();
+            var ph  = par.height();
+            var all = 0;
+
+            par.children().not(el).each(function(){
+                all += $(this).outerHeight(true);
+            })
+
+            var eh  = ph - all;
+            el.height(eh);
+        })
     }
 })
 
