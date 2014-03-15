@@ -16,10 +16,29 @@ class authcontroller extends \supercontroller {
     public function get_id()
     {
         if(!empty($_COOKIE['site_user'])) {
-            return $_COOKIE['site_user'];
+            $cookie = $_COOKIE['site_user'];
+
+            $len    = $cookie[strlen($cookie)-1];
+
+            $id     = substr($cookie, 15, $len);
         }
-        elseif(!empty($_SESSION['site_user'])) {
-            return $_SESSION['site_user'];
+
+        if(!empty($_SESSION['site_user'])) {
+            $cookie = $_SESSION['site_user'];
+
+            $len    = $cookie[strlen($cookie)-1];
+            $id     = substr($cookie, 15, $len);
+        }
+
+        if($id) {
+            $obj = \user::get($id);
+
+            if($obj) {
+                return $id;
+            }
+            else {
+                return false;
+            }
         }
         else {
             return false;
@@ -32,22 +51,90 @@ class authcontroller extends \supercontroller {
     public function is_auth()
     {
         if(!empty($_COOKIE['site_user'])) {
-            $file = \user::$path.'site_'.$_COOKIE['PHPSESSID'];
-            $sf = \user::read_params('user_session_file');
+            $cookie = $_COOKIE['site_user'];
 
-            if($sf[0] != $file) {
-                unlink($sf[0]);
+            $len    = $cookie[strlen($cookie)-1];
+            $id     = substr($cookie, 15, $len);
 
-                file_put_contents(
-                    $file,
-                    json_encode(['my_ip' => getenv('REMOTE_ADDR')])
-                );
+            $obj    = \user::get($id);
 
-                \user::write_params('user_session_file', [$file]);
+            if($obj) {
+                $file   = \user::$path.'site'.DS.$cookie.DS.$_COOKIE['PHPSESSID'];
+
+                if(!file_exists($file)) {
+
+                    $token  = crypt(getenv('REMOTE_ADDR').$id.$_COOKIE['PHPSESSID']);
+
+                    $arr = [
+                        'token' => $token
+                    ];
+
+                    $iterator   =
+                        new \FilesystemIterator(\user::$path.'site'.DS.$cookie);
+
+                    foreach($iterator as $el) {
+                        unlink($el);
+                    }
+
+                    file_put_contents($file, json_encode($arr));
+
+                    $_SESSION['site_token'] = $token;
+                }
+
+                $file   =
+                    \user::$path.'site'.DS.'session_files'.DS.$_COOKIE['PHPSESSID'];
+
+                if(!file_exists($file)) {
+                    $arr = [
+                        'my_ip' => getenv('REMOTE_ADDR')
+                    ];
+
+                    file_put_contents($file, json_encode($arr));
+                }
+
+                $iterator   =
+                    new \FilesystemIterator(
+                        \user::$path.'site'.DS.'session_files'
+                    );
+
+                foreach($iterator as $el) {
+                    if(time() > filemtime($el)+3600*72) {
+                        unlink($el);
+                    }
+                }
+
+                return true;
+            }
+            else {
+                return false;
             }
         }
 
-        return (!empty($_COOKIE['site_user']) || !empty($_SESSION['site_user']));
+        if(!empty($_SESSION['site_user'])) {
+            $cookie = $_SESSION['site_user'];
+
+            $len    = $cookie[strlen($cookie)-1];
+            $id     = substr($cookie, 15, $len);
+
+            $obj    = \user::get($id);
+
+            if($obj) {
+
+                $iterator   =
+                    new \FilesystemIterator(\user::$path.'site'.DS.'session_files');
+
+                foreach($iterator as $el) {
+                    if(time() > filemtime($el)+3600*72) {
+                        unlink($el);
+                    }
+                }
+
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     }
 
     /**
@@ -66,24 +153,60 @@ class authcontroller extends \supercontroller {
         elseif($errors) {
             $rem = !empty($_POST['remember_me']) ? 1 : 0;
 
+            $token  = crypt(getenv('REMOTE_ADDR').$errors.$_COOKIE['PHPSESSID']);
+
             if($rem == 1) {
-                setcookie('site_user', $errors, 0);
+                $cookie  = sha1($errors.time().$_COOKIE['PHPSESSID'].rand(0, 10000));
+                $len     = strlen($errors);
+                $cookie  = substr($cookie, 0, 15).$errors.substr($cookie, 15).$len;
+
+                setcookie('site_user', $cookie, 0);
+
+                $dir    = \user::$path.'site'.DS.$cookie;
+
+                mkdir($dir);
+
+                $file   = $dir.DS.$_COOKIE['PHPSESSID'];
+
+                $arr    = [
+                    'token' => $token
+                ];
+
+                file_put_contents($file, json_encode($arr));
+
+                $_SESSION['site_toke']  = $token;
+
+                $file   =
+                    \user::$path.'site'.DS.'session_files'.DS.$_COOKIE['PHPSESSID'];
+
+                $arr = [
+                    'my_ip' => getenv('REMOTE_ADDR')
+                ];
+
+                file_put_contents($file, json_encode($arr));
             }
             else {
-                $_SESSION['site_user'] = $errors;
-            }
+                $dir    = \user::$path.'site'.DS.'session_files';
 
-            $file = \user::$path.'site_'.$_COOKIE['PHPSESSID'];
-            $sf = \user::read_params('user_session_file');
-            if(!empty($sf[0]) && file_exists($sf[0])) {
-                unlink($sf[0]);
-            }
+                if(!file_exists($dir)) {
+                    mkdir($dir);
+                }
 
-            file_put_contents(
-                $file,
-                json_encode(['my_ip' => getenv('REMOTE_ADDR')])
-            );
-            \user::write_params('user_session_file', [$file]);
+                $file   = $dir.DS.$_COOKIE['PHPSESSID'];
+                $arr    = [
+                    'my_ip' => getenv('REMOTE_ADDR'),
+                    'token' => $token
+                ];
+
+                file_put_contents($file, json_encode($arr));
+
+                $cookie  = sha1($errors.time().$_COOKIE['PHPSESSID'].rand(0, 10000));
+                $len     = strlen($errors);
+                $cookie  = substr($cookie, 0, 15).$errors.substr($cookie, 15).$len;
+
+                $_SESSION['site_user']  = $cookie;
+                $_SESSION['site_token'] = $token;
+            }
 
             \comet::add_message(
                 [
@@ -114,20 +237,32 @@ class authcontroller extends \supercontroller {
     public function leave()
     {
         if(!empty($_COOKIE['site_user'])) {
-            unset($_COOKIE['site_user']);
+
+            $cookie = $_COOKIE['site_user'];
+
+            \helper::remDir(\user::$path.'site'.DS.$cookie);
+
+            $file   =
+                \user::$path.'site'.DS.'session_files'.DS.$_COOKIE['PHPSESSID'];
+
+            unlink($file);
+
+            setcookie('site_user', '', -1);
         }
 
         if(!empty($_SESSION['site_user'])) {
+
             unset($_SESSION['site_user']);
+
+            $file   = \user::$path.'site'.DS.'session_files'.DS.
+                $_COOKIE['PHPSESSID'];
+
+            unlink($file);
         }
 
-        $sf = \user::read_params('user_session_file');
-
-        if(!empty($sf[0]) && file_exists($sf[0])) {
-            unlink($sf[0]);
+        if(!empty($_SESSION['site_token'])) {
+            unset($_SESSION['site_token']);
         }
-
-        \user::write_params('user_session_file', []);
 
         if(!empty($_REQUEST['ajax'])) {
             \comet::add_message(

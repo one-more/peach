@@ -85,6 +85,8 @@ class recordsmodel extends \superModel {
 
         $data = array_merge($default, $arr);
 
+        $data['name']   = preg_replace('/\s/', '_', $data['name']);
+
         $errors = static::check(
             $data,
             [
@@ -105,10 +107,10 @@ class recordsmodel extends \superModel {
         $sth    = $this->_db->prepare(
             "
                 INSERT INTO `{$lang}` SET
-                `key`   => :key,
-                `value` => :value
+                `key`   = :key,
+                `value` = :value
                 ON DUPLICATE KEY UPDATE
-                `value` => :value
+                `value` = :value
             "
         );
         $sth->bindParam(':key', $key);
@@ -197,5 +199,25 @@ class recordsmodel extends \superModel {
         );
         $sth->bindParam(1, $id);
         $sth->execute();
+    }
+
+    /**
+     * @param $v
+     * @return bool
+     */
+    public static function valid_unique($v)
+    {
+        $model  = \html::get_admin_model('records');
+
+        $obj    = $model->get($v);
+
+        if($obj) {
+            $lang   = \html::read_lang('records_page');
+
+            return $lang['record_exists'];
+        }
+        else {
+            return false;
+        }
     }
 }

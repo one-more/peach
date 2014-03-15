@@ -447,4 +447,25 @@ class layoutsmodel extends \superModel {
 
         return json_decode($sth['params'], true);
     }
+
+    /**
+     * @param $class
+     */
+    public function delete_extension_layouts($class)
+    {
+        $sth = $this->_db->prepare(
+            "
+                SELECT * FROM `layout`
+                WHERE `class` = ?
+            "
+        );
+        $sth->bindParam(1, $class);
+        $sth->execute();
+
+        $arr    = $sth->fetchAll();
+
+        foreach($arr as $el) {
+            $this->delete($el['id']);
+        }
+    }
 }

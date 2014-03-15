@@ -82,18 +82,20 @@ class menu implements menu_extension_interface {
      */
     public static function delete()
 	{
-		$model = static::get_admin_model('default');
-		$sql = helper::getSql(SITE_PATH.'extensions'.DS.'menu'.DS.'admin'.DS.'resources'.DS.'uninstall.sql');
+		if(core::$mode == 'admin' && user::get_token()) {
+            $model = static::get_admin_model('default');
+            $sql = helper::getSql(SITE_PATH.'extensions'.DS.'menu'.DS.'admin'.DS.'resources'.DS.'uninstall.sql');
 
-		foreach($sql as $el) {
-			$model->execute($el);
-		}
+            foreach($sql as $el) {
+                $model->execute($el);
+            }
 
-		helper::remDir(SITE_PATH.'lang'.DS.'menu');
-		helper::remDir(SITE_PATH.'www'.DS.'js'.DS.'menu');
-		helper::remDir(SITE_PATH.'www'.DS.'css'.DS.'menu');
-		helper::remDir(SITE_PATH.'media'.DS.'menu');
-		helper::remDir(SITE_PATH.'extensions'.DS.'menu');
+            helper::remDir(SITE_PATH.'lang'.DS.'menu');
+            helper::remDir(SITE_PATH.'www'.DS.'js'.DS.'menu');
+            helper::remDir(SITE_PATH.'www'.DS.'css'.DS.'menu');
+            helper::remDir(SITE_PATH.'media'.DS.'menu');
+            helper::remDir(SITE_PATH.'extensions'.DS.'menu');
+        }
 	}
 
     /**
@@ -125,4 +127,15 @@ class menu implements menu_extension_interface {
 		$ref->writeSection('lang_model', $arr2);
 		$ref->updateFile();
 	}
+
+    /**
+     * @param $class
+     * @return mixed|void
+     */
+    public function delete_extension_layouts($class)
+    {
+        $controller = static::get_admin_controller('layouts');
+
+        $controller->delete_extension_layouts($class);
+    }
 } 

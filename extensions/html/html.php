@@ -11,6 +11,8 @@ class html implements user_extension_interface {
 	
 	use trait_extension, trait_install;
 
+    static  $clear_cache = 1;
+
     /**
      * @return mixed|string
      */
@@ -30,7 +32,7 @@ class html implements user_extension_interface {
     /**
      *
      */
-    public static function install()
+    public function install()
 	{
 		static::$path = SITE_PATH.'extensions'.DS.'html'.DS;
 
@@ -44,10 +46,14 @@ class html implements user_extension_interface {
      */
     public static function delete()
 	{
-		static::$path = SITE_PATH.'extensions'.DS.'html'.DS;
+        if(core::$mode == 'admin' && user::get_token()) {
+            static::$path = SITE_PATH.'extensions'.DS.'html'.DS;
 
-		static::delete_sql();
+            static::delete_sql();
 
-		static::delete_files();
+            static::delete_files();
+
+            static::delete_layouts();
+        }
 	}	
 } 

@@ -48,4 +48,13 @@ interface menu_extension_interface extends super_interface {
      * @return array ['alias', 'name', [icon], [submenu]]
      */
     public static function get_info();
+
+    /**
+     * @param $class
+     *
+     * @return mixed
+     *
+     * delete all layouts of extension $class
+     */
+    public function delete_extension_layouts($class);
 }

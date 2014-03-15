@@ -6,6 +6,8 @@
  *
  * Class trait_extension
  *
+ * set static variable $clear_cache to clear cache directory every 8 days
+ *
  * @author Nikolaev D
  */
 trait trait_extension {

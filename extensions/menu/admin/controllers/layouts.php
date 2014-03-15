@@ -426,4 +426,14 @@ class layoutscontroller extends \supercontroller {
 
         return $model->get_layout_params($id);
     }
+
+    /**
+     * @param $class
+     */
+    public function delete_extension_layouts($class)
+    {
+        $model  = \menu::get_admin_model('layouts');
+
+        $model->delete_extension_layouts($class);
+    }
 }

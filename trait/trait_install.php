@@ -90,4 +90,16 @@ trait trait_install {
         helper::remDir(SITE_PATH.'www'.DS.'media'.DS.$name);
         helper::remDir(substr(static::$path, 0, strlen(static::$path)-1));
     }
+
+    /**
+     *
+     */
+    public static function delete_layouts()
+    {
+        $name = get_called_class();
+
+        if(($menu = system::get_menu()) != -1) {
+            $menu->delete_extension_layouts($name);
+        }
+    }
 }

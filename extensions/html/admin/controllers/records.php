@@ -11,6 +11,9 @@ namespace html_admin;
  */
 class recordscontroller extends \supercontroller {
 
+    /**
+     * @return mixed|string
+     */
     public function display()
     {
         $params = \html::read_lang('records_page');
@@ -58,7 +61,7 @@ class recordscontroller extends \supercontroller {
                 'td',
                 [
                     'text'  => $i1.$i2,
-                    'class' => 'text-right'
+                    'class' => 'text-align-right'
                 ]
             );
             $tr .= $td;
@@ -85,7 +88,55 @@ class recordscontroller extends \supercontroller {
     public function create()
     {
         if($_POST) {
+            $params = \html::read_lang('records_page');
 
+            if(empty($_POST['text'])) {
+                \comet::add_message(
+                    [
+                        'task'      => 'delegate',
+                        'object'    => 'App',
+                        'method'    => 'showNoty',
+                        'params'    => [$params['empty_text'], 'error']
+                    ]
+                );
+            }
+            else {
+                $model  = \html::get_admin_model('records');
+
+                $errors = $model->create($_POST);
+
+                if($errors) {
+                    return ['error' => $errors];
+                }
+                else {
+                    \comet::add_message(
+                        [
+                            'task'      => 'delegate',
+                            'object'    => 'App',
+                            'method'    => 'showNoty',
+                            'params'    => [$params['record_created'], 'success']
+                        ]
+                    );
+
+                    \comet::add_message(
+                        [
+                            'task'      => 'delegate',
+                            'object'    => 'App',
+                            'method'    => 'closeModal',
+                            'params'    => []
+                        ]
+                    );
+
+                    \comet::add_message(
+                        [
+                            'task'      => 'delegate',
+                            'object'    => 'HtmlView',
+                            'method'    => 'update_records_table',
+                            'params'    => []
+                        ]
+                    );
+                }
+            }
         }
         else {
             $params = \html::read_lang('records_page');
@@ -96,6 +147,7 @@ class recordscontroller extends \supercontroller {
             $params['HEADER']       = $params['CREATE_HEADER'];
             $params['BTN_LABEL']    = $params['CREATE_BTN_LABEL'];
             $params['task']         = 'create';
+            $params['text']         = '';
 
             return \templator::getTemplate(
                 'create',
@@ -103,5 +155,91 @@ class recordscontroller extends \supercontroller {
                 \html::$path.'admin'.DS.'views'.DS.'records'
             );
         }
+    }
+
+    /**
+     * @param $id
+     * @return mixed|string
+     */
+    public function edit($id)
+    {
+        if($_POST) {
+            $params = \html::read_lang('records_page');
+            $model  = \html::get_admin_model('records');
+
+            if(empty($_POST['text'])) {
+                \comet::add_message(
+                    [
+                        'task'      => 'delegate',
+                        'object'    => 'App',
+                        'method'    => 'showNoty',
+                        'params'    => [$params['empty_text'], 'error']
+                    ]
+                );
+            }
+            else {
+                $errors = $model->update($_POST, $id);
+
+                if($errors) {
+                    return ['error' => $errors];
+                }
+                else {
+                    \comet::add_message(
+                        [
+                            'task'      => 'delegate',
+                            'object'    => 'App',
+                            'method'    => 'showNoty',
+                            'params'    => [$params['record_edited'], 'success']
+                        ]
+                    );
+
+                    \comet::add_message(
+                        [
+                            'task'      => 'delegate',
+                            'object'    => 'App',
+                            'method'    => 'closeModal',
+                            'params'    => []
+                        ]
+                    );
+
+                    \comet::add_message(
+                        [
+                            'task'      => 'delegate',
+                            'object'    => 'HtmlView',
+                            'method'    => 'update_records_table',
+                            'params'    => []
+                        ]
+                    );
+                }
+            }
+        }
+        else {
+            $params = \html::read_lang('records_page');
+            $model  = \html::get_admin_model('records');
+            $obj    = $model->get($id);
+
+            $params['name']         = 'hide';
+            $params['task']         = "edit&params={$id}";
+            $params['alias']        = $obj['alias'];
+            $params['HEADER']       = $params['EDIT_HEADER'];
+            $params['BTN_LABEL']    = $params['EDIT_BTN_LABEL'];
+            $params['text']         = $obj['text'];
+
+            return \templator::getTemplate(
+                'create',
+                $params,
+                \html::$path.'admin'.DS.'views'.DS.'records'
+            );
+        }
+    }
+
+    /**
+     * @param $id
+     */
+    public function delete($id)
+    {
+        $model = \html::get_admin_model('records');
+
+        $model->delete($id);
     }
 }

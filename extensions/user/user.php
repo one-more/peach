@@ -131,7 +131,6 @@ class user implements widget_extension_interface {
         $mode = $mode == 'admin' ? 'admin' : 'site';
 
         $admin_file     = static::$path.$_COOKIE['PHPSESSID'];
-        $site_file      = static::$path.'site_'.$_COOKIE['PHPSESSID'];
 
         if(file_exists($admin_file) && $mode == 'admin') {
 
@@ -139,10 +138,18 @@ class user implements widget_extension_interface {
 
             return $arr['my_ip'];
         }
-        elseif(file_exists($site_file) && $mode == 'site') {
-            $arr = json_decode(file_get_contents($site_file), true);
+        elseif($mode == 'site') {
 
-            return $arr['my_ip'];
+            $file = user::$path.'site'.DS.'session_files'.DS.$_COOKIE['PHPSESSID'];
+
+            if(file_exists($file)) {
+                $arr = json_decode(file_get_contents($file), true);
+
+                return $arr['my_ip'];
+            }
+            else {
+                return false;
+            }
         }
         else {
 
@@ -156,7 +163,46 @@ class user implements widget_extension_interface {
     public static function get_token()
     {
         if(static::is_auth()) {
-            return $_SESSION['token'];
+            if(core::$mode == 'admin') {
+                $file = static::$path.$_COOKIE['PHPSESSID'];
+
+                $arr = json_decode(file_get_contents($file), true);
+
+                if($_SESSION['admin_token'] == $arr['token']) {
+                    return $_SESSION['admin_token'];
+                }
+                else {
+                    return false;
+                }
+            }
+
+            if(core::$mode == 'site') {
+                if(!empty($_COOKIE['site_user'])) {
+                    $cookie = $_COOKIE['site_user'];
+
+                    $file = static::$path.'site'.DS.$cookie.DS.$_COOKIE['PHPSESSID'];
+                    $arr  = json_decode(file_get_contents($file, true));
+
+                    if($_SESSION['site_token'] == $arr['token']) {
+                        return $_SESSION['site_token'];
+                    }
+                    else {
+                        return false;
+                    }
+                }
+
+                $file =
+                    static::$path.'site'.DS.'session_files'.DS.$_COOKIE['PHPSESSID'];
+
+                $arr = json_decode(file_get_contents($file), true);
+
+                if($_SESSION['site_token'] == $arr['token']) {
+                    return $_SESSION['site_token'];
+                }
+                else {
+                    return false;
+                }
+            }
         }
         else {
             return false;

@@ -132,6 +132,14 @@ $(function(){
                 }
             ];
 
+            CKEDITOR.config.filebrowserBrowseUrl =
+                'index.php?class=ckeditor&task=browse';
+            CKEDITOR.config.filebrowserImageUploadUrl =
+                'index.php?class=ckeditor&task=upload_image';
+
+            CKEDITOR.config.filebrowserWindowWidth = '640';
+            CKEDITOR.config.filebrowserWindowHeight = '480';
+
             $('.peach-editor').ckeditor();
         });
     })

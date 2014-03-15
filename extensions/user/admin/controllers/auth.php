@@ -66,6 +66,7 @@ class authcontroller extends \supercontroller {
             if((time() - $activity) > 60*$interval) {
                 unset($_SESSION['user']);
             }
+            /*
             else {
 
                $_SESSION['last_activity'] = time();
@@ -79,6 +80,7 @@ class authcontroller extends \supercontroller {
                     )
                 );
             }
+            */
         }
 
         return !empty($_SESSION['user']);
@@ -119,21 +121,24 @@ class authcontroller extends \supercontroller {
                 $this->set_cache_view('user_'.$error, json_encode($user));
 
                 $_SESSION['last_activity']  = time();
-                $_SESSION['token']          = crypt(time().getenv('REMOTE_ADDR').$user['login'],
-                    'the best ever');
+                $_SESSION['admin_token']          =
+                    crypt(time().getenv('REMOTE_ADDR').$user['login'],
+                        'the best ever');
 
                 file_put_contents(
                     \user::$path.$_COOKIE['PHPSESSID'],
                     json_encode(
                         [
-                            'my_ip' => getenv('REMOTE_ADDR')
+                            'my_ip'         => getenv('REMOTE_ADDR'),
+                            'token'         => $_SESSION['admin_token']
                         ]
                     )
                 );
 
-                $sec = $ini->readSection('session_files');
+                $ip = preg_replace('/\./', '_', getenv('REMOTE_ADDR'));
+                $sec = $ini->readSection('session_files_'.$ip);
                 $sec[] = \user::$path.$_COOKIE['PHPSESSID'];
-                $ini->writeSection('session_files', $sec);
+                $ini->writeSection('session_files_'.$ip, $sec);
                 $ini->updateFile();
 
                 return ['error' => '', 'url' => $url];
@@ -149,7 +154,8 @@ class authcontroller extends \supercontroller {
      */
     public function leave()
     {
-        $arr = \user::read_params('session_files');
+        $ip = preg_replace('/\./', '_', getenv('REMOTE_ADDR'));
+        $arr = \user::read_params('session_files_'.$ip);
 
         unset($_SESSION['user']);
 
@@ -159,7 +165,7 @@ class authcontroller extends \supercontroller {
             }
         }
 
-        \user::write_params('session_files', []);
+        \user::write_params('session_files_'.$ip, []);
     }
 
     /**
