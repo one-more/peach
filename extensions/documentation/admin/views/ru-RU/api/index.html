@@ -1,0 +1,401 @@
+<div class="width-100">
+    :HEADER
+
+    <div class="margin-left-2 inline-block width-98">
+        <h4>Библиотека классов</h4>
+
+        <section class="ac-container">
+            <div>
+                <input id="ac1" name="accordion1" type="checkbox"/>
+                <label for="ac1">builder.php</label>
+                <article class="ac-small">
+                    <span class="text-warning">
+                        builder::build($name, $array, $tag = true)
+                    </span>
+                    <br/>
+                    Собирает массив js или css файлов в один.
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $name - имя результирующего файла.
+                    Например extension_default.js
+                    <br/>
+                    $array - массив файлов
+                    <br/>
+                    $tag - если true, метод вернет
+                    тэг
+                    , иначе вернет путь
+                </article>
+            </div>
+
+            <div>
+                <input id="ac2" name="accordion2" type="checkbox"/>
+                <label for="ac2">comet.php</label>
+                <article class="ac-small">
+                    Класс для работы с comet сервером.
+                    <br/>
+                    <span class="text-warning">
+                        comet::add_message($array, $type = 'me_admin')
+                    </span>
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $array - массив параметров:
+                    <br/>
+                    task - delegate
+                    <br/>
+                    object - JavaScript класс(объект).
+                    Этот объект должен быть глобальным, т.е. доступным через
+                    window[object]
+                    <br/>
+                    method - метод объекта
+                    <br/>
+                    params - массив переметров, передаваемых в метод;
+                    массив не должен быть ассоциативным
+                    <br/>
+                    $type - куда передавать сообщение. Возможные варианты:
+                    <br/>
+                    me_admin - текущему(вошедшему) пользователю в административную часть
+                    <br/>
+                    me_site - текущему(вошедшему) пользователю на сайте
+                    <br/>
+                    site_users - всем пользователям на сайте
+                    <br/>
+                    так же можно передавать ip адрес конкретного пользователя
+                </article>
+            </div>
+
+            <div>
+                <input id="ac3" name="accordion3" type="checkbox"/>
+                <label for="ac3">document.php</label>
+                <article class="ac-small">
+                    <span class="text-warning">
+                        document::$css_files
+                    </span>
+                    - Массив css файлов, необходимых CMS
+                    <br/>
+                    <span class="text-warning">
+                        document::$js_files
+                    </span>
+                    - Массив js файлов, необходимых CMS
+                    <br/>
+                    Данные файлы необходимо подключать в шаблонах
+                    для сайта и административной части
+                </article>
+            </div>
+
+            <div>
+                <input id="ac4" name="accordion4" type="checkbox"/>
+                <label for="ac4">dom.php</label>
+                <article class="ac-small">
+                    <span class="text-warning">
+                        dom::create_element($tag, $params)
+                    </span>
+                    <br/>
+                    Создает html элемент и возвращает его в виде строки
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $tag - название тэга, может быть как в фигурных скобках <>,
+                    так и без них
+                    <br/>
+                    $params - массив переметров, таких как id, class и т.п.
+                </article>
+            </div>
+
+            <div>
+                <input id="ac5" name="accordion5" type="checkbox"/>
+                <label for="ac5">factory.php</label>
+                <article class="ac-small">
+                    <span class="text-warning">factory::getIniServer($path = null)</span>
+                    <br/>
+                    Возвращает объект класса iniServer.
+                    Если путь не задан, целевым файлом будет configuration.ini
+                    <br/>
+                    <span class="text-warning">
+                        factory::get_reference($section, $lang = 'en-EN')
+                    </span>
+                    <br/>
+                    Вернет массив с языковыми переменными из файла
+                    /lang/references/$lang.ini
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $section - название секции
+                    <br/>
+                    $lang - язык по умолчанию, если нет файла для текущего языка
+                </article>
+            </div>
+
+            <div>
+                <input id="ac6" name="accordion6" type="checkbox"/>
+                <label for="ac6">helper.php</label>
+                <article class="ac-small">
+                    Класс содержит общие методы.
+                    <br/>
+                    <span class="text-warning">
+                        helper::remDir($path)
+                    </span>
+                    <br/>
+                    Удаляет директорию.
+                    <br/>
+                    <span class="text-warning">
+                        helper::copy_dir($source, $dest)
+                    </span>
+                    <br/>
+                    Копирует директорию
+                    <br/>
+                    <span class="text-warning">
+                        helper::getSql($path)
+                    </span>
+                    <br/>
+                    Возвращает массив запросов. Запросы в файле должны быть
+                    разделены пустой строкой.
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $path - путь к sql файлу
+                    <br/>
+                    <span class="text-warning">
+                        helper::purify($array)
+                    </span>
+                    <br/>
+                    Очищает массив элементов от html сущностей
+                    <br/>
+                    <span class="text-warning">
+                        helper::delete_empty_values($array)
+                    </span>
+                    <br/>
+                    Удаляет пустые элементы в массиве
+                </article>
+            </div>
+
+            <div>
+                <input id="ac7" name="accordion7" type="checkbox"/>
+                <label for="ac7">iniServer.php</label>
+                <article class="ac-small">
+                    Класс для работы с ini файлами.
+                    <br/>
+                    <span class="text-warning">
+                        $iniServer->read($section, $key, $def = '')
+                    </span>
+                    <br/>
+                    Возвращает значение из файла.
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $section - секция
+                    <br/>
+                    $key - ключ
+                    <br/>
+                    $def - значение по умолчанию
+                    <br/>
+                    <span class="text-warning">
+                        iniServer->readSection($section, $def = [])
+                    </span>
+                    <br/>
+                    Возвращает ассоциативный массив данных секции.
+                    <br/>
+                    <span class="text-warning">
+                        iniServer->write($section, $key, $value)
+                    </span>
+                    <br/>
+                    Записывает значение в файл.
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $section - название секции
+                    <br/>
+                    $key - ключ
+                    <br/>
+                    $value - значение
+                    <br/>
+                    <span class="text-warning">
+                        iniServer->writeSection($section, $array)
+                    </span>
+                    <br/>
+                    Записывает массив в секцию
+                    <br/>
+                    <span class="text-warning">
+                        iniServer->writeAll($array)
+                    </span>
+                    <br/>
+                    Записывает массив в ini файл
+                    <br/>
+                    <span class="text-warning">
+                        iniServer->get_all()
+                    </span>
+                    <br/>
+                    Возвращает массив со всем содержимым файла
+                    <br/>
+                    <span class="text-warning">
+                        iniServer->eraseSection($section)
+                    </span>
+                    <br/>
+                    Удаляет секцию
+                    <br/>
+                    <span class="text-warning">
+                        iniServer->deleteKey($section, $key)
+                    </span>
+                    <br/>
+                    Удаляет ключ секции
+                    <br/>
+                    <span class="text-warning">
+                        iniServer->readSections(&$array)
+                    </span>
+                    <br/>
+                    Помещает названия всех секций в массив, переданный в метод
+                    <br/>
+                    <span class="text-warning">
+                        iniServer->readKeys($section, &$array)
+                    </span>
+                    <br/>
+                    Возвращает массив ключей секции
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $section - название секции
+                    <br/>
+                    $array - массив, куда будет помещен результат
+                    <br/>
+                    <span class="text-warning">
+                        iniServer->updateFile()
+                    </span>
+                    <br/>
+                    Данный метод необходимо вызывать для обновления
+                    и сохранения данных в файле
+                </article>
+            </div>
+
+            <div>
+                <input id="ac8" name="accordion8" type="checkbox"/>
+                <label for="ac8">supercontroller.php</label>
+                <article class="ac-small">
+                    От данного класса необходимо наследовать все контроллеры.
+                    <br/>
+                    <span class="text-warning">
+                        supercontroller->exec($task, $params = null)
+                    </span>
+                    <br/>
+                    Данный метод позволяет вызвать метод класса.
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $task - название класса
+                    <br/>
+                    $params - параметры, передаваемые в метод
+                    <br/>
+                    Вернет значение, которое вернет метод. Если запрос
+                    был выполнен методом ajax($_REQUEST['ajax'] == 1) и
+                    метод вернет массив, массив будет преобразован в json формат
+                </article>
+            </div>
+
+            <div>
+                <input id="ac9" name="accordion9" type="checkbox"/>
+                <label for="ac9">superModel.php</label>
+                <article class="ac-small">
+                    От данного класса необходимо наследовать все модели.
+                    <br/>
+                    В классе подключается трейт trait_valid
+                    <br/>
+                    <span class="text-warning">
+                        protected $_db
+                    </span>
+                    <br/>
+                    Поле содержит экземпляр класса PDO.
+                    <br/>
+                    <span class="text-warning">
+                        static $reference
+                    </span>
+                    <br/>
+                    Содержит массив языковых переменных:
+                    ['not_empty', 'email', 'positive_number', 'password']
+                    <br/>
+                    <span class="text-warning">
+                        superModel->get_all($table, $start = null, $per_page = null)
+                    </span>
+                    <br/>
+                    Возвращает записи из таблицы. Если параметры $start и $per_page
+                    не переданы, вернет все записи.
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $table - название таблицы
+                    <br/>
+                    $start - индекс начальной записи
+                    <br/>
+                    $per_page - количество записей
+                    <br/>
+                    <span class="text-warning">
+                        superModel->getTotal($table)
+                    </span>
+                    <br/>
+                    Вернет количество записей в таблице
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $table - название таблицы
+                    <br/>
+                    <span class="text-warning">
+                        superModel->execute($task)
+                    </span>
+                    <br/>
+                    Выполнит запрос
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $task - строка с sql запросом
+                    <br/>
+                </article>
+            </div>
+
+            <div>
+                <input id="ac10" name="accordion10" type="checkbox"/>
+                <label for="ac10">templator.php</label>
+                <article class="ac-small">
+                    Шаблонизатор
+                    <br/>
+                    <span class="text-warning">
+                        templator::getTemplate($tpl, $params, $path)
+                    </span>
+                    <br/>
+                    Вернет обработанный html файл.
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $tpl - название html файла без расширения
+                    <br/>
+                    $params - ассоциативный массив с параметрами.
+                    В html файле переменные обозначаются с двоеточием - :variable.
+                    В данном случае массив с параметрами будет выглядеть так:
+                    ['variable' => '123'];
+                    Так же допускается конструкция %v {something} v% -
+                    если $params[v] не пустое значение, подставиться оно -
+                    иначе останется {something}
+                    <br/>
+                    $path - путь к html файлу, не включая сам файл. Например:
+                    SITE_PATH.'extensions'.DS.'test'.DS.'admin'.DS.'views'.DS.'default'
+                    <br/>
+                    <span class="text-warning">
+                        templator::getReplaced($file, $params)
+                    </span>
+                    <br/>
+                    Вернет обработанный файл. В отличии от getTemplate()
+                    файл может быть с любым расширением
+                    <br/>
+                    <span class="text-warning">
+                        templator::get_warning($text)
+                    </span>
+                    <br/>
+                    Вернет блок с предупреждением.
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $text - текст предупреждения
+                    <br/>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>

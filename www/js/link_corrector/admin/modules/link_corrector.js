@@ -20,3 +20,5 @@ App.module('LinkCorrector', function(LinkCorrector){
 
     window.LinkCorrector = LinkCorrector;
 })
+
+LinkCorrector.initialize();

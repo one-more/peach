@@ -25,7 +25,7 @@ window.Layout = Backbone.View.extend({
                 draggable: {
                     stop: function() {
                         $.post('index.php?class=simple_admin_template&task=update_grid',
-                            {'params':gridster.serialize()})
+                            {'params':Layout.gridster.serialize()})
                     }
                 }
             }).data('gridster');

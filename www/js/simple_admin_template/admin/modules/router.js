@@ -5,6 +5,10 @@ App.Router = Backbone.Router.extend({
 
             App.router.actionOther();
         })
+
+        App.on('module:installed module:deleted', function(){
+            App.router.actionOther();
+        })
     },
 
     routes : {

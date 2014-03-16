@@ -27,7 +27,7 @@ class logincontroller extends \supercontroller implements \view_controller_inter
         else {
             $params['action'] = '';
 
-            $params['fieldset'] = \templator::get_warning($params['NO_MENU']);
+            $params['menu_html'] = \templator::get_warning($params['NO_MENU']);
         }
 
         $params['class']        = 'user';

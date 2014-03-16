@@ -99,6 +99,9 @@ trait trait_install {
         $name = get_called_class();
 
         if(($menu = system::get_menu()) != -1) {
+
+            $menu = new $menu;
+
             $menu->delete_extension_layouts($name);
         }
     }

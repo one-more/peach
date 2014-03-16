@@ -217,7 +217,17 @@ class admin {
         $arr = static::$method();
 
         if(core::$mode == 'admin') {
-            $arr = array_merge($arr, [ ['name' => 'link_corrector'] ]);
+            $arr = array_merge(
+                $arr,
+                [
+                    [
+                        'name'  => 'link_corrector'
+                    ],
+                    [
+                        'name'  => 'tablepagination'
+                    ]
+                ]
+            );
         }
 
         foreach($arr as $el) {

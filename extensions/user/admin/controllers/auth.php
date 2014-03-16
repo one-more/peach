@@ -66,21 +66,10 @@ class authcontroller extends \supercontroller {
             if((time() - $activity) > 60*$interval) {
                 unset($_SESSION['user']);
             }
-            /*
             else {
 
                $_SESSION['last_activity'] = time();
-
-                file_put_contents(
-                    \user::$path.$_COOKIE['PHPSESSID'],
-                    json_encode(
-                        [
-                            'my_ip' => getenv('REMOTE_ADDR')
-                        ]
-                    )
-                );
             }
-            */
         }
 
         return !empty($_SESSION['user']);
