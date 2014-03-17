@@ -29,6 +29,7 @@ class userscontroller extends \supercontroller {
     public function display() {
 
         $params = \factory::get_reference('privileges');
+        $params = array_merge($params, \user::read_lang('default_page'));
 
         $model = \user::get_admin_model('users');
 
@@ -60,7 +61,7 @@ class userscontroller extends \supercontroller {
                 $i = \dom::create_element(
                     'i',
                     [
-                        'class' => 'icon-edit user-edit-btn cursor-pointer float-left',
+                        'class' => 'icon-edit user-edit-btn cursor-pointer',
                         'data-params' => $el['id']
                     ]);
                 $i .= \dom::create_element(
@@ -71,7 +72,13 @@ class userscontroller extends \supercontroller {
                     ]
                 );
 
-                $td = \dom::create_element('td', ['text' => $i]);
+                $td = \dom::create_element(
+                    'td',
+                    [
+                        'text'  => $i,
+                        'class' => 'text-align-right'
+                    ]
+                );
                 $tr .= $td;
             }
             else {

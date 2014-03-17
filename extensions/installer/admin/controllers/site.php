@@ -53,7 +53,86 @@ class sitecontroller extends supercontroller{
 
 		$css = array_merge($css, $this->css);
 
-        $js = document::$js_files;
+        $js = [
+            dom::create_element(
+                'script',
+                [
+                    'src'   => '/js/jquery-2.0.3.min.js'
+                ]
+            ),
+            dom::create_element(
+                'script',
+                [
+                    'src'   => '/js/bootstrap.min.js'
+                ]
+            ),
+            dom::create_element(
+                'script',
+                [
+                    'src'   => '/js/json2.js'
+                ]
+            ),
+            dom::create_element(
+                'script',
+                [
+                    'src'   => '/js/underscore-min.js'
+                ]
+            ),
+            dom::create_element(
+                'script',
+                [
+                    'src'   => '/js/backbone-min.js'
+                ]
+            ),
+            dom::create_element(
+                'script',
+                [
+                    'src'   => '/js/backbone.router.js'
+                ]
+            ),
+            dom::create_element(
+                'script',
+                [
+                    'src'   => '/js/backbone.module.js'
+                ]
+            ),
+            dom::create_element(
+                'script',
+                [
+                    'src'   => '/js/App.js'
+                ]
+            ),
+            dom::create_element(
+                'script',
+                [
+                    'src'   => '/js/Form.js'
+                ]
+            ),
+            dom::create_element(
+                'script',
+                [
+                    'src'   => '/js/noty/jquery.noty.js'
+                ]
+            ),
+            dom::create_element(
+                'script',
+                [
+                    'src'   => '/js/noty/layouts/top.js'
+                ]
+            ),
+            dom::create_element(
+                'script',
+                [
+                    'src'   => '/js/noty/themes/default.js'
+                ]
+            ),
+            dom::create_element(
+                'script',
+                [
+                    'src'   => '/js/lang_model.js'
+                ]
+            )
+        ];
 
 		$js = array_merge($js, $this->js);
 
@@ -70,6 +149,21 @@ class sitecontroller extends supercontroller{
 		$lang = $ini->readSection('install_site');
 
 		$params = array_merge($params, $lang);
+
+        if(!version_compare('5.4', phpversion(), '<=')) {
+
+            $params['all'] = templator::getTemplate(
+                'error',
+                $params,
+                installer::$path.'admin'.DS.'views'.DS.'site'
+            );
+
+            return templator::getTemplate(
+                'index',
+                $params,
+                installer::$path.'admin'.DS.'views'.DS.'site'
+            );
+        }
 
 		$params['all'] = templator::getTemplate('install', $params, installer::$path.'admin/views/site');
 
@@ -179,6 +273,7 @@ class sitecontroller extends supercontroller{
                 ])
             ];
 
+            core::$mode = 'admin';
             $lang = $this->getLang('done_page');
 
             if(is_array($lang))

@@ -21,7 +21,7 @@ class factory {
 			return new iniServer($path);
 		}
 
-		if(static::$_iniserver == null) {
+		if(static::$_iniserver == null && file_exists(SITE_PATH.'configuration.ini')) {
             static::$_iniserver = new iniServer(SITE_PATH.'configuration.ini');
         }
 

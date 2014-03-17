@@ -104,13 +104,10 @@ class installer implements widget_extension_interface{
             static::$method($data['params']);
         }
         else {
-            $ini = factory::getIniServer('../extensions/installer/installer.ini');
-
-            $installed = $ini->read('site', 'installed', false);
 
             $defaults = [
                 'controller'    => 'site',
-                'task'          => $installed ? 'complete' : 'display',
+                'task'          => 'display',
                 'params'        => ''
             ];
 
@@ -129,11 +126,16 @@ class installer implements widget_extension_interface{
     {
         static::init();
 
-        $controller = static::getAdminController('default');
+        if(factory::getIniServer()) {
+            $controller = static::getAdminController('default');
 
-        $arr = $controller->exec('get_extensions');
+            $arr = $controller->exec('get_extensions');
 
-        return is_array($arr)? $arr : json_decode($arr, true);
+            return is_array($arr)? $arr : json_decode($arr, true);
+        }
+        else {
+            return [];
+        }
     }
 
     /**
@@ -143,11 +145,16 @@ class installer implements widget_extension_interface{
     {
         static::init();
 
-        $controller = static::getAdminController('default');
+        if(factory::getIniServer()) {
+            $controller = static::getAdminController('default');
 
-        $arr = $controller->exec('get_templates');
+            $arr = $controller->exec('get_templates');
 
-        return is_array($arr)? $arr : json_decode($arr, true);
+            return is_array($arr)? $arr : json_decode($arr, true);
+        }
+        else {
+            return [];
+        }
     }
 
     /**
@@ -157,11 +164,16 @@ class installer implements widget_extension_interface{
     {
         static::init();
 
-        $controller = static::getAdminController('default');
+        if(factory::getIniServer()) {
+            $controller = static::getAdminController('default');
 
-        $arr = $controller->exec('get_editors');
+            $arr = $controller->exec('get_editors');
 
-        return is_array($arr) ? $arr : json_decode($arr, true);
+            return is_array($arr) ? $arr : json_decode($arr, true);
+        }
+        else {
+            return [];
+        }
     }
 
     /**
@@ -171,11 +183,16 @@ class installer implements widget_extension_interface{
     {
         static::init();
 
-        $controller = static::getAdminController('default');
+        if(factory::getIniServer()) {
+            $controller = static::getAdminController('default');
 
-        $arr = $controller->exec('get_daemons');
+            $arr = $controller->exec('get_daemons');
 
-        return is_array($arr) ? $arr : json_decode($arr, true);
+            return is_array($arr) ? $arr : json_decode($arr, true);
+        }
+        else {
+            return [];
+        }
     }
 
     /**

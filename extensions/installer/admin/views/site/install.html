@@ -7,7 +7,7 @@
     </nav>
 </div>
 <div id="content">
-    <form id="install-site-form" action="index.php?task=complete&ajax=1" class="ajax form-inline ml5" method="post">
+    <form id="install-site-form" action="index.php?class=installer&controller=site&task=complete&ajax=1" class="ajax form-inline ml5" method="post">
         <div id="lang" class="fl mr10">
             <fieldset>
                 <h4> :LANG_SELECT_LABEL </h4>
@@ -17,52 +17,53 @@
                 </select>
             </fieldset>
         </div>
-        <div id="db" class="fl mr10 hide">
+        <div id="db" class="fl mr10 hide width-20">
             <div class="control-group">
                 <h4 class="text-center"> :DB_TAB_LABEL </h4>
 
-                <label class="control-label" for="dbname">:DBNAME_FIELD_LABEL</label>
+                <label class="control-label width-100" for="dbname">:DBNAME_FIELD_LABEL</label>
 
-                <div class="controls">
-                    <input name="dbname" id="dbname" placeholder=":DBNAME_FIELD_LABEL" type="text"/>
+                <div class="controls width-25">
+                    <input name="dbname" id="dbname" placeholder="&:DBNAME_FIELD_LABEL" type="text"/>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="dbuser">:DBUSER_FIELD_LABEL</label>
+                <label class="control-label width-100" for="dbuser">:DBUSER_FIELD_LABEL</label>
 
-                <div class="controls">
-                    <input name="dbuser" id="dbuser" placeholder=":DBUSER_FIELD_LABEL" type="text"/>
+                <div class="controls width-25">
+                    <input name="dbuser" id="dbuser" placeholder="&:DBUSER_FIELD_LABEL" type="text"/>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="dbpass">:DBPASS_FIELD_LABEL</label>
+                <label class="control-label width-100" for="dbpass">:DBPASS_FIELD_LABEL</label>
 
-                <div class="controls">
-                    <input name="dbpass" id="dbpass" placeholder=":DBPASS_FIELD_LABEL" type="password"/>
+                <div class="controls width-25">
+                    <input name="dbpass" id="dbpass" placeholder="&:DBPASS_FIELD_LABEL" type="password"/>
                 </div>
             </div>
         </div>
-        <div id="admin" class="fl mr5 hide">
+
+        <div id="admin" class="fl mr5 hide width-20">
             <div class="control-group">
                 <h4 class="text-center"> :ADMIN_TAB_LABEL </h4>
-                <label class="control-label" for="login"> :ADMIN_LOGIN_FIELD_LABEL </label>
+                <label class="control-label width-100" for="login"> :ADMIN_LOGIN_FIELD_LABEL </label>
 
-                <div class="controls">
-                    <input name="adminlogin" id="login" placeholder=":ADMIN_LOGIN_FIELD_LABEL" type="text"/>
+                <div class="controls width-25">
+                    <input name="adminlogin" id="login" placeholder="&:ADMIN_LOGIN_FIELD_LABEL" type="text"/>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="password">:ADMIN_PASSWORD_FIELD_LABEL</label>
+                <label class="control-label width-100" for="password">:ADMIN_PASSWORD_FIELD_LABEL</label>
 
-                <div class="controls">
-                    <input name="adminpassword" id="password" placeholder=":ADMIN_PASSWORD_FIELD_LABEL" type="password"/>
+                <div class="controls width-25">
+                    <input name="adminpassword" id="password" placeholder="&:ADMIN_PASSWORD_FIELD_LABEL" type="password"/>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="email">:ADMIN_EMAIL_FIELD_LABEL</label>
+                <label class="control-label width-100" for="email">:ADMIN_EMAIL_FIELD_LABEL</label>
 
-                <div class="controls">
-                    <input name="adminemail" id="email" placeholder=":ADMIN_EMAIL_FIELD_LABEL" type="text"/>
+                <div class="controls width-25">
+                    <input name="adminemail" id="email" placeholder="&:ADMIN_EMAIL_FIELD_LABEL" type="text"/>
                 </div>
             </div>
         </div>

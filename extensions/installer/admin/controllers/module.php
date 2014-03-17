@@ -55,9 +55,9 @@ class modulecontroller extends supercontroller{
                             'cms_version'   => ''
                         ];
                         $data = array_merge($data, $info);
-
                         $model->install_extension($data);
-                        require $file;
+
+                        require "phar://{$file}/install.php";
                         break;
                     case 'template':
                         $data = [
@@ -68,7 +68,7 @@ class modulecontroller extends supercontroller{
                         $data = array_merge($data, $info);
 
                         $model->install_template($data);
-                        require $file;
+                        require "phar://{$file}/install.php";
                         break;
                     case 'editor':
                         $data = [
@@ -77,7 +77,7 @@ class modulecontroller extends supercontroller{
                         $data = array_merge($data, $info);
 
                         $model->install_editor($data);
-                        require $file;
+                        require "phar://{$file}/install.php";
                         break;
                     case 'update':
                         if(empty($info['for']) || empty($info['version'])) {
@@ -88,7 +88,7 @@ class modulecontroller extends supercontroller{
                             $ver = system::get_version();
 
                             if($info['version'] > $ver) {
-                                require $file;
+                                require "phar://{$file}/install.php";
                             }
                             else {
                                 throw new Exception('current version of cms is higher');
@@ -100,7 +100,7 @@ class modulecontroller extends supercontroller{
                                 $ver = $class::get_version();
 
                                 if($info['version'] > $ver) {
-                                    require $file;
+                                    require "phar://{$file}/install.php";
                                 }
                             }
                             else {
@@ -114,14 +114,14 @@ class modulecontroller extends supercontroller{
                         break;
                     case 'view':
                         if(class_exists($info['for'])) {
-                            require $file;
+                            require "phar://{$file}/install.php";
                         }
                         else {
                             throw new Exception('class does not exists');
                         }
                         break;
                     case 'patch':
-                        require_once $file;
+                        require "phar://{$file}/install.php";
 
                         break;
                     default:
@@ -162,6 +162,7 @@ class modulecontroller extends supercontroller{
         try{
             foreach($iterator as $el) {
                 $this->install($el);
+                unlink($el);
             }
 
             $this->clear();

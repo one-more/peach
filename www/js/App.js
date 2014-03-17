@@ -198,7 +198,12 @@ _.extend(App, Backbone.Events, {
             var router = App.router = new this.Router();
         }
 
-        Backbone.history.start({pushState: true})
+        try{
+            Backbone.history.start({pushState: true})
+        }
+        catch(exeption) {
+            console.log(exeption)
+        }
 
         this.registerEvents();
 

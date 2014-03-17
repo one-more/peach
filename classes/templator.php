@@ -26,6 +26,7 @@ class templator
                 }
 
                 $buffer = preg_replace("/:$key/", $tmp, $buffer, 1);
+                $buffer = preg_replace("/&:$key/", $tmp, $buffer);
             }
             else {
                 if(preg_match("/%$key(.*)$key%/m", $buffer)) {
@@ -38,6 +39,7 @@ class templator
                 }
                 else {
                     $buffer = preg_replace("/:$key/", $value, $buffer, 1);
+                    $buffer = preg_replace("/&:$key/", $value, $buffer);
                 }
             }
 		}

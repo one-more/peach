@@ -47,7 +47,10 @@ class core {
         }
 
         //install site
-        if(!file_exists(SITE_PATH.'configuration.ini')) {
+        if(
+                !file_exists(SITE_PATH.'configuration.ini')
+                && empty($_REQUEST['ajax'])
+            ) {
 
             installer::start();
 

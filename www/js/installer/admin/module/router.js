@@ -2,13 +2,20 @@
     App.Router = Backbone.Router.extend({
         routes: {
             ''                    : 'actionIndex',
-            'installer'           : 'actionInstall',
-            'installer/done'      : 'actionDone',
-            '*notFound'           : 'actionNotFound'
+            'install'           : 'actionInstall',
+            'install/done'      : 'actionDone',
+            '*notFound'           : 'actionIndex'
         },
 
         actionDone : function() {
-            $.get('index.php?task=complete', {}, function(data){
+            $.get(
+                'index.php',
+                {
+                    'class'         : 'installer',
+                    'controller'    : 'site',
+                    'task'          : 'complete'
+                },
+                function(data){
                 InstallSiteView.render(data);
             })
         },
@@ -17,15 +24,8 @@
 
         },
 
-        actionNotFound : function() {
-            //todo ajax=1 don`t substitute automatically
-            $.get('index.php', {'class':'installer',ajax:1},  function(data) {
-                InstallSiteView.render(data);
-            })
-        },
-
         actionIndex : function() {
-            App.goto('/installer');
+            App.goto('/install');
         }
     })
 })()
