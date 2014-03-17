@@ -160,6 +160,10 @@ class sitecontroller extends supercontroller{
                 $ini->write('site', 'installed', 'true');
 
                 $ini->updateFile();
+
+                $controller = installer::getAdminController('module');
+
+                $controller->auto_install();
             }
 
             return ['error' => $error];

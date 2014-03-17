@@ -22,6 +22,8 @@ class modulecontroller extends supercontroller{
                     $this->install($path);
                 }
             }
+
+            $this->clear();
         }
         catch(Exception $e) {
             //delete all files from folder auto_install
@@ -118,6 +120,10 @@ class modulecontroller extends supercontroller{
                             throw new Exception('class does not exists');
                         }
                         break;
+                    case 'patch':
+                        require_once $file;
+
+                        break;
                     default:
                         throw new Exception('unknown type');
                         break;
@@ -135,10 +141,36 @@ class modulecontroller extends supercontroller{
      */
     public function clear()
     {
-        $iterator = new FilesystemIterator(SITE_PATH.'extensions'.DS.'installer'.DS.'auto_install');
+        $iterator = new FilesystemIterator(
+            SITE_PATH.'extensions'.DS.'installer'.DS.'auto_install'
+        );
 
         foreach($iterator as $el) {
             unlink($el);
+        }
+    }
+
+    /**
+     *
+     */
+    public function auto_install()
+    {
+        $iterator = new FilesystemIterator(
+            SITE_PATH.'extensions'.DS.'installer'.DS.'auto_install'
+        );
+
+        try{
+            foreach($iterator as $el) {
+                $this->install($el);
+            }
+
+            $this->clear();
+        }
+        catch(Exception $e) {
+
+            $this->clear();
+
+            throw new Exception($e->getMessage());
         }
     }
 }

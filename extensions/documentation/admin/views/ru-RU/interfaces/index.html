@@ -1,0 +1,290 @@
+<div class="width-100">
+    :HEADER
+
+    <div class="width-98 margin-left-2">
+        <h5>Интерфейсы</h5>
+
+        <section class="ac-container">
+            <div>
+                <input id="ac1" name="accordion1" type="checkbox"/>
+                <label for="ac1">admin_template_interface</label>
+                <article class="ac-small">
+                    Данный интерфейс должны реализовывать шаблоны
+                    административной части.
+                    <br/>
+                    <span class="text-warning">
+                        admin_template_interface::get_info()
+                    </span>
+                    <br/>
+                    Метод должен возвращать массив с полями:
+                    <pre>
+                        [
+                            'name',
+                            'alias',
+                            'preview' (необязательно. путь к изображению),
+                            'icon' (необязательно. путь к изображению)
+                        ]
+                    </pre>
+                </article>
+            </div>
+
+            <div>
+                <input id="ac2" name="accordion2" type="checkbox"/>
+                <label for="ac2">daemon_extension_interface</label>
+                <article class="ac-small">
+                    Данный интерфейс должны реализовывать расширения
+                    daemon-extension
+                    <br/>
+                    <span class="text-warning">
+                        daemon_extension_interface::get_js()
+                    </span>
+                    <br/>
+                    Метод должен возвращать массив js файлов.
+                    <br/>
+                    <span class="text-warning">
+                        daemon_extension_interface::get_info()
+                    </span>
+                    <br/>
+                    Метод должен возвращать массив вида:
+                    <pre>
+                        [
+                            'name'  => 'name',
+                            'alias' => 'alias'
+                        ]
+                    </pre>
+                    <span class="text-warning">
+                        daemon_extension_interface::get_version()
+                    </span>
+                    <br/>
+                    Метод должен возвращать строку с версией расширения
+                </article>
+            </div>
+
+            <div>
+                <input id="ac3" name="accordion3" type="checkbox"/>
+                <label for="ac3">editor_interface</label>
+                <article class="ac-small">
+                    Данный интерфейс должны реализовывать редакторы
+                    <br/>
+                    <span class="text-warning">
+                        editor_interface::get_js()
+                    </span>
+                    <br/>
+                    Метод должен возвращать массив js файлов
+                    <br/>
+                    <span class="text-warning">
+                        editor_interface::get_css()
+                    </span>
+                    <br/>
+                    Метод должен возвращать массив css файлов
+                    <br/>
+                </article>
+            </div>
+
+            <div>
+                <input id="ac4" name="accordion4" type="checkbox"/>
+                <label for="ac4">menu_extension_interface</label>
+                <article class="ac-small">
+                    Данный интерфейс должны реализовывать расширения
+                    menu-extension
+                    <br/>
+                    <span class="text-warning">
+                        menu_extension_interface::create_layout()
+                    </span>
+                    <br/>
+                    Метод должен создавать отображение
+                    <br/>
+                    <span class="text-warning">
+                        menu_extension_interface::get_create_layout_html()
+                    </span>
+                    <br/>
+                    Метод должен возвращать html код для страницы создания
+                    отображения
+                    <br/>
+                    <span class="text-warning">
+                        menu_extension_interface::get_layout_params($id)
+                    </span>
+                    <br/>
+                    Метод должен возвращать параметры отображения
+                    <br/>
+                    <span class="text-warning">
+                        menu_extension_interface::get_page($link)
+                    </span>
+                    <br/>
+                    Метод должен возвращать массив вида:
+                    <pre>
+                        [
+                            'class'         => 'class',
+                            'controller'    => 'controller',
+                            'position'      => 'position',
+                            'id'            => 'layout id'
+                        ]
+                    </pre>
+                    Параметры:
+                    <br/>
+                    $link - текущий url страницы
+                    <br/>
+                    <span class="text-warning">
+                        menu_extension_interface::get_urls()
+                    </span>
+                    <br/>
+                    Метод должен возвращать массив доступных ссылок
+                    <br/>
+                    <span class="text-warning">
+                        menu_extension_interface::get_version()
+                    </span>
+                    <br/>
+                    Метод должен возвращать строку с версией расширения
+                    <br/>
+                    <span class="text-warning">
+                        menu_extension_interface::get_info()\
+                    </span>
+                    <br/>
+                    Метод должен возвращать массив вида:
+                    <pre>
+                        [
+                            'name'  => 'name',
+                            'alias' => 'alias'
+                        ]
+                    </pre>
+                    <span class="text-warning">
+                        menu_extension_interface::delete_extension_layouts($class)
+                    </span>
+                    <br/>
+                    Метод должен удалять все отображения расширения, переданного
+                    в параметре
+                </article>
+            </div>
+
+            <div>
+                <input id="ac5" name="accordion5" type="checkbox"/>
+                <label for="ac5">site_template_interface</label>
+                <article class="ac-small">
+                    Данный интерфейс должны реализовывать шаблоны сайта
+                    <br/>
+                    <span class="text-warning">
+                        site_template_interface::get_positions()
+                    </span>
+                    <br/>
+                    Метод должен возвращать массив позиций шаблона
+                    <br/>
+                    <span class="text-warning">
+                        site_template_interface::get_info()
+                    </span>
+                    <br/>
+                    Метод аналогичен методу в admin_template_interface
+                </article>
+            </div>
+
+            <div>
+                <input id="ac6" name="accordion6" type="checkbox"/>
+                <label for="ac6">super_interface</label>
+                <article class="ac-small">
+                    Родительский интерфейс
+                    <br/>
+                    <span class="text-warning">
+                        super_interface::start()
+                    </span>
+                    <br/>
+                    Точка входа в расширение
+                    <br/>
+                    <span class="text-warning">
+                        super_interface::delete()
+                    </span>
+                    <br/>
+                    Каждое расширение должно удалять себя самостоятельно.
+                    Это касается файлов расширения и его таблиц(если они есть)
+                </article>
+            </div>
+
+            <div>
+                <input id="ac7" name="accordion7" type="checkbox"/>
+                <label for="ac7">user_extension_interface</label>
+                <article class="ac-small">
+                    Данный интерфейс должны реализовывать расширения
+                    user-extension.
+                    <br/>
+                    <span class="text-warning">
+                        user_extension_interface::get_info()
+                    </span>
+                    <br/>
+                    Метод аналогичен методу в daemon_extension_interface
+                    <br/>
+                    <span class="text-warning">
+                        user_extension_interface::get_version()
+                    </span>
+                    <br/>
+                    Метод аналогичен методу в daemon_extension_interface
+                </article>
+            </div>
+
+            <div>
+                <input id="ac8" name="accordion8" type="checkbox"/>
+                <label for="ac8">view_controller_interface</label>
+                <article class="ac-small">
+                    Данный интерфейс должны реализовывать контроллеры видов
+                    <br/>
+                    <span class="text-warning">
+                        view_controller_interface::get_info()
+                    </span>
+                    <br/>
+                    Метод должен возвращать массив вида:
+                    <pre>
+                        [
+                            'name'          => 'name',
+                            'alias'         => 'alias',
+                            'description'   => 'description'
+                        ]
+                    </pre>
+                </article>
+            </div>
+
+            <div>
+                <input id="ac9" name="accordion9" type="checkbox"/>
+                <label for="ac9">widget_controller_interface</label>
+                <article class="ac-small">
+                    Данный интерфейс должны реализовывать контроллеры
+                    виджетов.
+                    <br/>
+                    <span class="text-warning">
+                        widget_controller_interface::get_info()
+                    </span>
+                    <br/>
+                    Метод должен возвращать массив вида:
+                    <pre>
+                        [
+                            'name'  => 'name',
+                            'alias' => 'alias'
+                        ]
+                    </pre>
+                </article>
+            </div>
+
+            <div>
+                <input id="ac10" name="accordion10" type="checkbox"/>
+                <label for="ac10">widget_extension_interface</label>
+                <article class="ac-small">
+                    Данный интерфейс должны реализовывать расширения, у коотрых
+                    есть виджеты.
+                    <br/>
+                    <span class="text-warning">
+                        widget_extension_interface::get_widgets()
+                    </span>
+                    <br/>
+                    Метод должен возвращать массив вида:
+                    <pre>
+                        [
+                            0 => ['name' => 'name', 'alias' => 'alias']
+                        ]
+                    </pre>
+                    <span class="text-warning">
+                        widget_extension_interface::get_widget($class)
+                    </span>
+                    <br/>
+                    Метод должен подключать виджет, название которого передано в
+                    параметре
+                </article>
+            </div>
+        </section>
+    </div>
+</div>

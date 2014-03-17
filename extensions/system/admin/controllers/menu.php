@@ -27,8 +27,8 @@ class menucontroller extends \supercontroller {
                 $alias = $el['name']::get_info()['alias'];
 
                 $attrs =  [
-                    'value' => $alias,
-                    'text'  => $el['name']
+                    'text'  => $alias,
+                    'value' => $el['name']
                 ];
 
                 if($el == $menu) {
@@ -52,6 +52,33 @@ class menucontroller extends \supercontroller {
             'index',
             $params,
             \system::$path.'admin'.DS.'views'.DS.'menu'
+        );
+    }
+
+    /**
+     * @param $val
+     */
+    public function update($val)
+    {
+        \system::write_params('options', 'menu', $val);
+
+        \comet::add_message(
+            [
+                'task'      => 'delegate',
+                'object'    => 'SystemModel',
+                'method'    => 'initialize',
+                'params'    => []
+            ],
+            'site_users'
+        );
+
+        \comet::add_message(
+            [
+                'task'      => 'delegate',
+                'object'    => 'SystemModel',
+                'method'    => 'initialize',
+                'params'    => []
+            ]
         );
     }
 }

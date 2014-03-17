@@ -15,22 +15,24 @@ $(function(){
         App.elementLoad('table', function(){
             $('table:not(.not-pagination)').each(function(){
 
-                var rpp = parseInt(App.getCookie('table_pagination_rows_per_page'))
+                if($(this).find('td').length) {
+                    var rpp = parseInt(App.getCookie('table_pagination_rows_per_page'))
 
-                if(!rpp) {
-                    rpp = 5;
-                }
-
-                $(this).tablePagination(
-                    {
-                        firstArrow      : '/media/table_pagination/first.gif',
-                        nextArrow       : '/media/table_pagination/next.gif',
-                        prevArrow       : '/media/table_pagination/prev.gif',
-                        lastArrow       : '/media/table_pagination/last.gif',
-                        optionsForRows  : [5, 20, 50],
-                        rowsPerPage     : rpp
+                    if(!rpp) {
+                        rpp = 5;
                     }
-                );
+
+                    $(this).tablePagination(
+                        {
+                            firstArrow      : '/media/table_pagination/first.gif',
+                            nextArrow       : '/media/table_pagination/next.gif',
+                            prevArrow       : '/media/table_pagination/prev.gif',
+                            lastArrow       : '/media/table_pagination/last.gif',
+                            optionsForRows  : [5, 20, 50],
+                            rowsPerPage     : rpp
+                        }
+                    );
+                }
             })
         }, 300)
 

@@ -1,0 +1,208 @@
+<div class="width-100">
+    :HEADER
+    <div class="width-98 margin-left-2">
+        <section class="ac-container">
+            <div>
+                <input id="ac1" name="accordion1" type="checkbox"/>
+                <label for="ac1">установщик расширения</label>
+                <article class="ac-large">
+                    Установщик расширения должен быть реализован в виде исполняемого
+                    архива. Напрример: hello_word.phar.php. В архиве должен быть
+                    файл install.ini.
+                    <br/>
+                    Возможные варианты файла install.ini:
+                    <br/>
+                <pre>
+                    [info] <br/>
+                    type=extension <br/>
+                    name=hello_world <br/>
+                    is_daemon = "true"|"false" <br/>
+                    daemon_type=admin|site (если is_daemon=true) <br/>
+                    cms_version=1.5
+                </pre>
+                <pre>
+                    [info] <br/>
+                    type=template <br/>
+                    name=test <br/>
+                    template_type=site|admin <br/>
+                    cms_version=1.5 <br/>
+                </pre>
+                <pre>
+                    [info] <br/>
+                    type=editor <br/>
+                    name=test <br/>
+                </pre>
+                <pre>
+                    [info] <br/>
+                    type=update <br/>
+                    for=cms|extension_name <br/>
+                    version=1.2 <br/>
+                </pre>
+                <pre>
+                    [info] <br/>
+                    type=view <br/>
+                    for=extension_name <br/>
+                </pre>
+                <pre>
+                    [info] <br/>
+                    type=patch <br/>
+                </pre>
+                </article>
+            </div>
+
+            <div>
+                <input id="ac2" name="accordion2" type="checkbox"/>
+                <label for="ac2">Структура расширения</label>
+                <article class="ac-small">
+            <pre>
+                /admin <br/>
+                /admin/controllers/ <br/>
+                /admin/models/ <br/>
+                /site  <br/>
+                /site/controllers/ <br/>
+                /site/models/ <br/>
+                /extension.ini <br/>
+                /extension.php
+            </pre>
+                </article>
+            </div>
+
+            <div>
+                <input id="ac3" name="accordion3" type="checkbox"/>
+                <label for="ac3">user-extension</label>
+                <article class="ac-small">
+                    Данные расширения должны реализовывать интерфейс
+                    user_extension_interface. Если расширение имеет
+                    виджеты, оно должно реализовывать widget_extension_interface.
+                    <br/>
+                    Такие расширения реализуют определенный функционал по
+                    управлению контентом.
+                    <br/>
+                </article>
+            </div>
+
+            <div>
+                <input id="ac4" name="accordion4" type="checkbox"/>
+                <label for="ac4">menu-extension</label>
+                <article class="ac-small">
+                    Данные расширения должны реализовывать интерфейс
+                    menu_extension_interface.
+                    <br/>
+                    Такие расширения реализуют навигацию на сайте.
+                </article>
+            </div>
+
+            <div>
+                <input id="ac5" name="accordion5" type="checkbox"/>
+                <label for="ac5">daemon-extension</label>
+                <article class="ac-small">
+                    Данные расширения должны реализовывать интерфейс
+                    daemon_extension_interface
+                    <br/>
+                    Такие расширения работают "в фоне" - каждый раз, когда в
+                    административной панели пользователь переходит по
+                    ссылке, загружаются js файлы расширения.
+                </article>
+            </div>
+
+            <div>
+                <input id="ac6" name="accordion6" type="checkbox"/>
+                <label for="ac6">Редакторы</label>
+                <article class="ac-small">
+                    Данные расширения должны реализовывать интерфейс
+                    editor_interface.
+                    <br/>
+                    Такие расширения реализуют функционал визуального редактора
+                </article>
+            </div>
+
+            <div>
+                <input id="ac7" name="accordion7" type="checkbox"/>
+                <label for="ac7">Шаблоны</label>
+                <article class="ac-small">
+                    Данные расширения должны реализовывать интерфейс
+                    admin_template_interface или site_template_interface.
+                    <br/>
+                    Такие расширения являются шаблонами для сайта или
+                    административной части.
+                </article>
+            </div>
+
+            <div>
+                <input id="ac8" name="accordion8" type="checkbox"/>
+                <label for="ac8">system</label>
+                <article class="ac-small">
+                    Расширение входит в состав ядра.
+                    <br/>
+                    <span class="text-warning">
+                        system::$system_js
+                    </span>
+                    <br/>
+                    Массив js файлов. Необходимо подключать в административном
+                    шаблоне.
+                    <br/>
+                    <span class="text-warning">
+                        system::$system_site_js
+                    </span>
+                    <br/>
+                    Массив js файлов. Необходимо подключать в шаблоне сайта.
+                    <br/>
+                    <span class="text-warning">
+                        system::get_languages()
+                    </span>
+                    <br/>
+                    Возвращает массив доступных в системе языков
+                    <br/>
+                    <span class="text-warning">
+                        system::get_current_language($file = false)
+                    </span>
+                    <br/>
+                    Возвращает текущий язык, установленный в системе. Если
+                    передаваемый параметр true, значения кук будут проигнорированы
+                    и вернется значение из файла configuration.ini
+                    <br/>
+                    <span class="text-warning">
+                        system::get_menu()
+                    </span>
+                    <br/>
+                    Вернет обработчик меню. Если обработчик не установлен, вернет
+                    -1.
+                </article>
+            </div>
+
+            <div>
+                <input id="ac9" name="accordion9" type="checkbox"/>
+                <label for="ac9">user</label>
+                <article class="ac-small">
+                    Расширение входит в состав ядра. Реализует работу с
+                    пользователями.
+                    <br/>
+                    <span class="text-warning">
+                        user::is_auth()
+                    </span>
+                    <br/>
+                    Если пользователь в системе, вернет true, иначе false
+                    <br/>
+                    <span class="text-warning">
+                        user::is_admin()
+                    </span>
+                    <br/>
+                    Если текущий пользователь администратор, вернет true
+                    <br/>
+                    <span class="text-warning">
+                        user::is_super_admin()
+                    </span>
+                    <br/>
+                    Если текущий пользователь супер администратор, вернет true
+                    <br/>
+                    <span class="text-warning">
+                        user::get_token()
+                    </span>
+                    <br/>
+                    Вернет токен сессии, если пользователь в системе и токен
+                    верный
+                </article>
+            </div>
+        </section>
+    </div>
+</div>

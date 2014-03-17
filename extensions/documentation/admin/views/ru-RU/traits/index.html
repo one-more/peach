@@ -1,0 +1,368 @@
+<div class="width-100">
+    :HEADER
+
+    <div class="inline-block margin-left-2 width-98">
+        <h5>Трейты</h5>
+
+        <section class="ac-container">
+            <div>
+                <input id="ac1" name="accordion1" type="checkbox"/>
+                <label for="ac1">trait_editor</label>
+                <article class="ac-small">
+                    Используется в редакторах.
+                    <br/>
+                    <span class="text-warning">
+                        trait_editor::start()
+                    </span>
+                    <br/>
+                    Исполняет статический метод класса. Название метода берется
+                    из $_REQUEST['task']. Параметры в метод можно передать в
+                    $_REQUEST['params']
+                </article>
+            </div>
+
+            <div>
+                <input id="ac2" name="accordion2" type="checkbox"/>
+                <label for="ac2">trait_extension</label>
+                <article class="ac-medium">
+                    Используется в расширениях (user extension, menu extension,
+                    daemon extension). Для того, чтобы директория cache
+                    периодически очищалась, в классе необходимо объявить
+                    статическую переменную $clear_cache.
+                    <br/>
+                    <span class="text-warning">
+                        trait_extension::get_admin_controller($name)
+                    </span>
+                    <br/>
+                    Возвращает объект контроллера из директории admin/controllers/.
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $name - название контроллера. Если в метод передан параметр
+                    default - файл контроллера должен называться default.php, а
+                    класс defaultcontroller. Так же контроллер должен расширять
+                    класс supercontroller. Пространство имен в файле должно быть
+                    {extension_name}_admin
+                    <br/>
+                    <span class="text-warning">
+                        trait_extension::get_admin_model($name)
+                    </span>
+                    <br/>
+                    Возвращает объект модели из директории admin/models/.
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $name - название модели. Если переметр = default, файл модели
+                    должен называться default.php, а класс defaultmodel.
+                    Модель должна расширять класс superModel. Пространство имен
+                    в файле должно быть {extension_name}_admin
+                    <br/>
+                    <span class="text-warning">
+                        trait_extension::get_site_controller($name)
+                    </span>
+                    <br/>
+                    Аналогичен методу get_admin_controller(). За исключением того,
+                    что файлы будут подключаться из директории site/controllers,
+                    а пространтсво имен должно быть {extension_name}_site
+                    <br/>
+                    <span class="text-warning">
+                        trait_extension::get_site_model($name)
+                    </span>
+                    <br/>
+                    Аналогичен методу get_admin_model(). За исключением того,
+                    что файлы будут подключаться из директории site/models,
+                    а пространство имен должно быть {extension_name}_site
+                    <br/>
+                    <span class="text-warning">
+                        trait_extension::start()
+                    </span>
+                    Точка входа в расширение. Если поле $_REQUEST['method']
+                    не пустое, вызовется статический метод класса, параметры можно
+                    передать в $_REQUEST['params']. Иначе вызовется контроллер:
+                    для административной части - get_admin_controller(), для
+                    сайта - get_site_controller(). Если поле $_REQUEST['controller']
+                    пустое, вызовется контроллер default. Метод контроллера
+                    можно передать в $_REQUEST['task'], если поле пустое,
+                    вызовется метод display.
+                    Параметры можно
+                    передать в $_REQUEST['params'];
+                    <br/>
+                    <span class="text-warning">
+                        trait_extension::read_params($section, $field = null, $default = null)
+                    </span>
+                    <br/>
+                    Возвращает параметры из файла extensions/extension_name.ini
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $section - секция
+                    <br/>
+                    $field - поле. Если параметр не указан, вернется вся секция
+                    <br/>
+                    $default - значение по умолчанию
+                    <br/>
+                    <span class="text-warning">
+                        trait_extension::write_params($section, $field, $value = null)
+                    </span>
+                    <br/>
+                    Записывает параметры в файл параметров расширения.
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $section - секция
+                    <br/>
+                    $field - поле. Если не передано значение $value, должен быть
+                    передан массив
+                    <br/>
+                    $value - значение
+                    <br/>
+                    <span class="text-warning">
+                        trait_extension:read_lang($section, $lang = 'en-EN')
+                    </span>
+                    <br/>
+                    Возвращает языковые переменные из файла
+                    lang/extension_name/(admin | site)/$lang.ini
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $section - секция
+                    <br/>
+                    $lang - язык по умолчанию. Будет использован, если нет
+                    файла с текущим языком
+                    <br/>
+                </article>
+            </div>
+
+            <div>
+                <input id="ac3" name="accordion3" type="checkbox"/>
+                <label for="ac3">trait_extension_controller</label>
+                <article class="ac-small">
+                    Трейт для контроллеров расширений. Требует переменные:
+                    $_extension и $_cache_path. $_cache_path - переменная должна
+                    оканчиваться слэшем.
+                    <br/>
+                    <span class="text-warning">
+                        trait_extension_controller->set_cache_view($name, $data)
+                    </span>
+                    <br/>
+                    Создает файл с кэшем в директории $_cache_path.
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $name - название файла
+                    <br/>
+                    $data - строка с данными
+                    <br/>
+                    <span class="text-warning">
+                        trait_extension_controller->get_cache_view($name)
+                    </span>
+                    <br/>
+                    Если файл существует, возвращает содержимое, иначе возвращает
+                    false
+                    <br/>
+                    <span class="text-warning">
+                        trait_extension_controller->delete_cache_view($name)
+                    </span>
+                    <br/>
+                    Удаляет файл с кэшем.
+                    <br/>
+                </article>
+            </div>
+
+                <div>
+                    <input id="ac4" name="accordion4" type="checkbox"/>
+                    <label for="ac4">trait_install</label>
+                    <article class="ac-small">
+                        Содержит методы установки/удаления расширений. Требует
+                        статическую переменную $path.
+                        <br/>
+                    <span class="text-warning">
+                        trait_install::install_sql()
+                    </span>
+                        <br/>
+                        Исполняет sql файл по адресу - static::$path.'admin'.DS.
+                        'resources'.DS.'install.sql'
+                        <br/>
+                    <span class="text-warning">
+                        trait_install::install::reference()
+                    </span>
+                        <br/>
+                        Копирует языковые переменные из файла static::$path.
+                        'admin'.DS.'resources'.DS.'lang_model.ini' в файлы
+                        lang/references/$lang.ini. Секции в файле lang_model.ini
+                        должны быть языковыми переменными (ru-RU, en-EN)
+                        <br/>
+                    <span class="text-warning">
+                        trait_install::delete_sql()
+                    </span>
+                        <br/>
+                        Исполняет sql файл по адресу
+                        static::$path.'admin'.DS.'resources'.DS.'uninstall.sql'
+                        <br/>
+                    <span class="text-warning">
+                        trait_install::delete_files()
+                    </span>
+                        <br/>
+                        $name - Имя исполняемого класса. Удаляет директории:
+                        <br/>
+                        lang/$name, js/$name, css/$name, media/$name,
+                        static::$path
+                        <br/>
+                    <span class="text-warning">
+                        trait_install::delete_layouts()
+                    </span>
+                        <br/>
+                        $name - имя исполняемого класса.
+                        Удаляет все отображения, созданные расширением
+                    </article>
+                </div>
+
+            <div>
+                <input id="ac5" name="accordion5" type="checkbox"/>
+                <label for="ac5">trait_site_template</label>
+                <article class="ac-small">
+                    Используется в шаблонах сайта.
+                    <br/>
+                    <span class="text-warning">
+                        trait_site_template::get_positions()
+                    </span>
+                    <br/>
+                    Возвращает содержимое секции positions файла с параметрами
+                    шаблона
+                </article>
+            </div>
+
+            <div>
+                <input id="ac6" name="accordion6" type="checkbox"/>
+                <label for="ac6">trait_template</label>
+                <article class="ac-small">
+                    Используется в шаблонах.
+                    <br/>
+                <span class="text-warning">
+                    trait_template::get_admin_controller($name)
+                </span>
+                    <br/>
+                    Работает аналогично методу в trait_extension
+                    <br/>
+                <span class="text-warning">
+                    trait_template::get_site_controller($name)
+                </span>
+                    <br/>
+                    Работает аналогично методу в trait_extension
+                    <br/>
+                <span class="text-warning">
+                    trait_template::start()
+                </span>
+                    <br/>
+                    Точка входа в шаблон. Подключается контроллер, который передан в
+                    $_REQUEST['controller'], если поле пустое, подключается контроллер
+                    default. Метод можно передать в $_REQUEST['task'],
+                    если поле пустое, вызовется метод display.
+                    Параметры можно передать в $_REQUEST['params'].
+                    <br/>
+                <span class="text-warning">
+                    trait_template::read_params($section, $key = null)
+                </span>
+                    <br/>
+                    Работает аналогично методу в trait_extension
+                    <br/>
+                <span class="text-warning">
+                    trait_template::write_params($section, $key, $value = null)
+                </span>
+                    <br/>
+                    Работает аналогично методу в trait_extension
+                    <br/>
+                <span class="text-warning">
+                    trait_template::get_lang($section, $lang = 'en-EN')
+                </span>
+                    <br/>
+                    Работает аналогично методу в trait_extension.
+                </article>
+            </div>
+
+            <div>
+                <input id="ac7" name="accordion7" type="checkbox"/>
+                <label for="ac7">trait_validator</label>
+                <article class="ac-small">
+                    Используется в моделях для валидации полей. Собственные методы
+                    валидации должны иметь префикс valid_. Напрмер:
+                    valid_unique($v). Метод валидации должен возвращать false
+                    если валидация пройдена, или текст ошибки.
+                    <br/>
+                    <span class="text-warning">
+                        trait_validator::check(&$data, $params)
+                    </span>
+                    <br/>
+                    Реализует валидацию полей. Вернет массив с ошибками,
+                    если валидация не пройдена.
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $data - массив с данными, где ключ массива - название поля.
+                    Напрмер - ['name' => 'text'].
+                    <br/>
+                    $params - массив с правилами валидации. Например -
+                    ['name' => 'not_empty', 'password' => ['not_empty', 'password']],
+                    где ключ массива - название поля, значение - метод(ы) валидации
+                    без префикса.
+                    <br/>
+                    <span class="text-warning">
+                        trait_validator::valid_email($v)
+                    </span>
+                    <br/>
+                    Проверяет на соответствие email адресу
+                    <br/>
+                    <span class="text-warning">
+                        trait_validator::valid_not_empty()
+                    </span>
+                    <br/>
+                    Проверяет поле на пустоту
+                    <br/>
+                    <span class="text-warning">
+                        trait_validator::valid_password($v)
+                    </span>
+                    <br/>
+                    Вернет ошибку если значние короче 5 символов, или пустое
+                    <br/>
+                    <span class="text-warning">
+                        trait_validator::valid_positive_number($v)
+                    </span>
+                    <br/>
+                    Вернет ошибку, если значение меньше нуля
+                </article>
+            </div>
+
+            <div>
+                <input id="ac8" name="accordion8" type="checkbox"/>
+                <label for="ac8">trait_widget_extension</label>
+                <article class="ac-small">
+                    Используется в расширениях, у которых есть виджеты.
+                    <br/>
+                    <span class="text-warning">
+                        trait_widget_extension::get_widgets()
+                    </span>
+                    <br/>
+                    Индексирует директорию extensions/{extension_name}/widgets/.
+                    Возвращает массив, где каждый элемент - результат
+                    вызова метода get_info() класса-виджета.
+                    <br/>
+                    <span class="text-warning">
+                        trait_widget_extension::get_widget($name)
+                    </span>
+                    <br/>
+                    Подключает класс-виджет и выполняет метод, переданный в
+                    $_REQUEST['task'], если поле пустое, вызывается метод
+                    display. Параметры можно передать в $_REQUEST['params']
+                    <br/>
+                    Параметры:
+                    <br/>
+                    $name - название класса. Если передан параметр default -
+                    имя класса-виджета должно быть defaultwidget. Класс должен
+                    расширять supercontroller и реализовывать интерфейс -
+                    widget_controller_interface. Пространство имен
+                    указывать не нужно.
+                </article>
+            </div>
+        </section>
+    </div>
+</div>

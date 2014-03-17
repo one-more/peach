@@ -3,7 +3,8 @@ var SystemDefaultView = Backbone.View.extend({
     el: $(document),
 
     events: {
-      'change .lang-select': "change_lang"
+      'change .lang-select' : "change_lang",
+      'change .menu-select' : 'change_menu'
     },
 
     initialize: function() {
@@ -67,6 +68,20 @@ var SystemDefaultView = Backbone.View.extend({
                 }
             }
         );
+    },
+
+    change_menu: function(e) {
+        var params = $(e.target).val();
+
+        $.post(
+            'index.php',
+            {
+                'class'         : 'system',
+                'controller'    : 'menu',
+                'task'          : 'update',
+                'params'        : params
+            }
+        )
     }
 })
 
