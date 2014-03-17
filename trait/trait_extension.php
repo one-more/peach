@@ -64,6 +64,10 @@ trait trait_extension {
 
         static::$cache_path = static::$path.core::$mode.DS.'cache'.DS;
 
+        if(!file_exists(static::$path.core::$mode)) {
+            mkdir(static::$path.core::$mode);
+        }
+
         if(!file_exists(static::$cache_path)) {
             mkdir(static::$cache_path);
         }

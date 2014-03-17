@@ -13,8 +13,10 @@ class error {
      */
     public static function init()
     {
-        if(filesize('..'.DS.'error.log') > 4096*1024) {
-            unlink('..'.DS.'error.log');
+        if(file_exists(SITE_PATH.'error.log')) {
+            if(filesize(SITE_PATH.'error.log') > 4096*1024) {
+                unlink(SITE_PATH.'error.log');
+            }
         }
     }
 
