@@ -131,6 +131,8 @@ class helper
      */
     public static function make_img($data, $path, $width, $height)
     {
+        $data =  is_array($data) ? implode(',', $data) : $data;
+
         preg_match('/data:image\/(\w+);/', $data, $arr);
 
         $func = "imagecreatefrom$arr[1]";
@@ -152,8 +154,7 @@ class helper
 
         $func = "image$arr[1]";
 
-        $path2 = preg_replace('/\//', '\\', $path);
-        $func($thmb, '.'.$path2.DS.$name.'.'.$arr[1]);
+        $func($thmb, '.'.$path.'/'.$name.'.'.$arr[1]);
 
         imagedestroy($im);
         imagedestroy($thmb);

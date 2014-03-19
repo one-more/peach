@@ -77,9 +77,41 @@ var UserView = Backbone.View.extend({
                     return function(e) {
                         var data = e.target.result;
 
+                        if(data.length > 1500000) {
+                            App.showNoty(
+                                'maximum limit of image exceeded',
+                                'error');
+
+                            return;
+                        }
+
                         $('.user-avatar-img').attr('src', data);
 
-                        $('input[name="avatar"]').val(data);
+                        $('input[name="avatar[]"]').val(data);
+
+                        var last = data.substr(0, $('input[name="avatar[]"]').
+                            val().length).length
+                        console.log(last);
+
+                        var count = Math.floor(data.length / 500000);
+                        var input = '';
+
+                        for(var x = 1; x < count; x++) {
+                            input = $('<input>', {
+                                'type'      : 'text',
+                                'name'      : 'avatar[]',
+                                'value'     : data.substr(last, 500000),
+                                'class'     : 'invisible',
+                                'maxlength' : '1000000'
+                            })
+
+                            input.css(
+                                {'position' : 'absolute', 'left' : '-8000px'}
+                            )
+
+                            $('input[name="avatar[]"]').after(input)
+                                last += 500000;
+                        }
                     }
                 })(file)
 
