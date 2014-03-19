@@ -11,6 +11,16 @@ namespace user_site;
 class logincontroller extends \supercontroller {
 
     /**
+     * 
+     */
+    public function __construct()
+	{
+		if(!file_exists(\user::$path.'site'.DS.'session_files')) {
+			mkdir(\user::$path.'site'.DS.'session_files');
+		}
+	}
+    
+    /**
      *
      */
     public function display($params)
