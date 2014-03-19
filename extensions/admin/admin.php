@@ -206,6 +206,8 @@ class admin {
      */
     public static function get_daemons_js()
     {
+        header('Content-type: application/javascript');
+        
         $result = [];
 
         $mode = core::$mode;
@@ -249,6 +251,8 @@ class admin {
      */
     public static function get_editor_js()
     {
+        header('Content-type: application/javascript');
+        
         $editor = static::read_params('options', 'editor');
 
         $arr = $editor::get_js();
@@ -270,6 +274,8 @@ class admin {
      */
     public static function get_editor_css()
     {
+        header('Content-type: text/css');
+        
         $editor = static::read_params('options', 'editor');
 
         $arr = $editor::get_css();
