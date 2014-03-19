@@ -1,5 +1,7 @@
 addDefaultCharset UTF-8
 
+php_flag output_buffering on
+
 <FilesMatch ".(htaccess|htpasswd|ini|txt)$">
  Order Allow,Deny
  Deny from all
