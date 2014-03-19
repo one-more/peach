@@ -11,7 +11,7 @@ window.InstallWidgetView = Backbone.View.extend({
             'url'           : 'index.php?class=installer&controller=module&task=load',
             'dnd_area'      : 'install-widget',
             'filter_func'   : function(f) {
-                if(f.type == 'application/x-php') {
+                if(f.name.indexOf('.phar.php') > 0) {
                     return true;
                 }
                 else {

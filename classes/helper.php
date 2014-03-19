@@ -152,12 +152,13 @@ class helper
 
         $func = "image$arr[1]";
 
-        $func($thmb, '.'.$path.DS.$name.'.'.$arr[1]);
+        $path2 = preg_replace('/\//', '\\', $path);
+        $func($thmb, '.'.$path2.DS.$name.'.'.$arr[1]);
 
         imagedestroy($im);
         imagedestroy($thmb);
 
-        return $path.DS.$name.'.'.$arr[1];
+        return $path.'/'.$name.'.'.$arr[1];
     }
 
     /**

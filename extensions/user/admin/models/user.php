@@ -45,7 +45,7 @@ class usermodel extends \superModel {
                 'site'          => '-',
                 'facebook'      => '-',
                 'twitter'       => '-',
-                'avatar'        => DS.'media'.DS.'images'.DS.'noavatar.gif'
+                'avatar'        => '/media/images/noavatar.gif'
             ];
 
             if($type == 'create') {
@@ -103,7 +103,7 @@ class usermodel extends \superModel {
 
                 $info['avatar'] = \helper::make_img(
                     $info['avatar'],
-                    DS.'media'.DS.'users_avatars',
+                    '/media/users_avatars',
                     $avatar['default_avatar_width'],
                     $avatar['default_avatar_height']
                 );
@@ -256,7 +256,7 @@ class usermodel extends \superModel {
 
             $img = \helper::make_img(
                 $data,
-                DS.'media'.DS.'users_avatars',
+                '/media/users_avatars',
                 $defs['default_avatar_width'],
                 $defs['default_avatar_height']
             );

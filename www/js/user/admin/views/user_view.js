@@ -79,7 +79,7 @@ var UserView = Backbone.View.extend({
 
                         $('.user-avatar-img').attr('src', data);
 
-                        $('textarea[name="avatar"]').val(data);
+                        $('input[name="avatar"]').val(data);
                     }
                 })(file)
 
