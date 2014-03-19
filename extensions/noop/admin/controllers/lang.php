@@ -15,6 +15,11 @@ class langcontroller extends \supercontroller {
      */
     public function get_model()
     {
-        return \factory::get_reference('lang_model');
+        if(file_exists(SITE_PATH.'configuration.ini')) {
+            return \factory::get_reference('lang_model');
+        }
+        else {
+            return [];
+        }
     }
 }
