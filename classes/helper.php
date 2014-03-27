@@ -131,8 +131,6 @@ class helper
      */
     public static function make_img($data, $path, $width, $height)
     {
-        $data =  is_array($data) ? implode(',', $data) : $data;
-
         preg_match('/data:image\/(\w+);/', $data, $arr);
 
         $func = "imagecreatefrom$arr[1]";

@@ -96,6 +96,9 @@ class usermodel extends \superModel {
                 return $errors;
             }
 
+            is_array($info['avatar']) ?
+                $info['avatar'] = implode(',', $info['avatar']) : '';
+
             if((!empty($info['avatar']) && $type == 'create') ||
                 ($type == 'edit' && !empty($info['avatar']) && $info['avatar'] != $old_user['info']['avatar'])
             ) {
