@@ -1,6 +1,8 @@
 App.module('Comet', function(Comet){
     Comet.initialize = function() {
-        Comet.listen();
+        if(App.get_mode() == 'admin') {
+            Comet.listen();
+        }
     };
 
     Comet.listen = function() {

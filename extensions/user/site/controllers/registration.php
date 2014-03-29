@@ -72,7 +72,7 @@ class registrationcontroller extends \supercontroller {
             ];
 
             $info = [
-                'email'         =>  $_POST['email']
+                'email'         => $_POST['email']
             ];
 
             $errors = $model->create($user, $info);

@@ -495,6 +495,10 @@ _.extend(App, Backbone.Events, {
         if(App.router.reload) {
             App.router.reload();
         }
+    },
+
+    get_mode: function() {
+        return location.pathname.indexOf('admin') == -1 ? 'site' : 'admin';
     }
 })
 

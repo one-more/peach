@@ -208,26 +208,11 @@ class authcontroller extends \supercontroller {
                 $_SESSION['site_token'] = $token;
             }
 
-            \comet::add_message(
-                [
-                    'task'      => 'delegate',
-                    'object'    => 'App',
-                    'method'    => 'reload',
-                    'params'    => []
-                ],
-                'me_site'
-            );
+            return ['task' => 'reload'];
         }
         else {
-            \comet::add_message(
-                [
-                    'task'      => 'delegate',
-                    'object'    => 'App',
-                    'method'    => 'showNoty',
-                    'params'    => [$lang['wrong'], 'error']
-                ],
-                getenv('REMOTE_ADDR')
-            );
+
+            return ['task' => 'show_noty', 'params' => $lang['wrong'] ];
         }
     }
 
@@ -264,16 +249,6 @@ class authcontroller extends \supercontroller {
             unset($_SESSION['site_token']);
         }
 
-        if(!empty($_REQUEST['ajax'])) {
-            \comet::add_message(
-                [
-                    'task'      => 'delegate',
-                    'object'    => 'App',
-                    'method'    => 'reload',
-                    'params'    => []
-                ],
-                getenv('REMOTE_ADDR')
-            );
-        }
+        return ['task' => 'reload'];
     }
 }
