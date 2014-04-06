@@ -1,0 +1,73 @@
+<form
+        class="form-horizontal ajax"
+        method="post"
+        action="index.php?class=articles&controller=articles&task=:task"
+        >
+<fieldset>
+    <legend class="padding-left-2 text-color-blue">:LEGEND</legend>
+    <div class="controls-group">
+        <label class="control-label" for="cat-select">
+            :CAT_SELECT_LABEL
+        </label>
+        <div class="controls">
+            <select
+                    name="category"
+                    placeholder=":CAT_PLACEHOLDER"
+                    id="cat-select"
+                    class="width-60"
+                    >
+                :cats
+                    </select>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="tags-select">
+            :TAGS_SELECT_LABEL
+        </label>
+        <div class="controls">
+            <input
+                    name="tags"
+                    id="tags-select"
+                    placehodler=":TAGS_PLACEHOLDER"
+                    class="width-60"
+                    type="text"
+                    value=":tags"
+                    />
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="input-title">
+            :TITLE_LABEL
+        </label>
+        <div class="controls width-25">
+            <input id="input-title" name="title" value=":title" type="text"/>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="chbx-pub">
+            :PUBLISHED_LABEL
+        </label>
+        <div class="controls">
+            <input id="chbx-pub" name="published" :published type="checkbox"/>
+        </div>
+    </div>
+
+    <textarea class="peach-editor" name="text" cols="30" rows="10">
+        :text
+    </textarea>
+
+    <div class="control-group">
+        <div class="controls">
+            <button class="btn margin-top-2">:BTN_LABEL</button>
+        </div>
+    </div>
+</fieldset>
+</form>
+<span class="js-hook invisible">/js/articles/admin/views/create_update_view.js</span>
+<span class="js-hook invisible">/js/articles/selectize/selectize.min.js</span>
+<span class="css-hook invisible">/css/articles/selectize/selectize.default.css</span>
+<span class="js-hook invisible">/js/articles/switchery/switchery.min.js</span>
+<span class="css-hook invisible">/css/articles/switchery/switchery.min.css</span>

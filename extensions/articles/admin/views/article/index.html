@@ -1,0 +1,23 @@
+<form
+        class="ajax"
+        action=":action"
+        method="post"
+        >
+    <div class="width-100 padding-left-2">
+        <h3 class="text-color-blue">:HEADER</h3>
+        <hr/>
+
+        <label class="width-100" for="article-select">
+            :ARTICLE_SELECT_LABEL
+        </label>
+        <select name="article" id="article-select">
+            :opts
+        </select>
+
+        :html
+    </div>
+
+    <input name="class_name" value=":class" type="hidden"/>
+    <input name="extension" value=":extension" type="hidden"/>
+    <input name="controller" value=":controller" type="hidden"/>
+</form>
