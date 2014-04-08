@@ -1,0 +1,28 @@
+<form
+        class="ajax"
+        method="post"
+        action=":action"
+        >
+    <h3 class="text-color-blue padding-left-2">:HEADER</h3>
+    <hr/>
+
+    <div class="width-100 inline-block padding-left-2">
+        <label class="width-100" for="cats-select">
+            :CATS_SELECT_LABEL
+        </label>
+        <select name="category" id="cats-select">
+            :opts
+        </select>
+
+        <label class="width-100" for="per-page-input">
+            :PER_PAGE_LABEL
+        </label>
+        <input id="per-page-label" name="per_page" value="5" type="text"/>
+
+        :html
+    </div>
+
+    <input name="extension" value=":extension" type="hidden"/>
+    <input name="class_name" value=":class" type="hidden"/>
+    <input name="controller" value=":controller" type="hidden"/>
+</form>

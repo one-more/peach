@@ -14,15 +14,60 @@ class articlesmodel extends \superModel {
     /**
      * @param null $category
      * @param bool $published
+     * @param bool $start
+     * @param bool $offset
      * @return array
      */
-    public function get_articles($category = null, $published = false)
+    public function get_articles(
+        $category = null,
+        $published = false,
+        $start = false,
+        $offset = false
+        )
     {
         $lang   = \system::get_current_lang();
 
         $lang   = preg_split('/-/', $lang)[0];
 
-        if(!$category) {
+        if($start || $offset) {
+            $where = $start ? ' `id` > ?' : '';
+            $limit = $offset ? ' LIMIT ?' : '';
+
+            if($category) {
+                $where = $where ?
+                    '`category` = ? and '.$where :
+                    '`category` = ? ';
+            }
+
+            if($where) {
+                $where = 'WHERE '.$where;
+            }
+
+            $sth = $this->_db->prepare(
+                "
+                    SELECT * FROM `{$lang}_articles`
+                    {$where} {$limit}
+                "
+            );
+
+            $param = 1;
+            if($category) {
+                $sth->bindParam($param, $category, \PDO::PARAM_STR);
+                $param++;
+            }
+            if($start) {
+                $sth->bindParam($param, $start, \PDO::PARAM_INT);
+                $param++;
+            }
+            if($limit) {
+                $sth->bindParam($param, $offset, \PDO::PARAM_INT);
+            }
+
+            $sth->execute();
+
+            $arr = $sth->fetchAll();
+        }
+        elseif(!$category) {
             $arr    = $this->get_all("{$lang}_articles");
         }
         else {
@@ -56,6 +101,25 @@ class articlesmodel extends \superModel {
                 $user['user']['login'] : $user['info']['full_name'];
 
             $el['category'] = $model->get($el['category'])['name'];
+
+            $id = $el['id'];
+            $sth = $this->_db->query(
+                "
+                SELECT `name` FROM `{$lang}_article_tags` WHERE
+                `id` in (
+                 SELECT `tag` FROM `{$lang}_articles_tags`
+                 WHERE `article` = {$id}
+                )
+            "
+            );
+            $sth = $sth->fetchAll();
+            $tags = [];
+
+            foreach($sth as $el1) {
+                $tags[] = $el1['name'];
+            }
+
+            $el['tags'] = implode(',', $tags);
         }
 
         return $arr;
