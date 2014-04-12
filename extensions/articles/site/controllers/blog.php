@@ -21,10 +21,6 @@ class blogcontroller extends \supercontroller {
 
         $menu = \system::get_menu();
 
-        $lang = \articles::read_lang('blog_view');
-
-        $all = '';
-
         if($menu != -1) {
             $params = $menu::get_layout_params($arr['id']);
             $offset = $params['per_page'];
@@ -42,150 +38,57 @@ class blogcontroller extends \supercontroller {
                 return '';
             }
 
-            $last = $articles[count($articles)-1];
+            $params['limit'] = intval($offset);
 
-            foreach($articles as $k=>&$el) {
-                $text = preg_split('/<hr \/>\s+<hr \/>/', $el['text']);
+            $all = $this->render_articles($params, $articles);
 
-                switch(count($text)) {
-                    case '2':
-                        $el['text'] = $text[0];
-                        $btn = \dom::create_element(
-                            'button',
-                            [
-                                'class'         =>
-                                    'ladda-button art-show-more-btn',
-                                'data-style'    => 'expand-right',
-                                'text'          => $lang['more'],
-                                'data-size'     => 'xs',
-                                'data-params'   => $el['id'],
-                                'data-number'   => $k
-                            ]
-                        );
-                        $div = \dom::create_element(
-                            'div',
-                            [
-                                'class' => 'text-left',
-                                'text'  => $btn
-                            ]
-                        );
-                        $el['text'] .= $div.\dom::create_element('br',[]);
-                        break;
-                    case '3':
-                        $el['text'] = $text[1];
-                        $btn = \dom::create_element(
-                            'button',
-                            [
-                                'class'         =>
-                                    'ladda-button art-show-more-btn',
-                                'data-style'    => 'expand-right',
-                                'text'          => $lang['more'],
-                                'data-size'     => 'xs',
-                                'data-params'   => $el['id'],
-                                'data-number'   => $k
-                            ]
-                        );
-                        $div = \dom::create_element(
-                            'div',
-                            [
-                                'class' => 'text-left',
-                                'text'  => $btn
-                            ]
-                        );
-                        $el['text'] .= $div.\dom::create_element('br',[]);
-                        break;
-                }
+            $hook = \dom::create_element(
+                'span',
+                [
+                    'class' => 'css-hook invisible',
+                    'text'  => '/css/articles/ladda/ladda.min.css'
+                ]
+            );
+            $all .= $hook;
 
-                if($el['id'] != $last['id'])
-                {
-                    $el['text'] .= \dom::create_element('hr',[]);
-                }
-                else {
-                    $el['text'] .= \dom::create_element(
-                        'div',
-                        [
-                            'class' =>
-                            'well articles-show-more-div cursor-pointer',
-                            'text'  => 'show more',
-                            'data-params'   => $last['id'],
-                            'data-category' => $params['category'],
-                            'data-offset'   => $offset,
-                            'data-number'   => $k
-                        ]
-                    );
-                }
+            $hook = \dom::create_element(
+                'span',
+                [
+                    'class' => 'js-hook invisible',
+                    'text'  => '/js/articles/ladda/spin.min.js'
+                ]
+            );
+            $all .= $hook;
 
-                $tags = explode(',', $el['tags']);
+            $hook = \dom::create_element(
+                'span',
+                [
+                    'class' => 'js-hook invisible',
+                    'text'  => '/js/articles/ladda/ladda.js'
+                ]
+            );
+            $all .= $hook;
 
-                $tag = '';
-                foreach($tags as $el1) {
-                    $tag .= \dom::create_element(
-                        'a',
-                        [
-                            'href'  => "/tags/{$el1}",
-                            'text'  => $el1
-                        ]
-                    ).' ';
-                }
-                $el['tags'] = $tag;
+            $hook = \dom::create_element(
+                'span',
+                [
+                    'class' => 'js-hook invisible',
+                    'text'  => '/js/articles/site/views/blog_view.js'
+                ]
+            );
+            $all .= $hook;
 
-                $time = strtotime($el['date']);
-                $el['date'] = date('m F Y H:i', $time);
+            $hook = \dom::create_element(
+                'span',
+                [
+                    'class' => 'js-hook invisible',
+                    'text'  => '/js/articles/is_in_view_port/isInViewport.js'
+                ]
+            );
+            $all .= $hook;
 
-                $all .= \templator::getTemplate(
-                    'index',
-                    $el,
-                    \articles::$path.'site'.DS.'views'.DS.'article'
-                );
-            }
+            return $all;
         }
-
-        $hook = \dom::create_element(
-            'span',
-            [
-                'class' => 'css-hook invisible',
-                'text'  => '/css/articles/ladda/ladda.min.css'
-            ]
-        );
-        $all .= $hook;
-
-        $hook = \dom::create_element(
-            'span',
-            [
-                'class' => 'js-hook invisible',
-                'text'  => '/js/articles/ladda/spin.min.js'
-            ]
-        );
-        $all .= $hook;
-
-        $hook = \dom::create_element(
-            'span',
-            [
-                'class' => 'js-hook invisible',
-                'text'  => '/js/articles/ladda/ladda.js'
-            ]
-        );
-        $all .= $hook;
-
-        $hook = \dom::create_element(
-            'span',
-            [
-                'class' => 'js-hook invisible',
-                'text'  => '/js/articles/site/views/blog_view.js'
-            ]
-        );
-        $all .= $hook;
-
-        $hook = \dom::create_element(
-            'span',
-            [
-                'class' => 'js-hook invisible',
-                'text'  => '/js/articles/is_in_view_port/isInViewport.js'
-            ]
-        );
-        $all .= $hook;
-
-        return $all;
     }
 
     /**
@@ -231,9 +134,7 @@ class blogcontroller extends \supercontroller {
     {
         $model = \articles::get_admin_model('articles');
 
-        $lang = \articles::read_lang('blog_view');
 
-        $all = '';
 
         $articles = $model->get_articles(
                                 $params['category'],
@@ -246,7 +147,20 @@ class blogcontroller extends \supercontroller {
             return '';
         }
 
+        return $this->render_articles($params, $articles);
+    }
+
+    /**
+     * @param $params - [category, limit]
+     * @param $articles
+     * @return string
+     */
+    public function render_articles($params, $articles)
+    {
         $last = $articles[count($articles)-1];
+        $lang = \articles::read_lang('blog_view');
+
+        $all = '';
 
         foreach($articles as $k=>&$el) {
             $text = preg_split('/<hr \/>\s+<hr \/>/', $el['text']);
