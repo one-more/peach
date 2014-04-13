@@ -418,4 +418,71 @@ class articlesmodel extends \superModel {
 
         $sth->execute();
     }
+
+    /**
+     * @param $tag
+     * @param $start
+     * @param $offset
+     * @return array
+     */
+    public function get_articles_with_tag($tag, $start, $offset)
+    {
+        $lang   = \system::get_current_lang();
+
+        $lang   = preg_split('/-/', $lang)[0];
+
+        $sth = $this->_db->prepare(
+            "
+                SELECT * FROM `{$lang}_articles`
+                WHERE `id` in (
+                    SELECT `article` FROM `{$lang}_articles_tags`
+                    WHERE `tag` = (
+                        SELECT `id` FROM `{$lang}_article_tags` WHERE `name` = ?
+                    )
+                )
+                AND `published` = 1
+                AND `id` > ? LIMIT ?
+            "
+        );
+        $sth->bindParam(1, $tag, \PDO::PARAM_STR);
+        $sth->bindParam(2, $start, \PDO::PARAM_INT);
+        $sth->bindParam(3, $offset, \PDO::PARAM_INT);
+        $sth->execute();
+
+
+        $arr = $sth->fetchAll();
+
+        $model  = \articles::get_admin_model('categories');
+
+        foreach($arr as &$el) {
+            $user = \user::get($el['author']);
+            $user = is_array($user)? $user : json_decode($user, true);
+
+            $el['author'] = $user['info']['full_name'] == '-' ?
+                $user['user']['login'] : $user['info']['full_name'];
+
+            $el['category'] = $model->get($el['category'])['name'];
+
+            $id = $el['id'];
+            $sth = $this->_db->query(
+                "
+                SELECT `name` FROM `{$lang}_article_tags` WHERE
+                `id` in (
+                 SELECT `tag` FROM `{$lang}_articles_tags`
+                 WHERE `article` = {$id}
+                )
+            "
+            );
+            $sth = $sth->fetchAll();
+            $tags = [];
+
+            foreach($sth as $el1) {
+                $tags[] = $el1['name'];
+            }
+
+            $el['tags'] = implode(',', $tags);
+        }
+
+        return $arr;
+    }
 }
