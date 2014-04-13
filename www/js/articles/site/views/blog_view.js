@@ -8,44 +8,58 @@ ArticlesBlogView = Backbone.View.extend({
 
     initialize: function() {
         App.elementLoad('.art-show-more-btn', function(){
-            Ladda.bind('.art-show-more-btn',
-                {
-                    callback: function(instance, target) {
-                        var params = $(target).data('params');
-                        var last =
-                            $(target).parents('.articles-article')
-                                .is(':last-of-type');
 
-                        $.post(
-                            'index.php',
+            var interval = setInterval(function(){
+
+                try {
+                    if(Ladda != undefined) {
+
+                        clearInterval(interval);
+
+                        Ladda.bind('.art-show-more-btn',
                             {
-                                'class'         : 'articles',
-                                'controller'    : 'blog',
-                                'task'          : 'get_full',
-                                'params'        : params
-                            },
-                            function(data) {
-                                var well =
-                                    $(target)
-                                        .parents('.articles-article')
-                                        .find('.articles-show-more-div');
+                                callback: function(instance, target) {
+                                    var params = $(target).data('params');
+                                    var last =
+                                        $(target).parents('.articles-article')
+                                            .is(':last-of-type');
 
-                                var dat = $(data);
-                                $(target).parents('.articles-article').
-                                    replaceWith(dat);
+                                    $.post(
+                                        'index.php',
+                                        {
+                                            'class'         : 'articles',
+                                            'controller'    : 'blog',
+                                            'task'          : 'get_full',
+                                            'params'        : params
+                                        },
+                                        function(data) {
+                                            var well =
+                                                $(target)
+                                                    .parents('.articles-article')
+                                                    .find('.articles-show-more-div');
 
-                                $('.articles-article:last-of-type')
-                                    .find('.articles-article-text')
-                                    .append(well);
+                                            var dat = $(data);
+                                            $(target).parents('.articles-article').
+                                                replaceWith(dat);
 
-                                if(!last) {
-                                    dat.append('<hr />');
+                                            $('.articles-article:last-of-type')
+                                                .find('.articles-article-text')
+                                                .append(well);
+
+                                            if(!last) {
+                                                dat.append('<hr />');
+                                            }
+                                        }
+                                    )
                                 }
                             }
                         )
                     }
                 }
-            )
+                catch(exc) {
+
+                }
+            }, 50)
         })
     },
 
@@ -61,8 +75,6 @@ ArticlesBlogView = Backbone.View.extend({
             'limit'     : el.data('offset'),
             'category'  : el.data('category')
         }
-
-        el.remove();
 
         if(!$('.articles-spinner').is('*')) {
 
@@ -95,18 +107,42 @@ ArticlesBlogView = Backbone.View.extend({
             })
 
             spinner.spin(span)
+        } else {
+
+            return;
         }
 
+
+        if(
+            location.href.indexOf('search') != -1
+            && $('.articles-article').is('*')
+            ) {
+
+            controller = 'search';
+            var chunks      = location.href.split('/');
+            arr.word        = chunks[chunks.length-1];
+        }
+        else if(location.href.indexOf('tags') != -1) {
+            controller  = 'tags';
+            var chunks      = location.href.split('/');
+            arr.tag      = chunks[chunks.length-1];
+        } else {
+
+            var controller = 'blog'
+        }
 
         $.post(
             'index.php',
             {
                 'class'         : 'articles',
-                'controller'    : 'blog',
+                'controller'    : controller,
                 'task'          : 'show_more',
                 'params'        : arr
             },
             function(data) {
+
+                el.remove();
+
                 if(data.trim() != '') {
                     $('.articles-article:last-of-type')
                         .append('<hr />')

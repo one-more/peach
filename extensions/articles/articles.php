@@ -66,6 +66,18 @@ class articles implements daemon_extension_interface {
                 [
                     'src' => '/js/articles/site/modules/search.js'
                 ]
+            ),
+            dom::create_element(
+                'script',
+                [
+                    'src'   => '/js/articles/site/views/blog_view.js'
+                ]
+            ),
+            dom::create_element(
+                'script',
+                [
+                    'src' => '/js/articles/site/modules/scroll.js'
+                ]
             )
         ];
 	}

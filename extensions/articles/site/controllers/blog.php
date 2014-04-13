@@ -42,51 +42,6 @@ class blogcontroller extends \supercontroller {
 
             $all = $this->render_articles($params, $articles);
 
-            $hook = \dom::create_element(
-                'span',
-                [
-                    'class' => 'css-hook invisible',
-                    'text'  => '/css/articles/ladda/ladda.min.css'
-                ]
-            );
-            $all .= $hook;
-
-            $hook = \dom::create_element(
-                'span',
-                [
-                    'class' => 'js-hook invisible',
-                    'text'  => '/js/articles/ladda/spin.min.js'
-                ]
-            );
-            $all .= $hook;
-
-            $hook = \dom::create_element(
-                'span',
-                [
-                    'class' => 'js-hook invisible',
-                    'text'  => '/js/articles/ladda/ladda.js'
-                ]
-            );
-            $all .= $hook;
-
-            $hook = \dom::create_element(
-                'span',
-                [
-                    'class' => 'js-hook invisible',
-                    'text'  => '/js/articles/site/views/blog_view.js'
-                ]
-            );
-            $all .= $hook;
-
-            $hook = \dom::create_element(
-                'span',
-                [
-                    'class' => 'js-hook invisible',
-                    'text'  => '/js/articles/is_in_view_port/isInViewport.js'
-                ]
-            );
-            $all .= $hook;
-
             return $all;
         }
     }
@@ -224,7 +179,7 @@ class blogcontroller extends \supercontroller {
                     [
                         'class' =>
                             'well articles-show-more-div cursor-pointer',
-                        'text'  => 'show more',
+                        'text'  => $lang['more_articles'],
                         'data-params'   => $last['id'],
                         'data-category' => $params['category'],
                         'data-offset'   => $params['limit'],

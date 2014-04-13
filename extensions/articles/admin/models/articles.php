@@ -91,36 +91,7 @@ class articlesmodel extends \superModel {
             }
         }
 
-        $model  = \articles::get_admin_model('categories');
-
-        foreach($arr as &$el) {
-            $user = \user::get($el['author']);
-            $user = is_array($user)? $user : json_decode($user, true);
-
-            $el['author'] = $user['info']['full_name'] == '-' ?
-                $user['user']['login'] : $user['info']['full_name'];
-
-            $el['category'] = $model->get($el['category'])['name'];
-
-            $id = $el['id'];
-            $sth = $this->_db->query(
-                "
-                SELECT `name` FROM `{$lang}_article_tags` WHERE
-                `id` in (
-                 SELECT `tag` FROM `{$lang}_articles_tags`
-                 WHERE `article` = {$id}
-                )
-            "
-            );
-            $sth = $sth->fetchAll();
-            $tags = [];
-
-            foreach($sth as $el1) {
-                $tags[] = $el1['name'];
-            }
-
-            $el['tags'] = implode(',', $tags);
-        }
+        $arr = $this->handle_articles($arr);
 
         return $arr;
     }
@@ -450,7 +421,73 @@ class articlesmodel extends \superModel {
         $sth->execute();
 
 
+        $arr    = $sth->fetchAll();
+
+        $arr    = $this->handle_articles($arr);
+
+        return $arr;
+    }
+
+    /**
+     * @param $word
+     * @param $start
+     * @param $offset
+     * @return array|mixed
+     */
+    public function search($word, $start, $offset)
+    {
+        $lang   = \system::get_current_lang();
+
+        $lang   = preg_split('/-/', $lang)[0];
+
+        $word   = strtolower($word);
+        $search = $word;
+        $word   = "%{$word}%";
+
+        $sth = $this->_db->prepare(
+            "
+                SELECT * FROM `{$lang}_articles`
+                WHERE (`title` LIKE :search
+                OR `text`  LIKE :search)
+                AND `published` = 1
+                AND `id` > :start
+                LIMIT :offset
+            "
+        );
+        $sth->bindParam(':search', $word, \PDO::PARAM_STR);
+        $sth->bindParam(':start', $start, \PDO::PARAM_INT);
+        $sth->bindParam(':offset', $offset, \PDO::PARAM_INT);
+        $sth->execute();
         $arr = $sth->fetchAll();
+
+        foreach($arr as &$el) {
+            $el['text'] = preg_replace(
+                "/({$search})/isU",
+                '<span class="search-result">$1</span>',
+                $el['text']
+            );
+
+            $el['title'] = preg_replace(
+                "/({$search})/isU",
+                '<span class="search-result">$1</span>',
+                $el['title']
+            );
+        }
+
+        $arr = $this->handle_articles($arr);
+
+        return $arr;
+    }
+
+    /**
+     * @param $arr
+     * @return mixed
+     */
+    protected function handle_articles($arr)
+    {
+        $lang   = \system::get_current_lang();
+
+        $lang   = preg_split('/-/', $lang)[0];
 
         $model  = \articles::get_admin_model('categories');
 
